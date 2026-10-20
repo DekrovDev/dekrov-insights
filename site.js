@@ -4,6 +4,7 @@
 
   var root = document.body.getAttribute("data-root") || "./";
   var current = document.body.getAttribute("data-page") || "";
+  var pagesPath = "pages/";
 
   fetch(root + "pages.json", { cache: "no-store" })
     .then(function (response) {
@@ -16,7 +17,7 @@
       pages.forEach(function (page, index) {
         var link = document.createElement("a");
         link.className = "side-link";
-        link.href = root + (page.slug ? page.slug + "/" : "");
+        link.href = root + (page.slug ? pagesPath + page.slug + "/" : "");
         if (page.slug === current) {
           link.className += " current";
           link.setAttribute("aria-current", "page");
