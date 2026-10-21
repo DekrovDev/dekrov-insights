@@ -8,5 +8,10 @@
     "slug": "beam-vs-deepseek",
     "title": "Beam 1.0 vs DeepSeek V4.1 Flash",
     "meta": "Benchmarks · Oct 2026"
+  },
+  {
+    "slug": "mercury-3",
+    "title": "Mercury 3: Speed vs Evidence",
+    "meta": "Research · Oct 2026"
   }
 ]
