@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#ffffff">
+<meta name="description" content="Kimi K3.1 Pro: launch facts, independent scores, coding and CAD benchmark charts, API pricing and open-weight caveats.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Kimi K3.1 Pro: Frontier Performance, Open Weights Pending | Dekrov Insights">
+<meta property="og:description" content="1M context, 2.8T MoE, #4 on Artificial Analysis, coding benchmark charts and transparent sourcing.">
+<meta property="og:url" content="https://dekrovdev.github.io/dekrov-insights/pages/kimi-k3-1-pro/">
+<meta name="twitter:card" content="summary">
+<title>Kimi K3.1 Pro — Dekrov Insights</title>
+<script src="../../theme.js"></script>
+<link rel="stylesheet" href="../../styles.css">
+<style>
+.article-body .bar{grid-template-columns:76px minmax(0,1fr) 62px}
+.article-body .bar .pct{font-variant-numeric:tabular-nums}
+.article-body .keyfacts{margin-top:22px}
+.article-body .mini-note{font-size:12px;color:var(--muted);line-height:1.65}
+.article-body .stat-row{display:flex;justify-content:space-between;gap:16px;border-bottom:1px solid var(--line);padding:10px 0;font-size:13px}
+.article-body .stat-row strong{font-weight:600;white-space:nowrap}
+.article-body .source-list li{overflow-wrap:anywhere}
+@media(max-width:700px){.article-body .bar{grid-template-columns:66px minmax(0,1fr) 52px}}
+</style>
+</head>
+<body data-page="kimi-k3-1-pro" data-root="../../">
+<header class="top"><div class="header-inner"><div class="brand-signature"><a class="brand" href="../../"><span class="brand-mark" aria-hidden="true">DK</span>Dekrov Insights</a><span class="brand-role">Charts / AI Benchmarks</span></div><div class="header-actions"><button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme"><span data-theme-label>Light</span></button><a class="nav" href="https://github.com/DekrovDev/dekrov-insights">GitHub ↗</a></div></div></header>
+<div class="layout"><aside class="sidebar" aria-label="Page navigation"><p class="side-heading">Index</p><nav class="side-nav" aria-label="Pages" data-site-nav></nav></aside>
+<main class="main-content"><article class="article-body">
+<div class="tag">AI Models · Research / Oct 24, 2026</div>
+<h1>Kimi K3.1 Pro:<br>Frontier-Level, but Not Yet Open</h1>
+<p class="intro">Moonshot's new model brings long-context coding, agents, 3D/CAD work and a competitive independent intelligence score. The interesting part isn't only the benchmark numbers — it's what has been verified, what comes from Moonshot's own testing, and what hasn't shipped.</p>
+<div class="specs">
+<div class="spec"><strong>1M</strong><span>Context tokens</span></div>
+<div class="spec"><strong>2.8T</strong><span>Total params · 104B active</span></div>
+<div class="spec"><strong>#4</strong><span>Artificial Analysis · Oct 24</span></div>
+</div>
+<section class="content keyfacts">
+<h2>Launch at a glance</h2>
+<div class="stat-row"><span>Availability</span><strong>Kimi, Work, Code & API</strong></div>
+<div class="stat-row"><span>Base model</span><strong>2.8T MoE · multimodal</strong></div>
+<div class="stat-row"><span>Highspeed variant</span><strong>2–3× faster · Moonshot claim</strong></div>
+<div class="stat-row"><span>API input / output</span><strong>$2 / $10 per 1M</strong></div>
+<div class="stat-row"><span>Model weights</span><strong>Promised by Nov 4, 2026</strong></div>
+<p class="mini-note">Released Oct 23–24 across time zones. As of Oct 24, the weights and release license are not publicly available. “Open-weight” describes the company's announced plan, not an already downloadable model.</p>
+</section>
+<section class="panel">
+<h2>01 / Independent intelligence result</h2>
+<p class="muted">Artificial Analysis' Intelligence Index (version shown Oct 24): K3.1 Pro scores 55 and ranks #4 among 215 listed models. This is a composite score, not a percentage and not proof it wins every coding task.</p>
+<div class="test"><h3>Kimi K3.1 Pro · AA Intelligence Index</h3><div class="bar"><span>Kimi</span><span class="track"><span class="fill second" style="--pct:55%"></span></span><span class="pct">55 pts</span></div></div>
+<p class="mini-note">Single-model score shown on a 0–100 plot; no invented comparison bars. AA also measured ~73.5 output tokens/sec for the standard API model, calling it slower and more verbose than average. Different providers or versions may vary.</p>
+<div class="callout">Independent result: <a class="source" href="https://artificialanalysis.ai/models/kimi-k3-1-pro">Artificial Analysis</a>. Separately, <a class="source" href="https://www.vals.ai/models/kimi_kimi-k3.1-pro">Vals AI</a> currently lists 62.52% ± 1.14 on the Vals Index (#8/27), and 63.64% ± 1.75 on its Terminal-Bench 4.0 evaluation (#3/55). Different indices cannot be compared as if they were the same test.</div>
+</section>
+<section class="panel">
+<h2>02 / Coding: Terminal-Bench 4.0</h2>
+<p class="muted">Moonshot's published comparison for practical terminal-agent tasks. Each source/harness may differ. The Kimi result uses the Claude Code harness. <strong>Vendor-assembled comparison — not one independently controlled head-to-head run.</strong></p>
+<div role="img" aria-label="Moonshot-published Terminal-Bench 4.0 scores: Claude Opus 5.5 66.4%, Kimi K3.1 Pro 65.7%, GPT-6 Astra 58.2%.">
+<div class="test"><h3>Success rate · higher is better</h3>
+<div class="bar"><span>Opus 5.5</span><span class="track"><span class="fill" style="--pct:66.4%"></span></span><span class="pct">66.4%</span></div>
+<div class="bar"><span>Kimi 3.1</span><span class="track"><span class="fill second" style="--pct:65.7%"></span></span><span class="pct">65.7%</span></div>
+<div class="bar"><span>GPT-6</span><span class="track"><span class="fill" style="--pct:58.2%"></span></span><span class="pct">58.2%</span></div>
+</div></div>
+<p class="mini-note">Source: Moonshot K3.1 tech blog, published Oct 24, 2026. The 65.7% figure is distinct from Vals' independent 63.64% measurement due to differing setups.</p>
+<div class="test"><h3>Kimi Code Bench 3.0 Long-horizon · Moonshot internal</h3>
+<div class="bar"><span>Kimi K3</span><span class="track"><span class="fill" style="--pct:55.95%"></span></span><span class="pct">55.95%</span></div>
+<div class="bar"><span>K3.1 Pro</span><span class="track"><span class="fill second" style="--pct:61.2%"></span></span><span class="pct">61.2%</span></div>
+</div>
+<p class="mini-note">The internal coding benchmark covers multi-step execution, tool use and end-to-end engineering tasks. It has not been independently replicated here.</p>
+</section>
+<section class="panel">
+<h2>03 / 3D and CAD: BenchCAD</h2>
+<p class="muted">Moonshot's with-tools results on a randomly sampled 1,000-case subset of Vision2Code. Metric: voxel intersection-over-union. Strong, but different from shipping reliable CAD designs without human review.</p>
+<div role="img" aria-label="BenchCAD with tools according to Moonshot: Claude Opus 5.5 96.2%, GPT-6 Astra 95.9%, Kimi K3.1 Pro 92.7%, Claude Fable 5.1 92.6%.">
+<div class="test"><h3>BenchCAD · with tools · higher is better</h3>
+<div class="bar"><span>Opus 5.5</span><span class="track"><span class="fill" style="--pct:96.2%"></span></span><span class="pct">96.2%</span></div>
+<div class="bar"><span>GPT-6</span><span class="track"><span class="fill" style="--pct:95.9%"></span></span><span class="pct">95.9%</span></div>
+<div class="bar"><span>Kimi 3.1</span><span class="track"><span class="fill second" style="--pct:92.7%"></span></span><span class="pct">92.7%</span></div>
+<div class="bar"><span>Fable 5.1</span><span class="track"><span class="fill" style="--pct:92.6%"></span></span><span class="pct">92.6%</span></div>
+</div></div>
+<p class="mini-note">Moonshot reports end-to-end game and web development and support for Blender, CAD, Unity, Unreal and Godot. These are announced capabilities and examples, not a substitute for independent production testing.</p>
+</section>
+<section class="panel">
+<h2>04 / Hallucinations: the precise claim</h2>
+<p class="muted">Moonshot's internal Kimi Hallu Bench Hard uses deliberately difficult factual prompts. A lower claim-level hallucination rate is better.</p>
+<div role="img" aria-label="Moonshot internal hard hallucination benchmark: Kimi K3 23.4%, Kimi K3.1 Pro 8.3%.">
+<div class="test"><h3>Claim-level error rate · lower is better</h3>
+<div class="bar"><span>Kimi K3</span><span class="track"><span class="fill" style="--pct:23.4%"></span></span><span class="pct">23.4%</span></div>
+<div class="bar"><span>K3.1 Pro</span><span class="track"><span class="fill second" style="--pct:8.3%"></span></span><span class="pct">8.3%</span></div>
+</div></div>
+<div class="callout">That's a ~65% relative reduction <em>on this internal stress test</em>. It does not mean K3.1 Pro hallucinates only 8.3% of the time in everyday use, or that independent audits have verified that reduction.</div>
+</section>
+<section class="panel">
+<h2>05 / API cost</h2>
+<p class="muted">Published API rates in USD per million tokens. The comparison below uses Kimi K3 and K3.1 Pro. Highspeed costs more; its faster output is a vendor claim.</p>
+<div class="test"><h3>Input tokens · lower is better</h3>
+<div class="bar"><span>Kimi K3</span><span class="track"><span class="fill" style="--pct:100%"></span></span><span class="pct">$3</span></div>
+<div class="bar"><span>K3.1 Pro</span><span class="track"><span class="fill second" style="--pct:66.67%"></span></span><span class="pct">$2</span></div></div>
+<div class="test"><h3>Output tokens · lower is better</h3>
+<div class="bar"><span>Kimi K3</span><span class="track"><span class="fill" style="--pct:100%"></span></span><span class="pct">$15</span></div>
+<div class="bar"><span>K3.1 Pro</span><span class="track"><span class="fill second" style="--pct:66.67%"></span></span><span class="pct">$10</span></div></div>
+<table class="data"><thead><tr><th>Model</th><th>Input / 1M</th><th>Output / 1M</th></tr></thead>
+<tbody><tr><td>Kimi K3</td><td>$3.00</td><td>$15.00</td></tr><tr><td>Kimi K3.1 Pro</td><td>$2.00</td><td>$10.00</td></tr><tr><td>K3.1 Pro Highspeed</td><td>$4.00</td><td>$20.00</td></tr></tbody></table>
+<p class="mini-note">Cache-hit input is listed at $0.20 / 1M for K3.1 Pro. Rates reflect Oct 24 listings; verify current pricing before purchasing. Lower price per token doesn't always mean lower cost per completed task: verbosity, retries and tool usage also matter.</p>
+</section>
+<section class="content">
+<h2>Open weights and the security trade-off</h2>
+<p>Moonshot says it intends to publish the full model weights by <strong>November 4, 2026</strong>. At the time of this report, the company has not shipped those weights or named the license. Until then, you can use the hosted tools and API, but should not assume you can self-host K3.1 Pro.</p>
+<p>The company also says it deliberately filtered cyber-related material during training to reduce misuse risk. On its internal vulnerability-exploitation benchmark, the unfiltered checkpoint reached 90.5% while the released K3.1 Pro configuration scored 81.0%. Reuters independently reported the company's decision, but not an independent replication of those scores.</p>
+<h2>Where developers can try it</h2>
+<p>Use <a class="source" href="https://www.kimi.com/">Kimi</a>, <a class="source" href="https://www.kimi.com/">Kimi Work</a>, <a class="source" href="https://www.kimi.com/">Kimi Code</a> (switch with <code>/model</code>), or the <a class="source" href="https://platform.kimi.com/">Moonshot API</a> with IDs <code>kimi-k3.1-pro</code> and <code>kimi-k3.1-pro-highspeed</code>. Windows users can use the Kimi Work desktop app version 3.1.0 or later.</p>
+<h2>What I would actually test</h2>
+<p>Try the same multi-file coding issue, browser/tool workflow and small CAD-to-geometry task on K3.1 Pro and your current agent model. Track completed tasks, tool-call failures, turnaround time, generated tokens and final API bill. Treat website demos and vendor leaderboards as reasons to test — not as results from your own workflow.</p>
+<h2>Sources and verification</h2>
+<ul class="source-list">
+<li><a class="source" href="https://www.kimi.com/en/blog/kimi-k3-1-pro">Moonshot AI — official K3.1 Pro technical blog (Oct 24, 2026)</a> · specification, company claims, methodology, coding/CAD and internal reliability tests</li>
+<li><a class="source" href="https://artificialanalysis.ai/models/kimi-k3-1-pro">Artificial Analysis — independent intelligence, speed and API pricing</a></li>
+<li><a class="source" href="https://www.vals.ai/models/kimi_kimi-k3.1-pro">Vals AI — independent index and terminal-agent results</a></li>
+<li><a class="source" href="https://www.reuters.com/technology/moonshot-curbs-hacking-ability-new-kimi-model-fears-grow-over-ai-powered-2026-10-24/">Reuters — cyber-capability controls and promised weight release (Oct 24, 2026)</a></li>
+<li><a class="source" href="https://vercel.com/ai-gateway/models/kimi-k3.1-pro">Vercel AI Gateway — provider availability and pricing</a></li>
+</ul>
+<div class="callout">Research cutoff: October 24, 2026. The vendor's 65.7% Terminal-Bench 4.0 score and Vals' independent 63.64% score are deliberately shown separately. Results using different harnesses, datasets, and scoring rules are not interchangeable.</div>
+</section>
+</article></main></div>
+<footer class="footer"><div class="footer-inner"><span>© 2026 Dekrov</span><span class="footer-links"><a href="https://t.me/Dekrov_channel_en">Telegram / @Dekrov_channel_en ↗</a><a href="https://x.com/Dekrov_Dev">X / @Dekrov_Dev ↗</a><a href="https://github.com/DekrovDev">GitHub / DekrovDev ↗</a></span></div></footer>
+<script src="../../site.js"></script>
+</body></html>
