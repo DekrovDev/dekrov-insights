@@ -177,3 +177,11 @@ h1,h2{letter-spacing:-.045em}
 html{scroll-behavior:auto}
 *{transition:none!important}
 }
+
+/* Shared article feedback widget — CounterAPI.com, no backend */
+.article-engagement{max-width:720px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:18px;margin:58px 0 14px;padding:24px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.engagement-copy{display:grid;gap:5px}
+.engagement-heading{font-size:15px;font-weight:600;line-height:1.35}
+.engagement-note{font-size:12px;line-height:1.5;color:var(--muted)}
+.article-engagement .counterapi{display:flex;align-items:center;min-height:44px;max-width:100%}
+@media(max-width:700px){.article-engagement{margin-top:42px;padding:20px 0;gap:12px}}
