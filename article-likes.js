@@ -50,7 +50,9 @@
     var count = section.querySelector("[data-like-count]");
     var label = section.querySelector("[data-like-status]");
     if (!button || !count || !label) return;
-    var key = button.getAttribute("data-article-key");
+    // Each new article inherits its counter key from body[data-page].
+    // Explicit data-article-key takes precedence for legacy/custom layouts.
+    var key = button.getAttribute("data-article-key") || document.body.getAttribute("data-page") || "";
     if (!key || !/^[a-z0-9-]+$/.test(key)) return;
 
     var voted = readMarker(key);
