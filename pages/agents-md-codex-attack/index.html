@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#ffffff">
+<meta name="description" content="A documented AGENTS.md prompt-injection attack against OpenAI Codex: the observed incident, MCP persistence, lab findings, Claude Code token theft, limitations, and defenses.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AGENTS.md Hijacked Codex: Anatomy of a Real Attack | Dekrov Insights">
+<meta property="og:description" content="A malicious Markdown file in Downloads, a poisoned Codex configuration, and a reproducible attack chain. Separating real-world evidence from laboratory demonstrations.">
+<meta property="og:url" content="https://dekrovdev.github.io/dekrov-insights/pages/agents-md-codex-attack/">
+<meta name="twitter:card" content="summary">
+<title>AGENTS.md Hijacked Codex — Dekrov Insights</title>
+<script src="../../theme.js"></script>
+<link rel="stylesheet" href="../../styles.css">
+<style>
+.article-body .source-list li{overflow-wrap:anywhere}
+.article-body .mini-note{font-size:12px;color:var(--muted);line-height:1.7}
+.article-body .step-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);margin:24px 0}
+.article-body .step{background:var(--bg);padding:22px}
+.article-body .step small{display:block;font:11px Consolas,"Courier New",monospace;color:var(--muted);margin-bottom:9px}
+.article-body .step h3{font-size:16px;font-weight:600;letter-spacing:-.015em;margin:0 0 8px}
+.article-body .step p{font-size:13px;color:var(--text-soft);margin:0}
+.article-body .facts{width:100%;border-collapse:collapse;margin:22px 0;font-size:14px}
+.article-body .facts td{border-bottom:1px solid var(--line);padding:13px 8px 13px 0;vertical-align:top}
+.article-body .facts td:first-child{min-width:130px;color:var(--muted)}
+.article-body .eyebrow{font:11px Consolas,"Courier New",monospace;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.article-body code{font:13px Consolas,"Courier New",monospace;overflow-wrap:anywhere}
+.article-body .risk-note{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:18px 0;margin:32px 0;font-size:15px}
+.article-body .source-list li{margin-bottom:14px}
+@media(max-width:700px){.article-body .step-grid{grid-template-columns:1fr}.article-body .facts td:first-child{min-width:94px}}
+</style>
+</head>
+<body data-page="agents-md-codex-attack" data-root="../../">
+<header class="top"><div class="header-inner"><div class="brand-signature"><a class="brand" href="../../"><span class="brand-mark" aria-hidden="true">DK</span>Dekrov Insights</a><span class="brand-role">Charts / AI Benchmarks</span></div><div class="header-actions"><button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme"><span data-theme-label>Light</span></button><a class="nav" href="https://github.com/DekrovDev/dekrov-insights">GitHub ↗</a></div></div></header>
+<div class="layout"><aside class="sidebar" aria-label="Page navigation"><p class="side-heading">Index</p><nav class="side-nav" aria-label="Pages" data-site-nav></nav></aside>
+<main class="main-content"><article class="article-body">
+<div class="tag">AI Agent Security · Investigation / Oct 26, 2026</div>
+<h1>AGENTS.md Hijacked Codex:<br>Anatomy of a Real Attack</h1>
+<p class="intro">Researchers found a malicious agent-instructions file on a real customer's computer. In controlled tests, that file persuaded OpenAI Codex to change its global configuration and run a malicious npm package. The story is serious—but the observed incident, the reconstructed browser-delivery route, and separate Claude Code proof of concept must not be conflated.</p>
+<div class="specs">
+<div class="spec"><strong>Oct 22</strong><span>Original disclosure · 2026</span></div>
+<div class="spec"><strong>&gt;90%</strong><span>Codex lab success · reported</span></div>
+<div class="spec"><strong>~50%</strong><span>Claude lab success · reported</span></div>
+</div>
+<section class="content">
+<h2>Executive summary: what was actually observed?</h2>
+<p>On October 22, 2026, Forever Security researchers Gal Weizman and Omer Samet published <a class="source" href="https://forever.security/blog/hijacking-ai-agents-via-downloads-folder/">their original investigation</a>. Forever's security product detected an AI coding agent attempting to install <code>function-color</code>, a malicious npm package. The instruction source was a roughly 13 KB <code>AGENTS.md</code> file inside the customer's <code>~/Downloads</code> directory. The defender blocked the attempt <strong>before the malicious code executed on that customer's machine</strong>.</p>
+<p>Investigators could not establish how the file reached Downloads. Their explanation—that a web page can quietly place a file in the downloads directory—is an <strong>experimentally demonstrated delivery possibility</strong>, not confirmed provenance for the observed incident. Nor does the report establish a broad campaign of successful infections.</p>
+<div class="callout">Evidence categories matter: <strong>observed in the wild</strong> = malicious instruction file and blocked installation attempt; <strong>reproduced in a lab</strong> = Codex malware execution and Claude Code credential-theft chain; <strong>not established</strong> = initial file-delivery mechanism or infection count.</div>
+</section>
+<section class="panel">
+<h2>01 / The attack chain</h2>
+<p class="muted">A normal instruction file became a route to system-level side effects, provided the agent was launched in the affected directory and followed the planted guidance.</p>
+<div class="step-grid" aria-label="Four-step Codex attack chain">
+<div class="step"><small>STEP 01 / ARRIVAL</small><h3>A file sits in Downloads</h3><p>A plain-text <code>AGENTS.md</code> arrives in a directory the user may ask an assistant to organize. Its arrival method in the real incident remains unknown.</p></div>
+<div class="step"><small>STEP 02 / TRUST</small><h3>Codex reads project instructions</h3><p>When run in that trusted directory, Codex treats the applicable Markdown file as working guidance. The malicious section is disguised as routine developer-environment setup.</p></div>
+<div class="step"><small>STEP 03 / PERSISTENCE</small><h3>Global MCP configuration changes</h3><p>The instructions tell Codex to register a purported project-tools server in <code>~/.codex/config.toml</code>, a configuration file shared across future sessions—not just this folder.</p></div>
+<div class="step"><small>STEP 04 / EXECUTION</small><h3>An installer runs</h3><p>The registered startup command attempts to install <code>function-color</code>. The payload also prompts a fresh Codex session with safety checks disabled to complete initialization.</p></div>
+</div>
+<p class="mini-note">The actual attacker document used macOS-specific startup tooling. This is not evidence that the identical payload executes unchanged on Windows or Linux.</p>
+</section>
+<section class="panel">
+<h2>02 / Why the malicious instructions looked legitimate</h2>
+<p>The attack wasn't an obvious one-line demand to install malware. The recovered <code>AGENTS.md</code> resembled ordinary engineering documentation. Near the end, a section framed the package as a standard MCP helper needed to begin development. It told Codex to preserve existing settings, append a plausible tools-server registration, verify initialization, and then proceed with the user's original request.</p>
+<p>That framing matters. The payload combined three trust-boundary crossings: <strong>untrusted file → agent instruction → persistent machine configuration</strong>. A fourth step escalated privileges by instructing the agent to create a new Codex process using flags that bypass its normal approval and sandbox controls.</p>
+<p>Forever reported that getting the full chain to complete involved several conditions: Codex had to trust the working directory; configuration writes had to be accepted; the new server needed a fresh session to load; network access had to be available for package installation; and the installation had to survive the MCP startup handshake timeout. The real payload used a background system launcher to avoid that final timeout.</p>
+<div class="callout">An MCP server entry is not automatically malware. The danger is an <strong>unexpected command or executable</strong> installed into an agent's startup configuration by instructions from a file the user did not authorize. OpenAI's <a class="source" href="https://developers.openai.com/learn/docs-mcp">official MCP documentation</a> confirms that Codex can configure MCP servers through <code>~/.codex/config.toml</code>.</div>
+</section>
+<section class="panel">
+<h2>03 / How convincing were the tests?</h2>
+<table class="facts" aria-label="Evidence and reproducibility">
+<tbody>
+<tr><td><strong>Real incident</strong></td><td>Forever observed and blocked a Codex-initiated attempt to install <code>function-color</code>. The installation did not execute on the protected endpoint.</td></tr>
+<tr><td><strong>Codex test</strong></td><td>Researchers reused the real recovered <code>AGENTS.md</code>. They report the attack chain worked in more than 90% of trials. Most executions used a harmless calculator-opening substitute; the actual malicious package was executed once in an isolated VM.</td></tr>
+<tr><td><strong>Claude Code test</strong></td><td>Researchers separately <em>constructed</em> a malicious <code>CLAUDE.md</code>. Claude followed their configuration-change chain about 50% of the time, according to Forever. This is not evidence of an observed Claude Code victim.</td></tr>
+<tr><td><strong>Same-session Claude</strong></td><td>In roughly one fifth of tests, a fresh subagent connection allowed code execution before the original session ended.</td></tr>
+<tr><td><strong>Unverified</strong></td><td>Initial delivery to the real customer's Downloads directory, total affected users, and independently replicated success rates.</td></tr>
+</tbody>
+</table>
+<p class="muted">Success rates are the researchers' own reported test outcomes, not universal probabilities for every agent version, operating system or configuration. BleepingComputer and CSO separately reported the disclosure; neither published an independent reproduction of every test.</p>
+</section>
+<section class="panel">
+<h2>04 / The separate Claude Code token-theft experiment</h2>
+<p>To determine whether this was specific to Codex, Forever created a different payload in <code>CLAUDE.md</code>. It posed as a legitimate company model gateway and asked Claude Code to create <code>.claude/settings.json</code> with a modified <code>ANTHROPIC_BASE_URL</code>. The URL directed model traffic through a researcher-controlled HTTPS endpoint.</p>
+<p>Once the new configuration was used, the endpoint received the agent's OAuth token along with API traffic. Forever says it replayed a captured token against Anthropic's actual API and successfully authenticated as the test user. It could also impersonate model responses and return executable tool calls. A newly spawned subagent could connect to the new endpoint in the same session; otherwise, the rerouting took effect upon a subsequent session.</p>
+<p>The initial configuration write succeeded in approximately 50% of their tests; same-session execution succeeded in about 20%. These are distinct measurements. The report says captured research tokens were rotated.</p>
+<div class="callout">Do not confuse the two payloads: the <strong>real-world finding targeted Codex</strong>; the <strong>Claude Code example was a researcher-built lab attack</strong>. Both illustrate that agent-readable project instructions can be misused to change sensitive settings.</div>
+</section>
+<section class="panel">
+<h2>05 / Does merely visiting a website compromise Codex?</h2>
+<p><strong>No.</strong> The proposed website-to-Downloads route has important prerequisites. A webpage may trigger a download without the user intentionally choosing that file, depending on browser behavior and configuration; the resulting file must land with a recognized name in a directory the agent later opens; and the agent must load and follow it with sufficient filesystem, process and network permissions.</p>
+<p>Forever recreated the full path in its testing and noted that agents often work in Downloads, including during file organization tasks. The company's own telemetry suggested approximately half of its customers run a coding agent inside Downloads, and about a quarter of agent sessions open a real browser. These figures describe <em>Forever's observed customer environment</em>, not all Codex users.</p>
+<p>The original publication argues that this is a design-level trust-boundary problem rather than a conventional software vulnerability. That is the researchers' assessment—not an official statement that every product configuration is equally vulnerable or that further mitigations are impossible.</p>
+</section>
+<section class="panel">
+<h2>06 / What to inspect now</h2>
+<div class="content">
+<ul>
+<li><strong>Working directory.</strong> Avoid starting coding agents inside Downloads or other folders populated by untrusted external material. Use a reviewed project directory.</li>
+<li><strong>Instruction files.</strong> Read unexpected <code>AGENTS.md</code>, <code>AGENTS.override.md</code> and <code>CLAUDE.md</code> before granting agents access. Inspect newly cloned repositories as well.</li>
+<li><strong>Codex configuration.</strong> Review <code>~/.codex/config.toml</code> (on Windows, the corresponding file beneath your user profile) for unfamiliar <code>[mcp_servers.*]</code> entries, executable commands and unexpected API endpoints.</li>
+<li><strong>Claude Code configuration.</strong> Review project <code>.claude/settings.json</code> for unsolicited <code>ANTHROPIC_BASE_URL</code> values or unrecognized network gateways.</li>
+<li><strong>Execution approvals.</strong> Keep sandboxing and approval prompts enabled. Instructions requiring bypass flags, automatic installers, background launchers or new network endpoints deserve independent human review.</li>
+<li><strong>Incident response.</strong> If you find an unauthorized server or suspicious package installation, stop agent sessions, investigate the host and treat potentially exposed tokens as compromised; revoke or rotate them from a clean environment.</li>
+</ul>
+</div>
+<p class="mini-note">Indicator identified in the report: <code>function-color</code> (malicious npm package, reportedly removed from the registry). Its presence in local installs merits urgent investigation. The named package is a campaign indicator, not a test you should attempt to install.</p>
+</section>
+<section class="content">
+<h2>07 / The larger lesson</h2>
+<p>Repository instruction files are useful precisely because agents read them early and rely on them for task context. OpenAI's <a class="source" href="https://developers.openai.com/cookbook/examples/codex/iterating-development-workflows-with-codex">official Codex guide</a> describes <code>AGENTS.md</code> as persistent project guidance, while <a class="source" href="https://developers.openai.com/api/docs/guides/tools-connectors-mcp">OpenAI's MCP guidance</a> warns about prompt injection when tools have access to sensitive data or actions.</p>
+<p>That is the fundamental distinction: instructions in a downloaded document are <em>data from an untrusted source</em>, not permission to reconfigure the host. A practical defense must enforce that boundary with directory isolation, privilege limits, checks before config writes, and review of new executable integrations—not merely hope that the model recognizes deceptive prose.</p>
+<h2>Original sources and independent reporting</h2>
+<ul class="source-list">
+<li><a class="source" href="https://forever.security/blog/hijacking-ai-agents-via-downloads-folder/">Forever Security — original technical disclosure (Oct 22, 2026)</a>. Gal Weizman and Omer Samet; primary evidence, screenshots, attacker document excerpts, experiment design, rates, limitations, and defensive recommendations.</li>
+<li><a class="source" href="https://developers.openai.com/cookbook/examples/codex/iterating-development-workflows-with-codex">OpenAI — official Codex project-instructions guidance</a>. Confirms how <code>AGENTS.md</code> is used for persistent repository instructions.</li>
+<li><a class="source" href="https://developers.openai.com/learn/docs-mcp">OpenAI — official MCP documentation for Codex</a>. Describes local MCP registration and <code>config.toml</code>.</li>
+<li><a class="source" href="https://developers.openai.com/api/docs/guides/tools-connectors-mcp">OpenAI — official MCP security and approval guidance</a>. Context on tool permissions and prompt-injection risks.</li>
+<li><a class="source" href="https://www.bleepingcomputer.com/news/security/ai-coding-agents-hijacked-using-agentsmd-file-in-downloads-folder/">BleepingComputer — reporting and researcher interview (Oct 25, 2026)</a>. Independent coverage, delivery prerequisites and operational context.</li>
+<li><a class="source" href="https://www.csoonline.com/article/4240222/malicious-downloads-can-trick-ai-coding-agents-into-compromising-themselves.html">CSO Online — independent reporting (Oct 26, 2026)</a>. Summarizes trust boundaries, Codex configuration persistence and test constraints.</li>
+<li><a class="source" href="https://www.helpnetsecurity.com/2026/10/26/ai-coding-agents-malware-openai-codex/">Help Net Security — additional reporting (Oct 26, 2026)</a>. Separates benign stand-ins from the one isolated live-malware execution and describes the Claude proof of concept.</li>
+</ul>
+<div class="risk-note"><strong>Editorial verification, Oct 26, 2026.</strong> The primary technical claims above come from Forever Security; product behavior is cross-checked with published OpenAI documentation. No statement of a successfully compromised real-world customer, universal exploitability, independently confirmed 90% effectiveness, or an OpenAI/Anthropic official incident acknowledgment is made.</div>
+</section>
+</article></main></div>
+<footer class="footer"><div class="footer-inner"><span>© 2026 Dekrov</span><span class="footer-links"><a href="https://t.me/Dekrov_channel_en">Telegram / @Dekrov_channel_en ↗</a><a href="https://x.com/Dekrov_Dev">X / @Dekrov_Dev ↗</a><a href="https://github.com/DekrovDev">GitHub / DekrovDev ↗</a></span></div></footer>
+<script src="../../site.js"></script>
+</body></html>
