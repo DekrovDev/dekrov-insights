@@ -1,4 +1,4 @@
-/* Dekrov Insights article likes — CounterAPI.com public REST endpoint.
+/* Dekrov Insights article likes — Abacus public REST endpoint.
    No framework, API key, external library, or cookies required.
    Counts are shared; the local marker prevents accidental repeat votes on one browser.
 */
@@ -6,7 +6,8 @@
   "use strict";
 
   var SECTION_SELECTOR = ".article-engagement";
-  var API_ROOT = "https://counterapi.com/api/dekrovdev.github.io/insights-like/";
+  var API_ROOT = "https://abacus.jasoncameron.dev/";
+  var NAMESPACE = "dekrovdev.github.io";
   var STORE_PREFIX = "dekrov-insights-liked:";
   var timeoutMs = 9000;
 
@@ -24,13 +25,15 @@
     var controller = new AbortController();
     var timeout = setTimeout(function () { controller.abort(); }, timeoutMs);
     try {
-      var url = API_ROOT + encodeURIComponent(key) + (readOnly ? "?readOnly=true" : "?readOnly=false");
+      var url = API_ROOT + (readOnly ? "get/" : "hit/") + NAMESPACE + "/" + encodeURIComponent("insights-like-" + key);
       var response = await fetch(url, {
         method: "GET",
         mode: "cors",
         cache: "no-store",
         signal: controller.signal
       });
+      // Abacus only creates a counter on the first hit; 404 means zero likes so far.
+      if (readOnly && response.status === 404) return 0;
       if (!response.ok) throw new Error("Counter service returned HTTP " + response.status);
       var payload = await response.json();
       if (typeof payload.value !== "number" || !Number.isFinite(payload.value)) {
