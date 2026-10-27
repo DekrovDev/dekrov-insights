@@ -15,6 +15,11 @@
 <link rel="stylesheet" href="../../styles.css">
 
 <style>
+.article-body .terra-compare-scroll{width:100%;overflow-x:auto;overscroll-behavior-x:contain;margin:20px 0 28px}
+.article-body .terra-compare{min-width:660px;margin:0}
+.article-body .terra-compare th,.article-body .terra-compare td{width:21%;vertical-align:top}
+.article-body .terra-compare th:first-child{width:37%}
+.article-body .terra-compare small{display:block;font:11px/1.5 Consolas,"Courier New",monospace;color:var(--muted);font-weight:400}
 .article-body .terra-table{width:100%;border-collapse:collapse;font-size:13.5px;line-height:1.65;margin:24px 0}
 .article-body .terra-table th,.article-body .terra-table td{text-align:left;padding:12px 12px 12px 0;border-bottom:1px solid var(--line);vertical-align:top;overflow-wrap:anywhere}
 .article-body .terra-table th{font-weight:600;color:var(--ink)}
@@ -117,19 +122,68 @@
     <div class="terra-cell"><span>REGIONAL PROCESSING</span><strong>+10%</strong><p>Premium where regional processing is offered.</p></div>
   </div>
   <p><strong>Long-context caveat:</strong> When an input prompt exceeds 272,000 tokens, OpenAI lists 2× input and cache rates and 1.5× output rates for the <em>entire request</em>, not only the tokens above that threshold. Tool calls may carry separate charges. Thus a 1.05M-token window does not imply that every prompt is billed at the base tier.</p>
-  <h3>Where Terra sits against the larger models</h3>
-  <table class="terra-table" aria-label="Standard input and output pricing by model">
-    <thead><tr><th>Model</th><th>Input / 1M</th><th>Output / 1M</th></tr></thead>
+  <h3>Standard token pricing: Terra versus Sol versus Astra</h3>
+  <div class="terra-compare-scroll" role="region" tabindex="0" aria-label="API price comparison">
+  <table class="terra-table terra-compare" aria-label="Standard price per million tokens">
+    <thead><tr><th>Metric</th><th>GPT-6.1 Terra</th><th>GPT-6.1 Sol</th><th>GPT-6 Astra</th></tr></thead>
     <tbody>
-      <tr><td><strong>GPT-6.1 Terra</strong></td><td>$1</td><td>$5</td></tr>
-      <tr><td>GPT-6.1 Sol</td><td>$2</td><td>$10</td></tr>
-      <tr><td>GPT-6 Astra</td><td>$10</td><td>$50</td></tr>
+      <tr><th>Input / 1M</th><td><strong>$1.00</strong></td><td>$2.00</td><td>$10.00</td></tr>
+      <tr><th>Cached input / 1M</th><td><strong>$0.05</strong></td><td>$0.10</td><td>$1.00</td></tr>
+      <tr><th>Output / 1M</th><td><strong>$5.00</strong></td><td>$10.00</td><td>$50.00</td></tr>
+      <tr><th>1M uncached input + 1M output</th><td><strong>$6.00</strong></td><td>$12.00</td><td>$60.00</td></tr>
     </tbody>
-  </table>
+  </table></div>
+  <p class="terra-footnote">Illustrative totals exclude tool calls, context-size multipliers, cache writes and surcharges. See <a class="source" href="https://developers.openai.com/api/docs/pricing">official API pricing</a>.</p>
   <p>At standard rates, Terra is half the token price of Sol and one-tenth of Astra. These are <strong>per-token comparisons</strong>; total cost per task also depends on reasoning token use, tool calls, execution retries and performance. OpenAI also says Terra's standard API pricing is 50% lower than the previous GPT-5.6 Terra.</p>
 </section>
+
+<section class="panel" id="terra-vs-sol-vs-astra">
+<h2>03 / Head-to-head: GPT-6.1 Terra vs GPT-6.1 Sol vs GPT-6 Astra</h2>
+<p>Terra's launch story becomes much more useful when compared with <strong>today's two stronger OpenAI alternatives</strong>, rather than only its predecessor. All three models have the same advertised context and output limits, but they differ in reasoning options, token rates, typical strengths and success rates on demanding workflows.</p>
+<h3>Model specifications: same context, different priorities</h3>
+<div class="terra-compare-scroll" role="region" tabindex="0" aria-label="Three-model specification comparison">
+<table class="terra-table terra-compare" aria-label="Terra, Sol and Astra specifications">
+<thead><tr><th>Specification</th><th>GPT-6.1 Terra</th><th>GPT-6.1 Sol</th><th>GPT-6 Astra</th></tr></thead>
+<tbody>
+<tr><th>API model ID</th><td><code>gpt-6.1-terra</code></td><td><code>gpt-6.1-sol</code></td><td><code>gpt-6-astra</code></td></tr>
+<tr><th>Context window</th><td>1,050,000</td><td>1,050,000</td><td>1,050,000</td></tr>
+<tr><th>Max output tokens</th><td>128,000</td><td>128,000</td><td>128,000</td></tr>
+<tr><th>Knowledge cutoff</th><td><strong>Jun 1, 2026</strong></td><td>Apr 30, 2026</td><td>Apr 30, 2026</td></tr>
+<tr><th>Reasoning effort</th><td>none, low, medium, high, xhigh, max</td><td>low, medium, high, xhigh, max</td><td>low, medium, high, xhigh, max</td></tr>
+<tr><th>Model input / output</th><td>Text &amp; image / text</td><td>Text &amp; image / text</td><td>Text &amp; image / text</td></tr>
+<tr><th>Intended role</th><td>Visual and screen tasks at scale</td><td>Complex coding and professional workflows</td><td>Most demanding reasoning and engineering</td></tr>
+</tbody>
+</table>
+</div>
+<p class="terra-footnote">Official specifications: <a class="source" href="https://developers.openai.com/api/docs/models/gpt-6.1-terra">Terra</a>, <a class="source" href="https://developers.openai.com/api/docs/models/gpt-6.1-sol">Sol</a>, <a class="source" href="https://developers.openai.com/api/docs/models/gpt-6-astra">Astra</a>. The later knowledge cutoff of Terra does not imply greater reasoning ability.</p>
+<h3>Six benchmarks: all three models at maximum reasoning effort</h3>
+<p>These figures are transcriptions of <a class="source" href="https://openai.com/index/introducing-gpt-6-1-terra/">OpenAI's October 26 launch charts</a>, cross-checked against <a class="source" href="https://kingy.ai/blog/gpt-6-1-terra/">Kingy AI</a> and <a class="source" href="https://multiai.co/blog/gpt-6-1-terra">MultiAI</a>. <strong>These are vendor-reported results, not independent reruns.</strong> Scores are percentages. Higher is better except for factual errors.</p>
+<div class="terra-compare-scroll" role="region" tabindex="0" aria-label="Three-model benchmark comparison">
+<table class="terra-table terra-compare" aria-label="Published benchmark scores at max reasoning">
+<thead><tr><th>Test · max effort</th><th>GPT-6.1 Terra</th><th>GPT-6.1 Sol</th><th>GPT-6 Astra</th></tr></thead>
+<tbody>
+<tr><th>Agents' Last Exam v1<small>Professional computer tasks</small></th><td><strong>60.0%</strong></td><td>58.6%</td><td>59.3%</td></tr>
+<tr><th>MMMU-Pro (Vision)<small>Visual reasoning</small></th><td>85.5%</td><td>86.3%</td><td><strong>86.7%</strong></td></tr>
+<tr><th>OSWorld 2.1 (offline)<small>Desktop application agents</small></th><td>74.2%</td><td>78.0%</td><td><strong>80.9%</strong></td></tr>
+<tr><th>Terminal-Bench 4.0<small>Command-line coding</small></th><td>50.3%</td><td>55.9%</td><td><strong>58.2%</strong></td></tr>
+<tr><th>Terminal-Bench-Science 0.1<small>Scientific coding</small></th><td>58.3%</td><td>57.0%</td><td><strong>68.1%</strong></td></tr>
+<tr><th>Internal difficult-prompt error rate<small>Lower is better</small></th><td>4.3%</td><td>4.4%</td><td><strong>4.2%</strong></td></tr>
+</tbody>
+</table>
+</div>
+<div class="terra-grid">
+<div class="terra-cell"><span>PROFESSIONAL COMPUTER TASKS</span><strong>Terra leads</strong><p>60.0% on Agents' Last Exam at max effort, versus 58.6% for Sol and 59.3% for Astra.</p></div>
+<div class="terra-cell"><span>COMMAND-LINE CODING</span><strong>Astra leads</strong><p>58.2% on Terminal-Bench 4.0, followed by Sol at 55.9% and Terra at 50.3%.</p></div>
+<div class="terra-cell"><span>VISUAL REASONING</span><strong>Close results</strong><p>Terra trails Sol by 0.8 points and Astra by 1.2 points on MMMU-Pro.</p></div>
+<div class="terra-cell"><span>DESKTOP AUTOMATION</span><strong>A real gap</strong><p>On OSWorld, Terra's 74.2% is below Sol's 78.0% and Astra's 80.9%.</p></div>
+</div>
+<h3>Real task cost: lower prices do not always win</h3>
+<p>On <strong>Agents' Last Exam v1 at max effort</strong>, OpenAI's chart estimates <strong>$1.01 per task</strong> for Terra, <strong>$2.00</strong> for Sol and <strong>$7.24</strong> for Astra. OpenAI also says Terra completes the evaluated professional tasks <strong>more than three times faster</strong> than Sol and Astra. This is measured task completion time, not a universal tokens-per-second advantage.</p>
+<p>Yet on <strong>OSWorld 2.1 at max effort</strong>, the displayed estimated cost is about <strong>$1.19 per task for Terra versus $1.15 for Sol</strong>. And on <strong>Terminal-Bench 4.0</strong>, Sol at <em>medium</em> effort reaches 52.7% at about $1.02 per task, beating Terra at <em>max</em> effort (50.3%, approximately $1.84 per task). Both cost examples are reported in the <a class="source" href="https://kingy.ai/blog/gpt-6-1-terra/">published launch-chart transcription</a>. Token consumption, reasoning depth, tool use, and retries can outweigh list-price savings.</p>
+<div class="callout"><strong>How to interpret this:</strong> Terra is a strong starting point for frequent screen-based, visual or bounded office tasks. Sol remains attractive for complex coding when you care about successful completion per dollar. Astra is the highest-capability option for the hardest problems. Benchmark wins are specific to the tests and settings shown here.</div>
+</section>
 <section class="panel">
-  <h2>03 / Coding: more than twice the earlier published score</h2>
+  <h2>04 / Coding: more than twice the earlier published score</h2>
   <p>On <strong>Terminal-Bench 4.0</strong>, an agent coding test performed from the command line, the new model solves <strong>50.3%</strong> of tasks at maximum reasoning effort. OpenAI reports <strong>21.5%</strong> for GPT-5.6 Terra, a 28.8 percentage-point increase. That is a benchmark improvement, not a claim that all software engineering becomes twice as reliable.</p>
   <div class="terra-bars" aria-label="Terminal-Bench 4.0 published results">
     <div class="terra-bar-label"><span>GPT-6.1 Terra · max</span><strong>50.3%</strong></div><div class="terra-bar-track"><span style="width:50.3%"></span></div>
@@ -138,7 +192,7 @@
   <p>OpenAI nevertheless recommends <strong>GPT-6.1 Sol or GPT-6 Astra for the hardest coding tasks</strong>. On Terminal-Bench-Science 0.1, which uses code for scientific work, Terra at max reasoning reportedly beats Sol while costing less, and finishes within five points of Claude Opus 5.5 at under one-fifth the estimated cost. These are different benchmarks: the science result does not establish that Terra is the stronger model across general coding.</p>
 </section>
 <section class="panel">
-  <h2>04 / Computer use and visual reasoning</h2>
+  <h2>05 / Computer use and visual reasoning</h2>
   <p>OpenAI describes Terra as built to <strong>understand what's on screen and take actions in applications</strong>. Examples include taking measurements from drawings, turning architectural plans into 3D assets, entering invoice data and reviewing video frame-by-frame for annotation workflows.</p>
   <div class="terra-grid">
     <div class="terra-cell"><span>AGENTS' LAST EXAM / MEDIUM</span><strong>+15 pp</strong><p>Reported gain over GPT-5.6 Terra, at roughly one-third the cost per task.</p></div>
@@ -150,7 +204,7 @@
   <p>At maximum effort, OpenAI also reports that Terra uses reasoning tokens more than three times as efficiently as <strong>Claude Opus 5.5</strong> on Agents' Last Exam. Combining model pricing and evaluated token usage, the company estimates about <strong>9× lower cost per task</strong> in that comparison. It is not a universal price comparison for every prompt.</p>
 </section>
 <section class="panel">
-  <h2>05 / Factual accuracy and safety</h2>
+  <h2>06 / Factual accuracy and safety</h2>
   <p>On OpenAI's <strong>internal, error-inducing question set</strong>, factual error rates improved substantially. The measurement matters, but it should not be presented as an externally validated hallucination rate for all user questions.</p>
   <div class="terra-bars" aria-label="Internal factual error benchmark, low reasoning effort; lower is better">
     <div class="terra-bar-label"><span>GPT-5.6 Terra · low</span><strong>53.6%</strong></div><div class="terra-bar-track"><span class="older" style="width:53.6%"></span></div>
@@ -160,7 +214,7 @@
   <div class="callout"><strong>Security classification:</strong> OpenAI says GPT-6.1 Terra meets the <em>Critical</em> cybersecurity capability threshold under its Preparedness Framework and uses protections developed for GPT-6 Astra. This classification describes assessed model capabilities and safeguards; it is not a statement that ordinary users are under active attack, nor does it eliminate the need for agent permission controls.</div>
 </section>
 <section class="panel">
-  <h2>06 / Availability and how to use it</h2>
+  <h2>07 / Availability and how to use it</h2>
   <div class="content">
     <ul>
       <li><strong>ChatGPT Work and Codex:</strong> Released for Plus, Pro, Enterprise and Edu users, according to OpenAI's October 26 announcement. Available models and allowances may differ by product.</li>
@@ -181,7 +235,7 @@ print(response.output_text)</code></pre></div>
   <p>The example assumes a configured OpenAI API key and an installed compatible SDK. It makes a text request only; to operate software or analyze images, add the relevant input and permitted tool configuration.</p>
 </section>
 <section class="panel">
-  <h2>07 / Should developers choose Terra, Sol or Astra?</h2>
+  <h2>08 / Should developers choose Terra, Sol or Astra?</h2>
   <table class="terra-table" aria-label="Model selection guidance">
     <thead><tr><th>Use case</th><th>Recommended starting point</th></tr></thead>
     <tbody>
@@ -194,11 +248,16 @@ print(response.output_text)</code></pre></div>
   <p><strong>Editorial assessment:</strong> Terra is compelling when you can verify outputs automatically and run many repeatable tasks. The lower token cost can matter more than small differences in frontier scores. For long, ambiguous or high-stakes workflows, evaluate Sol and Astra on your own examples before optimizing for price. Benchmarks are useful signals, but not substitutes for testing your target workflow.</p>
 </section>
 <section class="content">
-  <h2>08 / Primary sources and verification</h2>
+  <h2>09 / Primary sources and verification</h2>
   <ul class="terra-sources">
     <li><a class="source" href="https://openai.com/index/introducing-gpt-6-1-terra/" rel="noopener">OpenAI — Introducing GPT-6.1 Terra</a> · launch announcement, task-performance and safety claims, Oct 26, 2026.</li>
     <li><a class="source" href="https://developers.openai.com/api/docs/models/gpt-6.1-terra" rel="noopener">OpenAI API — GPT-6.1 Terra model reference</a> · context, output limit, modalities, tooling, pricing, long-context adjustments, and access tiers.</li>
-    <li><a class="source" href="https://developers.openai.com/api/docs/models" rel="noopener">OpenAI API — Model catalog</a> · standard prices for Terra, Sol, and Astra.</li>
+    <li><a class="source" href="https://developers.openai.com/api/docs/models" rel="noopener">OpenAI API — Model catalog</a> · model family comparison.</li>
+    <li><a class="source" href="https://developers.openai.com/api/docs/pricing" rel="noopener">OpenAI API — Pricing</a> · standard and alternative pricing for all three models.</li>
+    <li><a class="source" href="https://developers.openai.com/api/docs/models/gpt-6.1-sol" rel="noopener">OpenAI API — GPT-6.1 Sol model reference</a> · verified technical specifications.</li>
+    <li><a class="source" href="https://developers.openai.com/api/docs/models/gpt-6-astra" rel="noopener">OpenAI API — GPT-6 Astra model reference</a> · verified technical specifications.</li>
+    <li><a class="source" href="https://kingy.ai/blog/gpt-6-1-terra/" rel="noopener">Kingy AI — Launch chart transcription</a> · benchmark values and per-task costs, secondary transcription of OpenAI's interactive charts.</li>
+    <li><a class="source" href="https://multiai.co/blog/gpt-6-1-terra" rel="noopener">MultiAI — Three-model benchmark table</a> · independent transcription of vendor-published test data, not independent model testing.</li>
     <li><a class="source" href="https://developers.openai.com/api/docs/guides/model-selection" rel="noopener">OpenAI — Model selection</a> · published use-case guidance.</li>
     <li><a class="source" href="https://docs.aws.amazon.com/bedrock/latest/userguide/model-card-openai-gpt-6-1-terra.html" rel="noopener">AWS Bedrock — GPT-6.1 Terra model card</a> · independent provider documentation of launch date and availability.</li>
   </ul>
