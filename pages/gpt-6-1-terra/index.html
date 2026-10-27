@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#ffffff">
+<meta name="description" content="An independent, source-linked breakdown of GPT-6.1 Terra: 1.05M context, 128K output, API token prices, visual and computer-use benchmarks, coding results, safety, and availability.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GPT-6.1 Terra: Specs, Benchmarks, Pricing & Availability | Dekrov Insights">
+<meta property="og:description" content="An independent, source-linked breakdown of GPT-6.1 Terra: 1.05M context, 128K output, API token prices, visual and computer-use benchmarks, coding results, safety, and availability.">
+<meta property="og:url" content="https://dekrovdev.github.io/dekrov-insights/pages/gpt-6-1-terra/">
+<meta name="twitter:card" content="summary">
+<title>GPT-6.1 Terra: Specs, Benchmarks, Pricing & Availability | Dekrov Insights</title>
+<script src="../../theme.js"></script>
+<link rel="stylesheet" href="../../styles.css">
+
+<style>
+.article-body .terra-table{width:100%;border-collapse:collapse;font-size:13.5px;line-height:1.65;margin:24px 0}
+.article-body .terra-table th,.article-body .terra-table td{text-align:left;padding:12px 12px 12px 0;border-bottom:1px solid var(--line);vertical-align:top;overflow-wrap:anywhere}
+.article-body .terra-table th{font-weight:600;color:var(--ink)}
+.article-body .terra-table tbody th{width:36%;font-weight:400;color:var(--muted)}
+.article-body .terra-table thead th{font:11px Consolas,"Courier New",monospace;text-transform:uppercase;color:var(--muted)}
+.article-body .terra-table code,.article-body .terra-code code,.article-body p code{font:12.5px Consolas,"Courier New",monospace;overflow-wrap:anywhere}
+.article-body .terra-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));margin:22px 0;gap:1px;border:1px solid var(--line);background:var(--line)}
+.article-body .terra-cell{padding:22px;background:var(--bg)}
+.article-body .terra-cell>span,.article-body .terra-code>span{display:block;font:10.5px Consolas,"Courier New",monospace;color:var(--muted);letter-spacing:.04em}
+.article-body .terra-cell strong{display:block;font-size:31px;letter-spacing:-.04em;font-weight:400;margin:12px 0 8px}
+.article-body .terra-cell p{font-size:13px;color:var(--text-soft);margin:0}
+.article-body .terra-footnote{font-size:12px;color:var(--muted);line-height:1.8}
+.article-body .terra-bars{margin:25px 0 30px}
+.article-body .terra-bar-label{display:flex;justify-content:space-between;gap:12px;font-size:13px;margin:16px 0 6px}
+.article-body .terra-bar-label strong{font:13px Consolas,"Courier New",monospace}
+.article-body .terra-bar-track{height:14px;background:var(--track)}
+.article-body .terra-bar-track span{display:block;height:100%;background:var(--bar-2)}
+.article-body .terra-bar-track span.older{background:var(--bar)}
+.article-body .terra-code{margin:25px 0;padding:18px 20px;border:1px solid var(--line);background:var(--surface)}
+.article-body .terra-code pre{white-space:pre-wrap;overflow-wrap:anywhere;margin:14px 0 0;font-size:13px;line-height:1.65}
+.article-body .terra-sources li{overflow-wrap:anywhere}
+.article-body .panel p{font-size:15px;color:var(--text-soft)}
+.article-body .panel h3{font-size:17px;font-weight:600;margin-top:26px}
+@media(max-width:700px){.article-body .terra-grid{grid-template-columns:1fr}.article-body .terra-cell{padding:17px}.article-body .terra-table{font-size:12px}.article-body .terra-table th,.article-body .terra-table td{padding:10px 8px 10px 0}}
+</style>
+</head>
+<body data-page="gpt-6-1-terra" data-root="../../">
+<header class="top">
+  <div class="header-inner">
+    <div class="brand-signature">
+      <a class="brand" href="../../"><span class="brand-mark" aria-hidden="true">DK</span>Dekrov Insights</a>
+      <span class="brand-role">Charts / AI Benchmarks</span>
+    </div>
+    <div class="header-actions">
+      <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme"><span data-theme-label>Light</span></button>
+      <a class="nav" href="https://github.com/DekrovDev/dekrov-insights">GitHub ↗</a>
+    </div>
+  </div>
+</header>
+<div class="layout">
+<aside class="sidebar" aria-label="Page navigation">
+  <p class="side-heading">Index</p>
+  <nav class="side-nav" aria-label="Pages" data-site-nav></nav>
+</aside>
+<main class="main-content" id="main">
+  <div class="article-body">
+    
+<div class="tag">Model Deep Dive · Specifications / Oct 27, 2026</div>
+<h1>GPT-6.1 Terra:<br>Fast Computer Use, Lower Cost</h1>
+<p class="intro">Released October 26, 2026, OpenAI's GPT-6.1 Terra focuses on visual reasoning, interacting with software, and natural writing. Its strongest argument is not that it replaces the flagship Astra: it brings capable agent workflows to a much lower price point. Here are the verified specifications, benchmark claims, prices, and practical trade-offs.</p>
+<div class="specs" aria-label="Three key model facts">
+  <div class="spec"><strong>1.05M</strong><span>Context tokens</span></div>
+  <div class="spec"><strong>128K</strong><span>Max output tokens</span></div>
+  <div class="spec"><strong>$1 / $5</strong><span>Input / Output per 1M</span></div>
+</div>
+<section class="content">
+  <h2>At a glance</h2>
+  <p><strong>Terra is an efficiency-focused reasoning model</strong>, not OpenAI's most capable general-purpose model. OpenAI positions it for tasks such as interpreting technical drawings, navigating application screens, reading invoices, completing forms, drafting communications, and scoped software fixes. Its standard API token rates are 50% below GPT-5.6 Terra and GPT-6.1 Sol. The company also says the same plan allowance covers more tasks with Terra than with Sol or Astra.</p>
+  <div class="callout">Editorial note: The benchmark numbers below are published by OpenAI unless otherwise identified. These are model or agent evaluations under particular settings, not guarantees of success, independent replication, or measured performance for every application.</div>
+</section>
+<section class="panel">
+  <h2>01 / Full technical specifications</h2>
+  <table class="terra-table" aria-label="GPT-6.1 Terra technical specifications">
+    <tbody>
+      <tr><th>Official model ID</th><td><code>gpt-6.1-terra</code></td></tr>
+      <tr><th>Release date</th><td>October 26, 2026</td></tr>
+      <tr><th>Context window</th><td>1,050,000 tokens</td></tr>
+      <tr><th>Maximum output</th><td>128,000 tokens</td></tr>
+      <tr><th>Knowledge cutoff</th><td>June 1, 2026</td></tr>
+      <tr><th>Reasoning effort</th><td><code>none</code>, <code>low</code>, <code>medium</code> (default), <code>high</code>, <code>xhigh</code>, <code>max</code></td></tr>
+      <tr><th>Native input</th><td>Text and images</td></tr>
+      <tr><th>Native output</th><td>Text</td></tr>
+      <tr><th>Native audio / video</th><td>Not supported as model input modalities</td></tr>
+      <tr><th>API</th><td>Responses API; Chat Completions endpoint is listed, but tool calling requires Responses API</td></tr>
+      <tr><th>Output controls</th><td>Streaming, function calling, structured outputs</td></tr>
+      <tr><th>Available tools</th><td>Web search, file search, computer use, code interpreter, hosted shell, apply patch, image generation, MCP, skills and tool search via Responses API</td></tr>
+      <tr><th>Fine-tuning</th><td>Not supported</td></tr>
+      <tr><th>API free tier</th><td>Not supported for this model</td></tr>
+    </tbody>
+  </table>
+  <p class="terra-footnote">Important distinction: tool support means a properly configured API workflow can invoke those tools. It does not mean the raw model can independently operate a computer without tool access, permissions and an execution environment. Image generation is a supported <em>tool</em>, not a native image-output modality for Terra.</p>
+</section>
+<section class="panel">
+  <h2>02 / API pricing: standard rates and long-context adjustments</h2>
+  <p>The following prices are in US dollars per one million text tokens at standard API rates. They are not ChatGPT subscription prices.</p>
+  <table class="terra-table" aria-label="Standard token rates per million">
+    <thead><tr><th>Token category</th><th>GPT-6.1 Terra</th></tr></thead>
+    <tbody>
+      <tr><td>Input</td><td><strong>$1.00</strong></td></tr>
+      <tr><td>Cached input</td><td><strong>$0.05</strong></td></tr>
+      <tr><td>Output</td><td><strong>$5.00</strong></td></tr>
+      <tr><td>Cache write, 30-minute retention</td><td>$1.25</td></tr>
+      <tr><td>Cache write, 12-hour retention</td><td>$2.50</td></tr>
+    </tbody>
+  </table>
+  <div class="terra-grid">
+    <div class="terra-cell"><span>EXAMPLE / STANDARD</span><strong>$6.00</strong><p>1M uncached input + 1M output tokens, excluding tool fees and adjustments.</p></div>
+    <div class="terra-cell"><span>BATCH / FLEX</span><strong>−50%</strong><p>Discount relative to Standard, subject to availability and processing mode.</p></div>
+    <div class="terra-cell"><span>FAST MODE</span><strong>2×</strong><p>Standard token rates when Fast mode is selected.</p></div>
+    <div class="terra-cell"><span>REGIONAL PROCESSING</span><strong>+10%</strong><p>Premium where regional processing is offered.</p></div>
+  </div>
+  <p><strong>Long-context caveat:</strong> When an input prompt exceeds 272,000 tokens, OpenAI lists 2× input and cache rates and 1.5× output rates for the <em>entire request</em>, not only the tokens above that threshold. Tool calls may carry separate charges. Thus a 1.05M-token window does not imply that every prompt is billed at the base tier.</p>
+  <h3>Where Terra sits against the larger models</h3>
+  <table class="terra-table" aria-label="Standard input and output pricing by model">
+    <thead><tr><th>Model</th><th>Input / 1M</th><th>Output / 1M</th></tr></thead>
+    <tbody>
+      <tr><td><strong>GPT-6.1 Terra</strong></td><td>$1</td><td>$5</td></tr>
+      <tr><td>GPT-6.1 Sol</td><td>$2</td><td>$10</td></tr>
+      <tr><td>GPT-6 Astra</td><td>$10</td><td>$50</td></tr>
+    </tbody>
+  </table>
+  <p>At standard rates, Terra is half the token price of Sol and one-tenth of Astra. These are <strong>per-token comparisons</strong>; total cost per task also depends on reasoning token use, tool calls, execution retries and performance. OpenAI also says Terra's standard API pricing is 50% lower than the previous GPT-5.6 Terra.</p>
+</section>
+<section class="panel">
+  <h2>03 / Coding: more than twice the earlier published score</h2>
+  <p>On <strong>Terminal-Bench 4.0</strong>, an agent coding test performed from the command line, the new model solves <strong>50.3%</strong> of tasks at maximum reasoning effort. OpenAI reports <strong>21.5%</strong> for GPT-5.6 Terra, a 28.8 percentage-point increase. That is a benchmark improvement, not a claim that all software engineering becomes twice as reliable.</p>
+  <div class="terra-bars" aria-label="Terminal-Bench 4.0 published results">
+    <div class="terra-bar-label"><span>GPT-6.1 Terra · max</span><strong>50.3%</strong></div><div class="terra-bar-track"><span style="width:50.3%"></span></div>
+    <div class="terra-bar-label"><span>GPT-5.6 Terra · published</span><strong>21.5%</strong></div><div class="terra-bar-track"><span class="older" style="width:21.5%"></span></div>
+  </div>
+  <p>OpenAI nevertheless recommends <strong>GPT-6.1 Sol or GPT-6 Astra for the hardest coding tasks</strong>. On Terminal-Bench-Science 0.1, which uses code for scientific work, Terra at max reasoning reportedly beats Sol while costing less, and finishes within five points of Claude Opus 5.5 at under one-fifth the estimated cost. These are different benchmarks: the science result does not establish that Terra is the stronger model across general coding.</p>
+</section>
+<section class="panel">
+  <h2>04 / Computer use and visual reasoning</h2>
+  <p>OpenAI describes Terra as built to <strong>understand what's on screen and take actions in applications</strong>. Examples include taking measurements from drawings, turning architectural plans into 3D assets, entering invoice data and reviewing video frame-by-frame for annotation workflows.</p>
+  <div class="terra-grid">
+    <div class="terra-cell"><span>AGENTS' LAST EXAM / MEDIUM</span><strong>+15 pp</strong><p>Reported gain over GPT-5.6 Terra, at roughly one-third the cost per task.</p></div>
+    <div class="terra-cell"><span>AGENTS' LAST EXAM / COMPARISON</span><strong>~Astra</strong><p>OpenAI reports approximately Astra-level performance at one-tenth of Astra's per-token price.</p></div>
+    <div class="terra-cell"><span>TASK COMPLETION SPEED</span><strong>&gt;3×</strong><p>Reported faster than both GPT-6 Astra and GPT-6.1 Sol in the company's evaluated tasks.</p></div>
+    <div class="terra-cell"><span>OSWORLD 2.1 / MEDIUM</span><strong>Better</strong><p>Reported to exceed GPT-5.6 Terra's best result, at a lower cost per task.</p></div>
+  </div>
+  <p>On <strong>MMMU-Pro (Vision)</strong>, OpenAI reports that Terra surpasses GPT-5.6 Terra at every tested reasoning setting and approaches Astra and Sol in the published visual-reasoning evaluations. Exact numeric chart datapoints are not reproduced here when unavailable in the accessible text of the source; the qualitative comparison is explicitly the manufacturer's claim.</p>
+  <p>At maximum effort, OpenAI also reports that Terra uses reasoning tokens more than three times as efficiently as <strong>Claude Opus 5.5</strong> on Agents' Last Exam. Combining model pricing and evaluated token usage, the company estimates about <strong>9× lower cost per task</strong> in that comparison. It is not a universal price comparison for every prompt.</p>
+</section>
+<section class="panel">
+  <h2>05 / Factual accuracy and safety</h2>
+  <p>On OpenAI's <strong>internal, error-inducing question set</strong>, factual error rates improved substantially. The measurement matters, but it should not be presented as an externally validated hallucination rate for all user questions.</p>
+  <div class="terra-bars" aria-label="Internal factual error benchmark, low reasoning effort; lower is better">
+    <div class="terra-bar-label"><span>GPT-5.6 Terra · low</span><strong>53.6%</strong></div><div class="terra-bar-track"><span class="older" style="width:53.6%"></span></div>
+    <div class="terra-bar-label"><span>GPT-6.1 Terra · low</span><strong>16.7%</strong></div><div class="terra-bar-track"><span style="width:16.7%"></span></div>
+  </div>
+  <p>At <strong>max reasoning effort</strong>, OpenAI says Terra's error rate on that same evaluation falls to <strong>4.3%</strong>, 18 percentage points below its predecessor. The company also reports better adherence to task scope and resistance to prompt-injection attempts in its evaluations.</p>
+  <div class="callout"><strong>Security classification:</strong> OpenAI says GPT-6.1 Terra meets the <em>Critical</em> cybersecurity capability threshold under its Preparedness Framework and uses protections developed for GPT-6 Astra. This classification describes assessed model capabilities and safeguards; it is not a statement that ordinary users are under active attack, nor does it eliminate the need for agent permission controls.</div>
+</section>
+<section class="panel">
+  <h2>06 / Availability and how to use it</h2>
+  <div class="content">
+    <ul>
+      <li><strong>ChatGPT Work and Codex:</strong> Released for Plus, Pro, Enterprise and Edu users, according to OpenAI's October 26 announcement. Available models and allowances may differ by product.</li>
+      <li><strong>OpenAI API:</strong> Select <code>gpt-6.1-terra</code>. The published model page lists no free-tier support for this model.</li>
+      <li><strong>Tool-based agents:</strong> Use the Responses API for tool calling. Supply the appropriate tools and authorization; model access alone does not grant computer permissions.</li>
+      <li><strong>Reasoning setting:</strong> Start with <code>medium</code>, the default. Use <code>none</code> or <code>low</code> for simpler throughput-focused workloads, and test higher efforts when reliability matters enough to justify added reasoning costs.</li>
+    </ul>
+  </div>
+  <div class="terra-code"><span>MINIMAL PYTHON / RESPONSES API</span><pre><code>from openai import OpenAI
+
+client = OpenAI()
+response = client.responses.create(
+    model="gpt-6.1-terra",
+    reasoning={"effort": "medium"},
+    input="Summarize the trade-offs of this design."
+)
+print(response.output_text)</code></pre></div>
+  <p>The example assumes a configured OpenAI API key and an installed compatible SDK. It makes a text request only; to operate software or analyze images, add the relevant input and permitted tool configuration.</p>
+</section>
+<section class="panel">
+  <h2>07 / Should developers choose Terra, Sol or Astra?</h2>
+  <table class="terra-table" aria-label="Model selection guidance">
+    <thead><tr><th>Use case</th><th>Recommended starting point</th></tr></thead>
+    <tbody>
+      <tr><td>High-volume document handling, screen automation, visual extraction</td><td><strong>Terra</strong></td></tr>
+      <tr><td>Routine code fixes, short-form writing, bounded agent workflows</td><td><strong>Terra</strong>, then evaluate errors</td></tr>
+      <tr><td>Complex engineering tasks and deeper multi-step reasoning</td><td><strong>Sol</strong></td></tr>
+      <tr><td>Most demanding reasoning and coding work</td><td><strong>Astra</strong></td></tr>
+    </tbody>
+  </table>
+  <p><strong>Editorial assessment:</strong> Terra is compelling when you can verify outputs automatically and run many repeatable tasks. The lower token cost can matter more than small differences in frontier scores. For long, ambiguous or high-stakes workflows, evaluate Sol and Astra on your own examples before optimizing for price. Benchmarks are useful signals, but not substitutes for testing your target workflow.</p>
+</section>
+<section class="content">
+  <h2>08 / Primary sources and verification</h2>
+  <ul class="terra-sources">
+    <li><a class="source" href="https://openai.com/index/introducing-gpt-6-1-terra/" rel="noopener">OpenAI — Introducing GPT-6.1 Terra</a> · launch announcement, task-performance and safety claims, Oct 26, 2026.</li>
+    <li><a class="source" href="https://developers.openai.com/api/docs/models/gpt-6.1-terra" rel="noopener">OpenAI API — GPT-6.1 Terra model reference</a> · context, output limit, modalities, tooling, pricing, long-context adjustments, and access tiers.</li>
+    <li><a class="source" href="https://developers.openai.com/api/docs/models" rel="noopener">OpenAI API — Model catalog</a> · standard prices for Terra, Sol, and Astra.</li>
+    <li><a class="source" href="https://developers.openai.com/api/docs/guides/model-selection" rel="noopener">OpenAI — Model selection</a> · published use-case guidance.</li>
+    <li><a class="source" href="https://docs.aws.amazon.com/bedrock/latest/userguide/model-card-openai-gpt-6-1-terra.html" rel="noopener">AWS Bedrock — GPT-6.1 Terra model card</a> · independent provider documentation of launch date and availability.</li>
+  </ul>
+  <p class="terra-footnote"><strong>Last checked:</strong> October 27, 2026. Prices, limits and availability can change. Manufacturer-reported performance claims have not been independently re-tested by Dekrov Insights.</p>
+</section>
+    
+
+    <section class="article-engagement" aria-label="Article reactions">
+      <div class="engagement-copy"><span class="engagement-heading">Enjoyed this research?</span><span class="engagement-note">Leave a like — no account needed.</span></div>
+      <div class="engagement-actions">
+        <button type="button" class="article-like-button" data-like-button aria-label="Like this article" aria-pressed="false" disabled>
+          <svg class="article-like-heart" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z"/></svg>
+          <span data-like-count aria-live="polite">—</span><span>likes</span>
+        </button>
+        <span class="article-like-status" data-like-status role="status">Loading likes…</span>
+      </div>
+    </section>
+  </div>
+</main>
+</div>
+<footer class="footer"><div class="footer-inner"><span>© 2026 Dekrov</span><span class="footer-links"><a href="https://t.me/Dekrov_channel_en">Telegram / @Dekrov_channel_en ↗</a><a href="https://x.com/Dekrov_Dev">X / @Dekrov_Dev ↗</a><a href="https://github.com/DekrovDev">GitHub / DekrovDev ↗</a></span></div></footer>
+<script src="../../article-likes.js?v=3" defer></script>
+<script src="../../site.js"></script>
+</body>
+</html>
