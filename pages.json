@@ -5,6 +5,12 @@
     "meta": "Overview"
   },
   {
+    "slug": "paperclip-runner-2026-1106",
+    "title": "Paperclip's New Runner: What Changed—and What Still Needs Proof",
+    "meta": "Agent Infrastructure · Nov 10, 2026",
+    "summary": "The new native Runner, GitHub-backed skills and optional security screening, examined through source code and community issues."
+  },
+  {
     "slug": "research-method",
     "title": "Evidence before confidence",
     "meta": "Editorial methodology · Nov 10, 2026",
