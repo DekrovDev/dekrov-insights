@@ -2,7 +2,7 @@
 
 A static research publishing platform for AI and technology investigations by Dekrov.
 
-[Read the site](https://dekrovdev.github.io/dekrov-insights/) · [Authoring guide](ARTICLE_AUTHORING_GUIDE.md) · [Editorial method](https://dekrovdev.github.io/dekrov-insights/pages/research-method/)
+[Read the site](https://insights.dekrov.com/) · [Authoring guide](ARTICLE_AUTHORING_GUIDE.md) · [Editorial method](https://insights.dekrov.com/pages/research-method/)
 
 Plain HTML, CSS and JavaScript on GitHub Pages. No runtime framework, build step, required backend or tracking. The existing optional shared reactions service is preserved.
 

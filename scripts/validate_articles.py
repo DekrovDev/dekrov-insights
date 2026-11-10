@@ -16,7 +16,7 @@ from urllib.parse import unquote, urljoin, urlsplit, urlunsplit
 from urllib.request import HTTPRedirectHandler, Request, build_opener
 
 ROOT = Path(__file__).resolve().parents[1]
-PUBLIC = 'https://dekrovdev.github.io/dekrov-insights/'
+PUBLIC = 'https://insights.dekrov.com/'
 LEGACY_SLUGS = {'agents-md-codex-attack', 'beam-vs-deepseek', 'gemini-4-carbon', 'gpt-6-1-terra', 'kimi-k3-1-pro', 'mercury-3'}
 TYPES = {'official', 'independent', 'community', 'unconfirmed'}
 VOID = {'area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'param', 'source', 'track', 'wbr'}

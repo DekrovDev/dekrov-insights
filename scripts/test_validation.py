@@ -44,7 +44,7 @@ class PublicationContractTests(unittest.TestCase):
     def test_source_type(self):
         self.edit('data-source-type="official"', 'data-source-type="verified"'); self.assert_error('invalid source classification')
     def test_canonical_slug(self):
-        self.edit('rel="canonical" href="https://dekrovdev.github.io/dekrov-insights/pages/research-method/"', 'rel="canonical" href="https://example.org/"'); self.assert_error('incorrect canonical')
+        self.edit('rel="canonical" href="https://insights.dekrov.com/pages/research-method/"', 'rel="canonical" href="https://example.org/"'); self.assert_error('incorrect canonical')
     def test_link_probe_scope(self):
         self.assertFalse(public_url('http://example.org/'))
         self.assertFalse(public_url('https://127.0.0.1/'))
