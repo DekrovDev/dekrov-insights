@@ -5,6 +5,13 @@
     "meta": "Overview"
   },
   {
+    "slug": "alphaproof-code-signal-verification",
+    "path": "/alphaproof-signal/",
+    "title": "AlphaProof Code and Signal: What the Machine-Code Proof Actually Establishes",
+    "meta": "AI Security Research · Nov 10, 2026",
+    "summary": "What DeepMind's 6.5-million-line Signal proof establishes, how it works, and what remains outside its security model."
+  },
+  {
     "slug": "codex-desktop-cve-2026-110930",
     "path": "/codex-windows-cve/",
     "title": "Codex Desktop Windows Argument Injection: The CVE-2026-110930 Boundary",
