@@ -1,0 +1,29 @@
+name: Validate research articles
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Validate catalog, existing articles and publication contract
+        run: python scripts/validate_articles.py
+      - name: Verify validator regression cases
+        run: python scripts/test_validation.py
+      - name: Check source availability (404 and 410 fail; blocked requests reported)
+        run: python scripts/validate_articles.py --links --report /tmp/dekrov-link-report.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: source-availability
+          path: /tmp/dekrov-link-report.json
+          if-no-files-found: ignore

@@ -12,6 +12,7 @@
     var dark = theme === "dark";
     var button = document.querySelector("[data-theme-toggle]");
     if (button) {
+      button.setAttribute("aria-pressed", String(dark));
       button.setAttribute("aria-label", dark ? "Dark theme. Switch to light theme." : "Light theme. Switch to dark theme.");
       var label = button.querySelector("[data-theme-label]");
       if (label) label.textContent = dark ? "Dark" : "Light";

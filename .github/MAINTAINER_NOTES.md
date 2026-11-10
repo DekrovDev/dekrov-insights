@@ -9,7 +9,7 @@ Use `pages/_template/index.html` as the starting point. The template already inc
 2. In the new HTML file, fill in the page title, description, Open Graph metadata, canonical URL, and `<body data-page="<unique-slug>" data-root="../../">`.
 3. Write the article between the `ARTICLE CONTENT START` and `ARTICLE CONTENT END` comments. **Keep the reaction block and the `article-likes.js` script.**
 4. Register the slug, title, and meta label in `pages.json` so the navigation includes the page.
-5. Add a homepage article row to `index.html`, with a link to `./pages/<unique-slug>/`.
+5. Do not manually add homepage rows. `site.js` renders the homepage and sidebar from `pages.json`. Follow [ARTICLE_AUTHORING_GUIDE.md](../ARTICLE_AUTHORING_GUIDE.md) for the v2 template, research/media contract, validation and atomic publication.
 
 ### Reactions / likes
 
