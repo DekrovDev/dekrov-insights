@@ -5,6 +5,13 @@
     "meta": "Overview"
   },
   {
+    "slug": "github-actions-log-secret-scanning-2026",
+    "path": "/actions-log-secrets/",
+    "title": "GitHub Starts Scanning Actions Logs for Secrets — What the Preview Misses",
+    "meta": "CI/CD Security · Nov 10, 2026",
+    "summary": "GitHub now scans some Actions workflow logs for credentials, but the preview has important exclusions and requires manual alert review."
+  },
+  {
     "slug": "alphaproof-code-signal-verification",
     "path": "/alphaproof-signal/",
     "title": "AlphaProof Code and Signal: What the Machine-Code Proof Actually Establishes",
