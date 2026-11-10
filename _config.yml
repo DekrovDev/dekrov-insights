@@ -1,0 +1,11 @@
+# Source folders stay organized; Jekyll emits articles at their public permalinks.
+url: "https://insights.dekrov.com"
+baseurl: ""
+plugins:
+  - jekyll-redirect-from
+redirect_from:
+  json: false
+exclude:
+  - scripts
+  - README.md
+  - ARTICLE_AUTHORING_GUIDE.md

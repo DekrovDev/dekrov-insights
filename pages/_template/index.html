@@ -1,3 +1,10 @@
+---
+layout: null
+permalink: /{{SHORT_NAME}}/
+redirect_from:
+  - /pages/{{SLUG}}/
+  - /pages/{{SLUG}}/index.html
+---
 <!doctype html>
 <html lang="en">
 <head>
@@ -8,18 +15,18 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="{{TITLE}}">
 <meta property="og:description" content="{{DESCRIPTION}}">
-<meta property="og:url" content="https://insights.dekrov.com/pages/{{SLUG}}/">
-<link rel="canonical" href="https://insights.dekrov.com/pages/{{SLUG}}/">
+<meta property="og:url" content="https://insights.dekrov.com/{{SHORT_NAME}}/">
+<link rel="canonical" href="https://insights.dekrov.com/{{SHORT_NAME}}/">
 <meta name="twitter:card" content="summary">
 <title>{{TITLE}} — Dekrov Insights</title>
-<script src="../../theme.js"></script>
-<link rel="stylesheet" href="../../styles.css">
+<script src="/theme.js"></script>
+<link rel="stylesheet" href="/styles.css">
 </head>
-<body data-page="{{SLUG}}" data-root="../../">
+<body data-page="{{SLUG}}" data-root="/">
 <header class="top">
   <div class="header-inner">
     <div class="brand-signature">
-      <a class="brand" href="../../"><span class="brand-mark" aria-hidden="true">DK</span>Dekrov Insights</a>
+      <a class="brand" href="/"><span class="brand-mark" aria-hidden="true">DK</span>Dekrov Insights</a>
       <span class="brand-role">Research / AI &amp; Technology</span>
     </div>
     <div class="header-actions">
@@ -118,8 +125,8 @@
 </main>
 </div>
 <footer class="footer"><div class="footer-inner"><span>© 2026 Dekrov</span><span class="footer-links"><a href="https://t.me/Dekrov_channel_en">Telegram / @Dekrov_channel_en ↗</a><a href="https://x.com/Dekrov_Dev">X / @Dekrov_Dev ↗</a><a href="https://github.com/DekrovDev">GitHub / DekrovDev ↗</a></span></div></footer>
-<script src="../../article-likes.js?v=3" defer></script>
-<script src="../../article.js" defer></script>
-<script src="../../site.js"></script>
+<script src="/article-likes.js?v=3" defer></script>
+<script src="/article.js" defer></script>
+<script src="/site.js"></script>
 </body>
 </html>

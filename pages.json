@@ -8,42 +8,50 @@
     "slug": "paperclip-runner-2026-1106",
     "title": "Paperclip's New Runner: What Changed—and What Still Needs Proof",
     "meta": "Agent Infrastructure · Nov 10, 2026",
-    "summary": "The new native Runner, GitHub-backed skills and optional security screening, examined through source code and community issues."
+    "summary": "The new native Runner, GitHub-backed skills and optional security screening, examined through source code and community issues.",
+    "path": "/paperclip/"
   },
   {
     "slug": "research-method",
     "title": "Evidence before confidence",
     "meta": "Editorial methodology · Nov 10, 2026",
-    "summary": "How to read an AI investigation: follow the sources, compare conflicting reports and understand what remains uncertain."
+    "summary": "How to read an AI investigation: follow the sources, compare conflicting reports and understand what remains uncertain.",
+    "path": "/research-method/"
   },
   {
     "slug": "gemini-4-carbon",
     "title": "Gemini 4 Carbon: Google Takes #1",
-    "meta": "Model Research · Oct 28, 2026"
+    "meta": "Model Research · Oct 28, 2026",
+    "path": "/gemini-4-carbon/"
   },
   {
     "slug": "gpt-6-1-terra",
     "title": "GPT-6.1 Terra: Specs, Benchmarks & Pricing",
-    "meta": "Model Analysis · Oct 27, 2026"
+    "meta": "Model Analysis · Oct 27, 2026",
+    "path": "/gpt-6-1-terra/"
   },
   {
     "slug": "beam-vs-deepseek",
     "title": "Beam 1.0 vs DeepSeek V4.1 Flash",
-    "meta": "Benchmarks · Oct 2026"
+    "meta": "Benchmarks · Oct 2026",
+    "path": "/beam-vs-deepseek/"
   },
   {
     "slug": "mercury-3",
     "title": "Mercury 3: Speed vs Evidence",
-    "meta": "Research · Oct 2026"
+    "meta": "Research · Oct 2026",
+    "path": "/mercury-3/"
   },
   {
     "slug": "kimi-k3-1-pro",
     "title": "Kimi K3.1 Pro: Launch & Benchmarks",
-    "meta": "Research · Oct 2026"
+    "meta": "Research · Oct 2026",
+    "path": "/kimi-k3-1-pro/"
   },
   {
     "slug": "agents-md-codex-attack",
     "title": "AGENTS.md Hijacked Codex: Real Attack",
-    "meta": "Security · Oct 26, 2026"
+    "meta": "Security · Oct 26, 2026",
+    "path": "/codex-agents/"
   }
 ]

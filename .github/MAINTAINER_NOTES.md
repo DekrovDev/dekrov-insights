@@ -6,9 +6,9 @@
 Use `pages/_template/index.html` as the starting point. The template already includes the shared reaction button and its script.
 
 1. Copy the template to `pages/<unique-slug>/index.html`. Pick a stable lowercase hyphenated slug; do not reuse slugs across articles.
-2. In the new HTML file, fill in the page title, description, Open Graph metadata, canonical URL, and `<body data-page="<unique-slug>" data-root="../../">`.
+2. In the new HTML file, fill in the page title, description, Open Graph metadata, canonical URL, and `<body data-page="<unique-slug>" data-root="/">`.
 3. Write the article between the `ARTICLE CONTENT START` and `ARTICLE CONTENT END` comments. **Keep the reaction block and the `article-likes.js` script.**
-4. Register the slug, title, and meta label in `pages.json` so the navigation includes the page.
+4. Keep the source slug/data-page unchanged and choose a unique short `path` in `pages.json`. Match it with front-matter `permalink`, preserve both legacy source URLs in `redirect_from`, and use root-relative resource URLs. Follow the authoring guide before publishing; CI checks the actual Jekyll output as well as the source.
 5. Do not manually add homepage rows. `site.js` renders the homepage and sidebar from `pages.json`. Follow [ARTICLE_AUTHORING_GUIDE.md](../ARTICLE_AUTHORING_GUIDE.md) for the v2 template, research/media contract, validation and atomic publication.
 
 ### Reactions / likes

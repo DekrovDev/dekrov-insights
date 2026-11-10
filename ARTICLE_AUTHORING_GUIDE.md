@@ -1,6 +1,6 @@
 # Publishing investigations on Dekrov Insights
 
-This is the repository's HTML publishing contract for humans and AI agents. Read the **current** `pages.json`, `pages/_template/index.html`, this guide and the shared scripts before every publication. The site is static GitHub Pages: no build, account, framework or backend is needed to read an article. The existing optional reaction service remains unchanged.
+This is the repository's HTML publishing contract for humans and AI agents. Read the **current** `pages.json`, `pages/_template/index.html`, this guide and the shared scripts before every publication. The site is static GitHub Pages: its built-in Jekyll build publishes short URLs; readers need no account, framework or backend. The existing optional reaction service remains unchanged.
 
 ## 1. Research before writing
 
@@ -13,11 +13,23 @@ This is the repository's HTML publishing contract for humans and AI agents. Read
 
 ## 2. Create or update one page
 
-1. Choose a stable lowercase hyphenated slug (`[a-z0-9]+(?:-[a-z0-9]+)*`). Check both `pages.json` and `pages/` for existing coverage.
-2. Copy `pages/_template/index.html` to `pages/<slug>/index.html`. Replace **all** `{{TOKENS}}`; HTML-escape text and attribute values. Do not publish the template itself.
-3. Preserve header, sidebar `data-site-nav`, footer, theme switcher, `data-root="../../"`, script/style paths, and exactly one reactions block. Set `body[data-page]` to the slug. Never change an existing slug/counter key for a title update.
+1. Choose a stable lowercase hyphenated source slug (`[a-z0-9]+(?:-[a-z0-9]+)*`) and a unique short public `path`, such as `/paperclip/`. Check `pages.json`, existing source folders and every `redirect_from` alias before choosing it. Never reuse another article's path, alias or a root resource name (`pages`, `assets`, `scripts`, etc.). A source slug identifies the file and reaction counter; `path` identifies the reader's URL. Keep both stable when updating an article.
+2. Copy `pages/_template/index.html` to `pages/<slug>/index.html`. Replace **all** `{{TOKENS}}`, including `{{SHORT_NAME}}` in front matter and metadata. HTML-escape text and attribute values. Keep the YAML header as the very first bytes of the file. The template itself is excluded by Jekyll's underscore-directory rule.
+
+   ```yaml
+   ---
+   layout: null
+   permalink: /paperclip/
+   redirect_from:
+     - /pages/paperclip-runner-2026-1106/
+     - /pages/paperclip-runner-2026-1106/index.html
+   ---
+   ```
+
+   This example keeps the source at `pages/paperclip-runner-2026-1106/index.html` while publishing its actual content at `/paperclip/`. The old paths become small generated redirects, not duplicate articles. For each new article use its own slug/path in these fields. Our validator accepts this deliberately small YAML contract only: `layout: null`, a string `permalink`, and a string list `redirect_from` (dash notation or a JSON array). Do not add YAML tags, Liquid variables or unrelated front-matter keys.
+3. Preserve header, sidebar `data-site-nav`, footer, theme switcher, `data-root="/"`, script/style paths, and exactly one reactions block. Set `body[data-page]` to the slug. Never change an existing slug/counter key for a title update.
 4. Preserve `article.article-body.research-article[data-article-version="2"]`. Keep `theme.js` in the head and `article.js`, `article-likes.js` and `site.js` near the end. Do not duplicate shared styles/scripts or add third-party libraries.
-5. Fill title, description, OG title/description/type/url, canonical URL, Twitter card and real publication/update dates. Canonical and `og:url` must equal `https://insights.dekrov.com/pages/<slug>/`. Only change the update date for meaningful edits; explain corrections near the changed material.
+5. Fill title, description, OG title/description/type/url, canonical URL, Twitter card and real publication/update dates. Canonical and `og:url` must equal the origin plus catalog `path`, e.g. `https://insights.dekrov.com/paperclip/`. The source-folder slug must not leak into the public canonical URL. Only change the update date for meaningful edits; explain corrections near the changed material.
 6. Add substantive sections, with explicit unique heading IDs. The required anchors are `overview`, `technical-deep-dive`, `explained-simply`, `conclusion`, `sources`. Headings can be phrased for the subject. `explained-simply` can be the section ID, with a separate heading ID. Keep the direct plain-English jump from the template so it works without JS.
 7. Add optional Evidence Analysis, Community Reactions, Visual Evidence, timeline, FAQ or comparison sections **only when useful material exists**. Images may appear next to the claim they explain; they do not need their own section. Mention relevant research gaps in the conclusion instead of publishing empty headings.
 8. `Explained Simply` is a standalone explanation of the same story from zero: define terms, use a concrete analogy, explain how people are affected, what now works or fails, what to do and what remains uncertain. Several substantive paragraphs are usually needed; it is not a one-line takeaway or a second technical summary. A short-content validator warning requires editorial review, not filler.
@@ -51,14 +63,14 @@ Replace example URLs/dates; do not publish fictitious evidence. Allowed `data-so
 
 ## 4. Inline images, diagrams and comparisons
 
-Store assets under `pages/<slug>/assets/`. Prefer local assets to fragile hotlinks. Use an appropriate size, lossless SVG for original diagrams, and WebP/AVIF with a fallback for photographs when beneficial. Never rasterize text-heavy evidence into an unreadable image. Avoid scripts, trackers and untrusted active SVG. Give charts an accessible data table and units/methodology/source. Give diagrams an equivalent text explanation.
+Store assets under `pages/<slug>/assets/` and reference them by root-relative URLs `/pages/<slug>/assets/<filename>`. Their physical folder stays in place even when the article permalink changes. Shared resources use `/styles.css`, `/site.js`, `/theme.js`, `/article.js`, `/article-likes.js`; the brand Home link uses `/`. Do not use `../../` or `./assets/`: browsers resolve them from the short published path, not the source folder. Prefer local assets to fragile hotlinks. Use an appropriate size, lossless SVG for original diagrams, and WebP/AVIF with a fallback for photographs when beneficial. Never rasterize text-heavy evidence into an unreadable image. Avoid scripts, trackers and untrusted active SVG. Give charts an accessible data table and units/methodology/source. Give diagrams an equivalent text explanation.
 
 ```html
 <figure class="article-figure" data-visual-kind="screenshot" data-rights="Permission from AUTHOR, YYYY-MM-DD">
-  <a href="./assets/interface-full.webp" data-lightbox aria-label="Enlarge interface screenshot">
+  <a href="/pages/<slug>/assets/interface-full.webp" data-lightbox aria-label="Enlarge interface screenshot">
     <picture>
-      <source type="image/webp" srcset="./assets/interface-640.webp 640w, ./assets/interface-1280.webp 1280w" sizes="(max-width: 700px) 100vw, 760px">
-      <img src="./assets/interface.jpg" alt="Describe the relevant interface state and visible finding"
+      <source type="image/webp" srcset="/pages/<slug>/assets/interface-640.webp 640w, /pages/<slug>/assets/interface-1280.webp 1280w" sizes="(max-width: 700px) 100vw, 760px">
+      <img src="/pages/<slug>/assets/interface.jpg" alt="Describe the relevant interface state and visible finding"
            width="1280" height="800" loading="lazy" decoding="async">
     </picture>
   </a>
@@ -95,13 +107,13 @@ Use real `a.citation` elements instead of literal `[1]` in published tables/time
 
 ## 5. Register in the catalog
 
-Keep exactly one Home object first. Insert a new article immediately after Home; catalog order is the archive order. Preserve all other entries. New v2 articles require all four fields:
+Keep exactly one Home object first. Insert a new article immediately after Home; catalog order is the archive order. Preserve all other entries. New articles require five fields:
 
 ```json
-{"slug":"unique-slug","title":"Specific factual title","meta":"Investigation · Nov 10, 2026","summary":"A concise, honest description of the finding and its limits."}
+{"slug":"unique-slug","path":"/short-name/","title":"Specific factual title","meta":"Investigation · Nov 10, 2026","summary":"A concise, honest description of the finding and its limits."}
 ```
 
-`site.js` builds the sidebar, homepage rows and Latest research from this list, deduplicating valid slugs. **Do not hand-edit homepage rows for routine articles.** Existing rows are a no-JavaScript/network-failure fallback; they are replaced in catalog order after a successful fetch. A newly published article is automatically listed for JS-enabled readers. For no-JS readers the direct article URL still works; the static homepage fallback is not auto-built. Do not claim automatic catalog discovery without a `pages.json` entry.
+`site.js` builds the sidebar, homepage rows and Latest research from this list, deduplicating valid source slugs and public destinations. New links use `path`; older entries without it retain the legacy `/pages/<slug>/` fallback in the client, but validation requires an explicit path for every new publication. **Do not hand-edit homepage rows for routine articles.** Existing rows are a no-JavaScript/network-failure fallback; they are replaced in catalog order after a successful fetch. A newly published article is automatically listed for JS-enabled readers. For no-JS readers the direct article URL still works; the static homepage fallback is not auto-built. Do not claim automatic catalog discovery without a `pages.json` entry.
 
 ## 6. GitHub API publication (atomic and concurrency-safe)
 
@@ -110,20 +122,22 @@ Keep exactly one Home object first. Insert a new article immediately after Home;
 3. Create a tree using the **current base tree SHA**, changing only the intended paths; create one commit with the current head as its parent.
 4. Update `refs/heads/main` as a fast-forward with an expected-head lease when supported. Never force-push over another author's commit. If rejected, inspect the fresh head, merge the catalog semantically, revalidate, and create a new commit on that head. Do not retry blindly or overwrite new entries.
 5. A connector with only Contents API can create/update files with current blob SHAs, but that is not atomic. Prefer a branch plus a single tree/commit or a PR; avoid showing a catalog entry before its HTML/assets exist. Do not remove or replace unrelated files.
-6. Check the validation workflow and **Pages deployment for that exact commit**. A successful push or unrelated previous run is not proof of deployment. The site keeps GitHub's existing branch-based Pages deployment; validation reports failures but does not gate that separate built-in deployment. Agents must validate before pushing.
+6. Check the validation workflow (including the real Jekyll build and `--site` output checks) and **Pages deployment for that exact commit**. A successful push or unrelated previous run is not proof of deployment. The site keeps GitHub's existing branch-based Pages deployment and built-in Jekyll engine; validation reports failures but does not gate that separate built-in deployment. Agents must validate before pushing.
 7. Open the deployed article, asset URLs, homepage and sidebar; verify the new content/metadata rather than an old cached 200 response. Only then publish social links. Record the commit, workflow URLs, source-check results and any unverified links in the publisher's worklog.
 
 ## 7. Validation commands and release checklist
 
-No installation or build is needed. Python 3.11+ runs the validator:
+No local dependency installation is needed for source validation. Python 3.11+ runs the validator. CI also runs the actual GitHub Pages Jekyll build and checks its output:
 
 ```sh
 python scripts/validate_articles.py
 python scripts/test_validation.py
 python scripts/validate_articles.py --links --report /tmp/dekrov-link-report.json
+# After a real Jekyll build (CI does this automatically):
+python scripts/validate_articles.py --site _site
 ```
 
-The first command checks **all** existing article paths, catalog registration, duplicate IDs/slugs, shared scripts/reactions, and local assets/anchors. The v2 contract additionally checks required anchors/metadata, numbered citations, bibliography classifications/access dates, figure rights/source metadata, alt text, image dimensions and lazy loading. Legacy research is not retroactively certified or rewritten. Treat editorial warnings as review tasks, not proof of quality.
+The first command checks **all** source article paths, short-route registration, unique public paths/aliases, reserved/root-resource collisions, YAML/catalog agreement, preserved legacy paths, duplicate IDs/slugs, shared scripts/reactions, and local assets/anchors resolved from the public URL. `--site` additionally checks actual built articles, redirect destinations, canonical URLs, reaction identities and assets. A missing generated redirect or an article served at the wrong path fails CI. The v2 contract additionally checks required anchors/metadata, numbered citations, bibliography classifications/access dates, figure rights/source metadata, alt text, image dimensions and lazy loading. Legacy research is not retroactively certified or rewritten. Treat editorial warnings as review tasks, not proof of quality.
 
 The optional link check probes unique external links on v2 articles with a timeout, redirect limit and HEAD→GET fallback. 404/410 fail validation. Rate limits, authorization responses, outages or network restrictions are reported **unverified**, never “working.” Review those manually, use a legitimate accessible source where possible, and disclose unresolved gaps. Checks do not validate remote fragments, factual support, image copyright, paywalled content or every legacy external URL. CI uploads an availability report; it does not put request timestamps into article prose automatically.
 
@@ -135,8 +149,17 @@ Before publication:
 - Ensure the new article appears once in the homepage and sidebar, current-page indicator is correct, and Latest research points to the first article. Preserve one reaction widget and its original key. Stub the external counter in automated tests; never increment production likes for a test.
 - Verify exact-commit CI and Pages success and real public content. Report remaining reachability/editorial limitations honestly. Do not post a link to an undeployed article.
 
-The public `pages/research-method/` article is a working example with original diagrams, comparison figures, evidence types, a timeline, code, a table and a standalone plain-English section. It is editorial methodology, not a new AI news investigation.
+The public `/research-method/` article (source: `pages/research-method/index.html`) is a working example with original diagrams, comparison figures, evidence types, a timeline, code, a table and a standalone plain-English section. It is editorial methodology, not a new AI news investigation.
 
-## 8. Synchronize the publisher runbook
+## 8. Short links and redirect behavior
 
-Keep Google Drive's “04 — Dekrov Auto Publisher — Full Runbook” as the automation's operating instruction. Add a reference to this guide as its repository implementation contract, require the v2 template/anchors and components, and require the commands and exact-commit deployment checks above. Keep existing topic-history, English-language, anti-duplication, source-integrity and social-publication rules. Neither the schedule nor account destinations need to change.
+- `pages/<slug>/index.html` stays the only full article source. `permalink` controls Jekyll's output URL; it is not itself a browser redirect. Never create top-level source folders just to get a short link. Do not add `.nojekyll` or remove `jekyll-redirect-from` from `_config.yml`.
+- Catalog `path`, front-matter `permalink`, canonical and `og:url` must identify the same short route. Use that route for homepage/sidebar, Latest research, social posts and new journal entries.
+- Preserve both `/pages/<slug>/` and `/pages/<slug>/index.html` in `redirect_from`. Additional old short URLs may be retained only when intentionally migrating an existing route. Every route and alias must have one owner. Never redirect an old article to a different story or change an established permalink just for a new headline.
+- `_layouts/redirect.html` and `/redirect.js` generate lightweight static redirects, not HTTP 301 responses or backend routing. JavaScript uses `location.replace` and keeps the query string and section fragment, so old `#sources` and campaign links still work without adding a browser Back loop. Without JS, meta refresh and a visible manual link provide fallback; query/fragment preservation is only guaranteed with JS.
+- Asset paths are independent of article paths. Keep assets under the original source slug and use `/pages/<slug>/assets/...`; never move files or change counter identities when shortening links.
+- When testing locally, serve the **built `_site` output** from `/`, rather than serving article source HTML with YAML headers. A plain file server cannot interpret Jekyll front matter. Source validation works without Ruby; real builds run in GitHub Actions, or locally with a matching Jekyll installation.
+
+## 9. Synchronize the publisher runbook
+
+Keep Google Drive's “04 — Dekrov Auto Publisher — Full Runbook” as the automation's operating instruction. Add a reference to this guide as its repository implementation contract, require the v2 template/anchors, root-relative resources, unique `path`/`permalink` and legacy aliases, and require the commands and exact-commit deployment checks above. Keep existing topic-history, English-language, anti-duplication, source-integrity and social-publication rules. Neither the schedule nor account destinations need to change.

@@ -1,7 +1,7 @@
 name: Validate research articles
 on:
   push:
-    branches: [main]
+    branches: [main, "short-urls-*"]
   pull_request:
   workflow_dispatch:
 permissions:
@@ -19,8 +19,21 @@ jobs:
         run: python scripts/validate_articles.py
       - name: Verify validator regression cases
         run: python scripts/test_validation.py
+      - name: Build with the GitHub Pages Jekyll engine
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./
+          destination: ./_site
+      - name: Verify published routes, legacy redirects and assets
+        run: python scripts/validate_articles.py --site _site
       - name: Check source availability (404 and 410 fail; blocked requests reported)
         run: python scripts/validate_articles.py --links --report /tmp/dekrov-link-report.json
+      - name: Retain built site for preview validation
+        uses: actions/upload-artifact@v4
+        with:
+          name: built-site
+          path: _site
+          if-no-files-found: error
       - uses: actions/upload-artifact@v4
         if: always()
         with:

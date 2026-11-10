@@ -14,9 +14,9 @@ import sys
 from urllib.error import HTTPError, URLError
 from urllib.parse import unquote, urljoin, urlsplit, urlunsplit
 from urllib.request import HTTPRedirectHandler, Request, build_opener
+from article_routes import PUBLIC, collect_routes, front_matter, output_file
 
 ROOT = Path(__file__).resolve().parents[1]
-PUBLIC = 'https://insights.dekrov.com/'
 LEGACY_SLUGS = {'agents-md-codex-attack', 'beam-vs-deepseek', 'gemini-4-carbon', 'gpt-6-1-terra', 'kimi-k3-1-pro', 'mercury-3'}
 TYPES = {'official', 'independent', 'community', 'unconfirmed'}
 VOID = {'area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'param', 'source', 'track', 'wbr'}
@@ -48,7 +48,11 @@ class Document(HTMLParser):
         self.root = Node('document')
         self.current = self.root
         self.raw = path.read_text(encoding='utf-8')
-        self.feed(self.raw)
+        try:
+            self.front_matter, html = front_matter(self.raw)
+        except ValueError:
+            self.front_matter, html = {}, self.raw
+        self.feed(html)
         self.nodes = list(self.root.walk())
         self.ids = {n.attrs['id']: n for n in self.nodes if n.attrs.get('id')}
     def handle_starttag(self, tag, attrs):
@@ -100,13 +104,15 @@ def validate(root=ROOT):
         if slug not in article_paths: errors.append(f'pages.json: missing pages/{slug}/index.html')
     for slug in article_paths:
         if slug not in slugs: errors.append(f'Unregistered article: pages/{slug}/index.html')
+    routes, canonical_paths, route_errors = collect_routes(root, pages)
+    errors.extend(route_errors)
     paths = [root / 'index.html', *article_paths.values()]
     docs = {p.resolve(): Document(p) for p in paths if p.exists()}
     for path, doc in docs.items():
         body = next(iter(doc.find('body')), None)
         slug = '' if path == (root / 'index.html').resolve() else path.parent.name
         if not body or body.attrs.get('data-page') != slug: fail(path, 'body data-page must match the catalog slug')
-        if not body or body.attrs.get('data-root') != ('./' if slug == '' else '../../'): fail(path, 'incorrect data-root')
+        if not body or body.attrs.get('data-root') != ('./' if slug == '' else '/'): fail(path, 'incorrect data-root')
         if len(doc.find('h1')) != 1: fail(path, 'expected exactly one h1')
         ids = [n.attrs['id'] for n in doc.nodes if n.attrs.get('id')]
         if len(ids) != len(set(ids)): fail(path, 'duplicate HTML IDs')
@@ -126,30 +132,37 @@ def validate(root=ROOT):
                 fields += [part.strip().split()[0] for part in n.attrs['srcset'].split(',') if part.strip()]
             for value in fields:
                 url = urlsplit(value)
-                if url.scheme in {'http', 'https'} or url.netloc:
+                own_site = url.netloc == urlsplit(PUBLIC).netloc
+                if (url.scheme in {'http', 'https'} or url.netloc) and not own_site:
                     if v2 and n.tag in {'a', 'img', 'source'}: external.add(value.split('#')[0])
                     continue
-                if url.scheme:
+                if url.scheme and url.scheme not in {'http', 'https'}:
                     if url.scheme not in {'mailto', 'tel', 'data'}: fail(path, f'unsafe URL scheme: {value}')
                     continue
-                target = (path.parent / unquote(url.path)).resolve() if url.path else path
-                if url.path.startswith('/dekrov-insights/'):
-                    target = (root / unquote(url.path[len('/dekrov-insights/'):])).resolve()
-                if target.is_dir(): target /= 'index.html'
+                browser_path = canonical_paths.get(slug, '/')
+                public_path = unquote(urlsplit(urljoin(PUBLIC.rstrip('/') + browser_path, value)).path)
+                if public_path.startswith('/dekrov-insights/'):
+                    public_path = public_path[len('/dekrov-insights'):]
+                route = public_path[:-len('index.html')] if public_path.endswith('/index.html') else public_path
+                target = routes.get(public_path) or routes.get(route)
+                if target is None:
+                    target = (root / public_path.lstrip('/')).resolve()
+                    if target.is_dir(): target /= 'index.html'
+                target = target.resolve()
                 if not target.is_relative_to(root.resolve()): fail(path, f'local link escapes repository: {value}'); continue
                 if not target.exists(): fail(path, f'missing local target: {value}'); continue
                 if url.fragment and target.suffix == '.html':
                     other = docs.get(target) or Document(target)
                     if unquote(url.fragment) not in other.ids: fail(path, f'missing fragment: {value}')
         if slug and slug not in LEGACY_SLUGS and not v2: fail(path, "new article requires data-article-version=2")
+        expected_url = PUBLIC.rstrip('/') + canonical_paths.get(slug, '/')
+        if not any(n.attrs.get('rel') == 'canonical' and n.attrs.get('href') == expected_url for n in doc.find('link')): fail(path, 'incorrect canonical URL')
+        if not any(n.attrs.get('property') == 'og:url' and n.attrs.get('content') == expected_url for n in doc.find('meta')): fail(path, 'incorrect og:url')
         if not v2: continue
         if re.search(r'\{\{[^}]+\}\}', doc.raw): fail(path, 'unfilled template tokens')
         for key in ('description', 'og:title', 'og:description', 'og:url'):
             if not any((n.attrs.get('name') == key or n.attrs.get('property') == key) and n.attrs.get('content', '').strip() for n in doc.find('meta')):
                 fail(path, f'missing metadata: {key}')
-        expected_url = PUBLIC + f'pages/{slug}/'
-        if not any(n.attrs.get('rel') == 'canonical' and n.attrs.get('href') == expected_url for n in doc.find('link')): fail(path, 'incorrect canonical URL')
-        if not any(n.attrs.get('property') == 'og:url' and n.attrs.get('content') == expected_url for n in doc.find('meta')): fail(path, 'incorrect og:url')
         for section_id in ('overview', 'technical-deep-dive', 'explained-simply', 'conclusion', 'sources'):
             if section_id not in doc.ids: fail(path, f'missing required anchor #{section_id}')
         simple = doc.ids.get('explained-simply')
@@ -190,6 +203,52 @@ def validate(root=ROOT):
     return errors, warnings, external, len(article_paths)
 
 
+def validate_build(site, root=ROOT):
+    site, root = Path(site).resolve(), Path(root).resolve()
+    pages = json.loads((root / 'pages.json').read_text())
+    routes, canonical, errors = collect_routes(root, pages)
+    for page in pages:
+        slug = page.get('slug')
+        route = canonical.get(slug, '/')
+        built = output_file(site, route)
+        if not built.is_file():
+            errors.append(f'built site: missing article {route}'); continue
+        doc = Document(built)
+        expected = PUBLIC.rstrip('/') + route
+        if doc.raw.startswith('---') or '{{' in doc.raw:
+            errors.append(f'built site: unprocessed source at {route}')
+        if len(doc.find('h1')) != 1 or any('data-redirect-target' in n.attrs for n in doc.nodes):
+            errors.append(f'built site: {route} must serve the article directly')
+        if not any(n.attrs.get('rel') == 'canonical' and n.attrs.get('href') == expected for n in doc.find('link')):
+            errors.append(f'built site: incorrect canonical for {route}')
+        if slug:
+            if not any(n.attrs.get('data-page') == slug for n in doc.find('body')):
+                errors.append(f'built site: reaction identity changed for {slug}')
+            source = root / 'pages' / slug / 'index.html'
+            meta, _ = front_matter(source.read_text())
+            for alias in meta.get('redirect_from', []):
+                stub = output_file(site, alias)
+                if not stub.is_file():
+                    errors.append(f'built site: missing redirect {alias}'); continue
+                redirect = Document(stub)
+                if not any(n.attrs.get('href') == route and 'data-redirect-target' in n.attrs for n in redirect.find('a')):
+                    errors.append(f'built site: incorrect redirect {alias} -> {route}')
+                if not any(n.attrs.get('rel') == 'canonical' and n.attrs.get('href') == expected for n in redirect.find('link')):
+                    errors.append(f'built site: incorrect redirect canonical at {alias}')
+                if not redirect.find('noscript'):
+                    errors.append(f'built site: missing no-JavaScript redirect at {alias}')
+        for node in doc.nodes:
+            for attr in ('href', 'src'):
+                value = node.attrs.get(attr, '')
+                if not value or urlsplit(value).scheme or value.startswith('//'): continue
+                public_path = urlsplit(urljoin(PUBLIC.rstrip('/') + route, value)).path
+                file = output_file(site, public_path)
+                if not file.is_file(): errors.append(f'built site: missing target {value} on {route}')
+    for name in ('site.js', 'article.js', 'article-likes.js', 'theme.js', 'styles.css', 'redirect.js', 'pages.json'):
+        if not (site / name).is_file(): errors.append(f'built site: missing shared file {name}')
+    return errors
+
+
 def page_summary(pages, slug):
     return any(p.get('slug') == slug and isinstance(p.get('summary'), str) and p['summary'].strip() for p in pages if isinstance(p, dict))
 
@@ -228,10 +287,13 @@ def check_link(url):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--site', type=Path, help='Also verify a real Jekyll output directory')
     parser.add_argument('--links', action='store_true', help='Probe unique external links on v2 articles')
     parser.add_argument('--report', type=Path, help='Write link availability JSON outside published pages')
     args = parser.parse_args()
     errors, warnings, external, count = validate()
+    if args.site:
+        errors.extend(validate_build(args.site))
     for item in warnings: print('REVIEW:', item)
     results = []
     if args.links:
