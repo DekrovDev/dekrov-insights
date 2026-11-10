@@ -47,6 +47,7 @@ class Document(HTMLParser):
         super().__init__(convert_charrefs=True)
         self.root = Node('document')
         self.current = self.root
+        self.markup_errors = []
         self.raw = path.read_text(encoding='utf-8')
         try:
             self.front_matter, html = front_matter(self.raw)
@@ -56,6 +57,8 @@ class Document(HTMLParser):
         self.nodes = list(self.root.walk())
         self.ids = {n.attrs['id']: n for n in self.nodes if n.attrs.get('id')}
     def handle_starttag(self, tag, attrs):
+        if tag in {'p', 'div', 'section', 'aside', 'blockquote', 'pre', 'table', 'figure', 'ul', 'ol', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'} and (self.current.tag == 'p' or self.current.ancestor('p')):
+            self.markup_errors.append(f'block <{tag}> inside <p>; close the paragraph before starting a block')
         n = Node(tag, attrs, self.current)
         self.current.children.append(n)
         if tag not in VOID:
@@ -71,6 +74,8 @@ class Document(HTMLParser):
                 self.current = n.parent
                 return
             n = n.parent
+        if tag == 'p':
+            self.markup_errors.append('closing </p> without an open paragraph')
     def handle_data(self, data):
         self.current.text += data
     def find(self, tag):
@@ -109,6 +114,7 @@ def validate(root=ROOT):
     paths = [root / 'index.html', *article_paths.values()]
     docs = {p.resolve(): Document(p) for p in paths if p.exists()}
     for path, doc in docs.items():
+        for problem in set(doc.markup_errors): fail(path, problem)
         body = next(iter(doc.find('body')), None)
         slug = '' if path == (root / 'index.html').resolve() else path.parent.name
         if not body or body.attrs.get('data-page') != slug: fail(path, 'body data-page must match the catalog slug')

@@ -22,6 +22,15 @@ class PublicationContractTests(unittest.TestCase):
         errors = validate(self.root)[0]
         self.assertTrue(any(fragment in e for e in errors), errors)
     def test_existing_and_v2_articles(self): self.assertEqual(validate(self.root)[0], [])
+    def test_nested_paragraph(self):
+        self.edit('<p class="intro">', '<p><p class="intro">')
+        self.assert_error('block <p> inside <p>')
+    def test_heading_inside_paragraph(self):
+        self.edit('<p class="intro">', '<p><h3 id="invalid-heading">Heading</h3></p><p class="intro">')
+        self.assert_error('block <h3> inside <p>')
+    def test_stray_paragraph_close(self):
+        self.edit('<p class="intro">', '</p><p class="intro">')
+        self.assert_error('closing </p> without an open paragraph')
     def test_duplicate_catalog_slug(self):
         p = self.root / 'pages.json'; entries = json.loads(p.read_text()); entries.append(entries[1]); p.write_text(json.dumps(entries))
         self.assert_error('duplicate slug')

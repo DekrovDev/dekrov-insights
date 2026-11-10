@@ -1,7 +1,7 @@
 name: Validate research articles
 on:
   push:
-    branches: [main, "short-urls-*"]
+    branches: [main, "short-urls-*", "readability-*"]
   pull_request:
   workflow_dispatch:
 permissions:

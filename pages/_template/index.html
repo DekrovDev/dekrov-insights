@@ -46,6 +46,9 @@ redirect_from:
     Replace every {{TOKEN}}; HTML-escape inserted text and attributes.
     Keep explicit heading IDs: they also work without JavaScript.
     Add optional sections only when there is substantive sourced material.
+    Use one idea per paragraph and descriptive h3 subsections in long sections.
+    Insert complete sibling paragraphs; never wrap supplied HTML in another p.
+    Typography and spacing come from styles.css, not inline styles or br spacers.
     The article.js script adds a compact TOC and a prominent plain-English jump.
     -->
     <span class="tag">{{CATEGORY}}</span>
@@ -67,6 +70,8 @@ redirect_from:
 
     <section aria-labelledby="technical-deep-dive">
       <h2 id="technical-deep-dive">Technical Deep Dive</h2>
+      <!-- Add/rename/remove h3 subsections to reflect the actual investigation. -->
+      <h3 id="mechanism">How it works</h3>
       <p>{{MECHANISM_CHRONOLOGY_CAUSE_CHANGES_FIXES_AND_LIMITS}}</p>
       <aside class="evidence-note" data-evidence="official" aria-label="Evidence qualification">
         <span class="evidence-label">Official statement</span>
@@ -87,6 +92,7 @@ redirect_from:
 
     <section class="plain-english" id="explained-simply" data-explained-simply aria-labelledby="simple-title">
       <h2 id="simple-title">Explained Simply</h2>
+      <!-- Use short descriptive h3s when the simple explanation spans several topics. -->
       <p>{{EXPLAIN_THE_SAME_STORY_FROM_ZERO_WITH_DEFINED_TERMS}}</p>
       <p>{{CONCRETE_ANALOGY_AND_WHY_A_NONTECHNICAL_READER_IS_AFFECTED}}</p>
       <p>{{WHAT_WORKS_WHAT_DOES_NOT_WHAT_TO_DO_AND_LIMITATIONS}}</p>
