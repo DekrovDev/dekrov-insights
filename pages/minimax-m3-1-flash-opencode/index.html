@@ -1,0 +1,143 @@
+---
+layout: null
+permalink: /minimax-flash/
+redirect_from:
+  - /pages/minimax-m3-1-flash-opencode/
+  - /pages/minimax-m3-1-flash-opencode/index.html
+---
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#ffffff">
+<meta name="description" content="A research-led look at MiniMax M3.1 Flash's limited-time free OpenCode endpoint, 1M context, vendor benchmarks, independent coding tests, cost and practical limits.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MiniMax M3.1 Flash Is Free in OpenCode — Specs, Agent Benchmarks and the Hidden Trade-offs">
+<meta property="og:description" content="A research-led look at MiniMax M3.1 Flash's limited-time free OpenCode endpoint, 1M context, vendor benchmarks, independent coding tests, cost and practical limits.">
+<meta property="og:url" content="https://insights.dekrov.com/minimax-flash/">
+<link rel="canonical" href="https://insights.dekrov.com/minimax-flash/">
+<meta name="twitter:card" content="summary">
+<title>MiniMax M3.1 Flash Is Free in OpenCode — Specs, Agent Benchmarks and the Hidden Trade-offs — Dekrov Insights</title>
+<script src="/theme.js"></script>
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body data-page="minimax-m3-1-flash-opencode" data-root="/">
+<header class="top">
+  <div class="header-inner">
+    <div class="brand-signature">
+      <a class="brand" href="/"><span class="brand-mark" aria-hidden="true">DK</span>Dekrov Insights</a>
+      <span class="brand-role">Research / AI &amp; Technology</span>
+    </div>
+    <div class="header-actions">
+      <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme"><span data-theme-label>Light</span></button>
+      <a class="nav" href="https://github.com/DekrovDev/dekrov-insights">GitHub ↗</a>
+    </div>
+  </div>
+</header>
+<div class="layout">
+<aside class="sidebar" aria-label="Page navigation">
+  <p class="side-heading">Index</p>
+  <nav class="side-nav" aria-label="Pages" data-site-nav></nav>
+</aside>
+<main class="main-content" id="main">
+  <article class="article-body research-article" data-article-version="2">
+    <!-- ARTICLE CONTENT START. Read ARTICLE_AUTHORING_GUIDE.md first.
+    Replace every TOKEN; HTML-escape inserted text and attributes.
+    Keep explicit heading IDs: they also work without JavaScript.
+    Add optional sections only when there is substantive sourced material.
+    The article.js script adds a compact TOC and a prominent plain-English jump.
+    -->
+    
+<span class="tag">AI Models · Coding Agents</span>
+<h1>MiniMax M3.1 Flash Is Free in OpenCode — Specs, Agent Benchmarks and the Hidden Trade-offs</h1>
+<div class="article-meta"><span>By Dekrov</span><span>Published <time datetime="2026-11-10">Nov 10, 2026</time></span><span>Updated <time datetime="2026-11-10">Nov 10, 2026</time></span></div>
+<p class="intro">OpenCode now lists MiniMax M3.1 Flash as a limited-time free model. It combines a 1M-token context, a 428-billion-parameter mixture-of-experts design and ambitious coding benchmarks. But independent agent tests reveal a more complicated story: fast output is not necessarily fast task completion.</p>
+<p><a href="#explained-simply">Start with the plain-English explanation ↓</a></p>
+<section aria-labelledby="overview">
+<h2 id="overview">Overview</h2>
+<p>As of <time datetime="2026-11-10">November 10, 2026</time>, OpenCode Console publicly lists <strong>MiniMax M3.1 Flash Free</strong> with model ID <code>minimax-m3.1-flash-free</code>, and prices input, output and cached-read tokens as free. OpenCode explicitly describes this as a <strong>limited-time</strong> offer; no precise expiration date is published in that listing. It also states that the serving provider follows a zero-retention policy and does not use requests for model training. These are provider statements, not an independent privacy audit. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p>
+<p>The model itself is not newly launched today: MiniMax introduced M3.1 Flash on <time datetime="2026-10-19">October 19, 2026</time>. Its official card reports roughly <strong>428B total</strong> and <strong>23B active parameters per token</strong>, with <strong>up to 1 million tokens</strong> of context. The key news here is a useful temporary OpenCode access route, not a November 10 release of the base model. <a class="citation" href="#source-2" aria-label="Source 2">[2]</a> <a class="citation" href="#source-3" aria-label="Source 3">[3]</a></p>
+<p>We reviewed primary documentation, an external coding benchmark and contemporary developer discussions. <strong>Dekrov did not run an independent M3.1 Flash benchmark</strong>; the comparisons below are attributed to their evaluators, with dates and limits.</p>
+</section>
+<section aria-labelledby="technical-deep-dive">
+<h2 id="technical-deep-dive">Technical Deep Dive</h2>
+<h3 id="engineering">Architecture: why Flash can be huge and efficient</h3>
+<p>MiniMax uses <dfn>mixture of experts (MoE)</dfn>: a routing system activates a subset of specialized neural modules for each token instead of using every parameter simultaneously. The official card identifies <strong>MiniMax Sparse Attention</strong>, quantization-aware training and a <strong>DSpark</strong> speculative decoding head. Together these are intended to reduce per-token computation and improve serving throughput, while the entire model's stored weights still demand substantial memory. The company describes a native multimodal model accepting text, images and video and producing text. This is understanding, not native image/video generation. <a class="citation" href="#source-3" aria-label="Source 3">[3]</a> <a class="citation" href="#source-4" aria-label="Source 4">[4]</a></p>
+<figure class="article-figure" data-visual-kind="diagram" data-rights="Original explanatory diagram by Dekrov, created 2026-11-10; reproduction with Dekrov attribution permitted">
+<a href="/pages/minimax-m3-1-flash-opencode/assets/moe-flow.svg" data-lightbox aria-label="Enlarge original MoE diagram"><img src="/pages/minimax-m3-1-flash-opencode/assets/moe-flow.svg" alt="Conceptual illustration of text, image and video entering a large-context sparse-attention model, which routes computation through active experts before producing text." width="1000" height="420" loading="lazy" decoding="async"></a>
+<figcaption>Figure 1. Conceptual MoE routing. Original diagram by Dekrov; <strong>not an exact internal diagram</strong> or evidence of measured speed. <span class="figure-credit">Basis: <a href="https://huggingface.co/MiniMaxAI/MiniMax-M3.1-Flash">official model card</a>. Original work by Dekrov.</span></figcaption>
+</figure>
+<p>The model card describes <strong>up to 1M input context</strong>; a separate registry lists <strong>512K maximum output</strong>. Those are published capability ceilings, not a promise that OpenCode's free endpoint accepts 512K generated tokens, never throttles or can maintain perfect reasoning over every long project. Reasoning is always on in the official model family, with adjustable effort in supported integrations. <a class="citation" href="#source-3" aria-label="Source 3">[3]</a> <a class="citation" href="#source-4" aria-label="Source 4">[4]</a> <a class="citation" href="#source-8" aria-label="Source 8">[8]</a></p>
+<h3 id="timeline">Release versus provider availability</h3>
+<ol class="timeline">
+<li><time datetime="2026-09-27">Sep 27</time> — a preview variant appears in model catalogs, before the final model launch. <a class="citation" href="#source-8" aria-label="Source 8">[8]</a></li>
+<li><time datetime="2026-10-19">Oct 19</time> — MiniMax launches M3.1 Flash and presents vendor speed/capability figures. <a class="citation" href="#source-2" aria-label="Source 2">[2]</a></li>
+<li><time datetime="2026-10-22">Oct 22</time> — some r/opencode users report that an earlier free promotion has ended. This is a time-bound user report. <a class="citation" href="#source-6" aria-label="Source 6">[6]</a></li>
+<li><time datetime="2026-11-10">Nov 10</time> — the current official OpenCode Console page lists MiniMax M3.1 Flash Free again. The exact reopening time and future expiration are not established here. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></li>
+</ol>
+<p>There are <strong>three separate access routes</strong>. OpenCode Console's free promotional listing is one; MiniMax's paid API is another; self-hosting the published model weights is a third. Their account permissions, latency, data handling, hardware requirements and model identifiers can differ. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a> <a class="citation" href="#source-2" aria-label="Source 2">[2]</a> <a class="citation" href="#source-3" aria-label="Source 3">[3]</a></p>
+<div class="table-scroll" role="region" tabindex="0" aria-label="MiniMax access options"><table class="research-table"><caption>Access and pricing, checked November 10</caption><thead><tr><th scope="col">Route</th><th scope="col">Published rate</th><th scope="col">Caveat</th></tr></thead><tbody><tr><th scope="row">OpenCode Console Free</th><td>$0 input/output/cached-read tokens</td><td>Limited-time; quotas not established <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></td></tr><tr><th scope="row">MiniMax API</th><td>$0.15 input / $0.60 output / million</td><td>$0.015 per million cached input <a class="citation" href="#source-2" aria-label="Source 2">[2]</a></td></tr><tr><th scope="row">Open weights</th><td>Weights available</td><td>Compute/memory/license at your expense <a class="citation" href="#source-3" aria-label="Source 3">[3]</a></td></tr></tbody></table></div>
+<h3 id="speed">Token speed is not job speed</h3>
+<p>The MiniMax launch post claims <strong>170+ tokens per second at median (P50)</strong> and occasional speeds above <strong>200 tokens/s</strong> on its serving setup. It says online inference is almost three times faster and total agent-task cost about <strong>70% lower</strong> than the previous generation. These are company-reported comparisons: they do <em>not</em> measure OpenCode Free response times, and a low unit price does not establish a low cost for a long sequence of repeated tool calls. <a class="citation" href="#source-2" aria-label="Source 2">[2]</a></p>
+<p>Agents do more than generate one answer. They read files, run shell commands, evaluate failures, plan patches, ask for more tokens, reread context and sometimes retry the same broken approach. In a long run, the number of iterations and tool round trips may be more important than peak output speed. A large context can be useful, but it is not proof that an old assumption survives compaction or that a model will stop itself from looping.</p>
+<h3 id="benchmarks">Vendor benchmarks: where MiniMax claims strength</h3>
+<p>MiniMax reports <strong>73.7% DeepSWE v1.1</strong> for software engineering, <strong>76.2 BankerToolBench</strong> for multi-step real-world workflows, <strong>61.7 OSWorld V2</strong> for computer operation and about <strong>82% CyberGym</strong> for security-related evaluation. Its published model card also presents <strong>38.1 on Terminal Bench 4.0</strong> versus <strong>42.3</strong> for DeepSeek V4.1 Flash-1017 in the same table. These are <strong>vendor-reported scores</strong>, not Dekrov-run tests. They cannot be combined into one universal ranking across model versions or harnesses. <a class="citation" href="#source-2" aria-label="Source 2">[2]</a> <a class="citation" href="#source-3" aria-label="Source 3">[3]</a></p>
+<aside class="evidence-note" data-evidence="official" aria-label="Vendor evaluation caveat"><span class="evidence-label">Vendor evidence</span><p>Benchmark results describe particular task suites, versions, tooling and evaluation conditions. A reported 82% CyberGym score does not certify an AI agent as a safe autonomous security auditor. <a class="citation" href="#source-2" aria-label="Source 2">[2]</a></p></aside>
+<h3 id="independent-tests">Independent coding test: a different bottleneck</h3>
+<p>Bito published an outside comparison updated <time datetime="2026-10-24">October 24, 2026</time>. It reported <strong>8 long coding-agent sessions</strong> and <strong>16 short questions</strong>, holding prompts and its scoring approach constant within that experiment. MiniMax M3.1 Flash scored <strong>73%</strong> on long sessions; DeepSeek V4.1 Flash-1017 scored <strong>77%</strong> and Claude Opus 5.5 scored <strong>87%</strong>. For short questions MiniMax scored <strong>86%</strong>, versus DeepSeek's <strong>90%</strong>. <a class="citation" href="#source-5" aria-label="Source 5">[5]</a></p>
+<p>More strikingly, Bito measured <strong>42.8 minutes</strong> for an average MiniMax long session versus <strong>15.4 minutes</strong> for DeepSeek 1017. It describes MiniMax making about <strong>368 model requests</strong> and emitting around <strong>290,000 output tokens</strong> for a long session. One reasonable interpretation is that extra reasoning/tool loops erased a faster per-token benefit. This is Bito's setup (its own services, task mix and AI judging), not an independent OpenCode Free latency test, and its sample is limited. <a class="citation" href="#source-5" aria-label="Source 5">[5]</a></p>
+<div class="table-scroll" role="region" tabindex="0" aria-label="Independent long-run coding results"><table class="research-table"><caption>Bito long-session benchmark, October 24 (not an OpenCode Free test)</caption><thead><tr><th scope="col">Model</th><th scope="col">Reported score</th><th scope="col">Mean time</th></tr></thead><tbody><tr><th scope="row">MiniMax M3.1 Flash</th><td>73%</td><td>42.8 min</td></tr><tr><th scope="row">DeepSeek V4.1 Flash-1017</th><td>77%</td><td>15.4 min</td></tr><tr><th scope="row">Claude Opus 5.5</th><td>87%</td><td>17.2 min</td></tr></tbody></table></div>
+<aside class="evidence-note" data-evidence="independent" aria-label="Independent evidence caveat"><span class="evidence-label">Independent test, limited scope</span><p>Bito's study offers a more practical counterpoint to vendor throughput numbers. Its outcomes remain evaluator-dependent; the percentages are not directly interchangeable with DeepSWE. No Dekrov benchmarking is implied. <a class="citation" href="#source-5" aria-label="Source 5">[5]</a></p></aside>
+<h3 id="reactions">Community: both interest and friction</h3>
+<p>A <time datetime="2026-10-20">October 20</time> r/opencode discussion praises the model's generous context while other participants prefer DeepSeek V4.1 Flash or GLM for coding. An <time datetime="2026-10-22">October 22</time> thread reports an earlier promotional free variant disappearing. These dated anecdotes use unspecified endpoints, workloads and configurations; they are neither controlled experiments nor evidence that today's model listing has disappeared. <a class="citation" href="#source-6" aria-label="Source 6">[6]</a> <a class="citation" href="#source-7" aria-label="Source 7">[7]</a></p>
+<h3 id="how-to-try">How to test it responsibly in OpenCode</h3>
+<p>From OpenCode, use <code>/models</code> and select <code>MiniMax M3.1 Flash Free</code>; if needed, follow Console's <code>/connect</code> flow for the connected provider. The listed catalog ID is <code>minimax-m3.1-flash-free</code>. Check your own account's access. The official OpenCode documentation describes the model's serving provider as zero-retention and not using user data for model training, but sensitive credentials should never be pasted into an unreviewed tool context regardless of provider assurances. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p>
+<p>A useful controlled test is to give M3.1 Flash and a familiar competitor <strong>the same repository state, failing test, acceptance criteria and stop rule</strong>. Record wall time, passed checks, lines changed, number of tool calls, loops, and whether a human review catches regressions. The next task should begin with a clean context if the agent starts solving outdated requirements. This is a proposed method, not an experiment claimed by Dekrov.</p>
+</section>
+<section class="plain-english" id="explained-simply" data-explained-simply aria-labelledby="simple-title">
+<h2 id="simple-title">Explained Simply</h2>
+<p>Think of MiniMax as a huge workshop full of specialists. The entire workshop is enormous, but only a few specialists work on each part of a question. That's how it can have hundreds of billions of parameters without doing the full amount of computation for every word it generates. The model can work with code and documents, and it can examine pictures or video, while its answer is text.</p>
+<p>The model is advertised as being able to read a very big notebook — up to one million tokens of context. That might be useful when an AI assistant has to look at many files. But it does not mean the free OpenCode server promises unlimited requests or that every piece of a very long conversation will stay important to the model.</p>
+<p>Right now, OpenCode publicly lists an option that costs nothing for ordinary input and output tokens. The company explicitly calls this a <em>temporary</em> offer. It's different from paying MiniMax for API requests. If you already use OpenCode, it is an interesting model to add to your choices, not something you have to buy just to try. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a> <a class="citation" href="#source-2" aria-label="Source 2">[2]</a></p>
+<p>Speed is the tricky part. Imagine a typist who can type 200 words in a minute but keeps rewriting the same paragraph. The typing is fast; finishing the letter is slow. MiniMax advertises fast token output, while one external study found that its long coding tasks took much longer than a DeepSeek comparison. Neither fact contradicts the other — they measure different things. <a class="citation" href="#source-2" aria-label="Source 2">[2]</a> <a class="citation" href="#source-5" aria-label="Source 5">[5]</a></p>
+<p>The practical advice is simple: pick a small real programming bug with a test that tells you whether it is fixed. Let MiniMax try, then try your usual model. Keep whichever solves the problem more reliably, with fewer unnecessary steps. Big context, free pricing and impressive benchmark charts are useful clues, but passing tests and making sensible changes matter more.</p>
+</section>
+<section aria-labelledby="conclusion"><h2 id="conclusion">Conclusion</h2>
+<p>MiniMax M3.1 Flash has a compelling combination of large-context MoE design, published open weights and currently free OpenCode access. But the strongest supported conclusion is <strong>it deserves a controlled trial</strong>, not that it is the new best coding agent. Official throughput figures and Bito's slower long-run outcomes describe different measurements; the free offer's duration and operational quota are not guaranteed. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a> <a class="citation" href="#source-2" aria-label="Source 2">[2]</a> <a class="citation" href="#source-3" aria-label="Source 3">[3]</a> <a class="citation" href="#source-5" aria-label="Source 5">[5]</a></p>
+<p>Start with bounded code-reading or debugging tasks. Compare against another model using actual tests, and keep a human review for security-critical changes. The exact free endpoint may change after this November 10 snapshot.</p>
+</section>
+<section aria-labelledby="sources"><h2 id="sources">Evidence &amp; Sources</h2>
+<p class="source-detail">Source type identifies provenance rather than automatic truth. All links reviewed November 10, 2026; external benchmarks were not rerun by Dekrov.</p>
+<ol class="source-list">
+<li id="source-1" data-source-type="official"><span class="evidence-label">Official</span><a href="https://opencode.ai/docs/console/models">OpenCode — Console Models, supported IDs and free-tier policy</a><span class="source-detail">Current documentation checked Nov 10, 2026: MiniMax M3.1 Flash Free ID, promotion, listed zero prices and provider privacy statement.</span><time datetime="2026-11-10">Accessed 2026-11-10</time></li>
+<li id="source-2" data-source-type="official"><span class="evidence-label">Official</span><a href="https://www.minimax.io/blog/minimax-m31f">MiniMax Research — Introducing M3.1 Flash</a><span class="source-detail">Published Oct 19, 2026; vendor release, benchmarks, speed and paid API prices.</span><time datetime="2026-11-10">Accessed 2026-11-10</time></li>
+<li id="source-3" data-source-type="official"><span class="evidence-label">Official</span><a href="https://huggingface.co/MiniMaxAI/MiniMax-M3.1-Flash">MiniMaxAI — official Hugging Face model card</a><span class="source-detail">Model architecture, 428B/23B parameters, modalities, million-token context, sparse attention and released weights.</span><time datetime="2026-11-10">Accessed 2026-11-10</time></li>
+<li id="source-4" data-source-type="official"><span class="evidence-label">Official</span><a href="https://code.minimax.io/tools/m3.1-flash">MiniMax Code — M3.1 Flash integration and availability</a><span class="source-detail">Official integration guide, always-on but configurable reasoning and serving notes.</span><time datetime="2026-11-10">Accessed 2026-11-10</time></li>
+<li id="source-5" data-source-type="independent"><span class="evidence-label">Independent</span><a href="https://bito.ai/blog/minimax-m3-1-flash-benchmark-vs-claude/">Bito — coding-agent comparison with DeepSeek and Claude</a><span class="source-detail">Updated Oct 24, 2026; eight long and sixteen short coding tasks, scores, total elapsed time, requests, methodology.</span><time datetime="2026-11-10">Accessed 2026-11-10</time></li>
+<li id="source-6" data-source-type="community"><span class="evidence-label">Community</span><a href="https://www.reddit.com/r/opencode/comments/1xcla34/minimax_m31_flash_no_longer_available_for_free/">r/opencode — reported expiry of earlier M3.1 free offer</a><span class="source-detail">Oct 22, 2026; user reports about a prior free period, not authoritative status of today's catalog.</span><time datetime="2026-11-10">Accessed 2026-11-10</time></li>
+<li id="source-7" data-source-type="community"><span class="evidence-label">Community</span><a href="https://www.reddit.com/r/opencode/comments/1xae2ei/best_free_model/">r/opencode — real-user free-model comparisons</a><span class="source-detail">Oct 20, 2026; mixed user feedback on MiniMax, DeepSeek and GLM, uncontrolled experiences.</span><time datetime="2026-11-10">Accessed 2026-11-10</time></li>
+<li id="source-8" data-source-type="independent"><span class="evidence-label">Independent</span><a href="https://models.opencode.ai/labs/minimax/">Models.dev — MiniMax model metadata registry</a><span class="source-detail">Checked Nov 10, 2026; listed 1M context and 512K output ceiling, which are not guaranteed free endpoint limits.</span><time datetime="2026-11-10">Accessed 2026-11-10</time></li>
+</ol></section>
+
+<!-- ARTICLE CONTENT END: keep the shared reactions block below. -->
+
+    <section class="article-engagement" aria-label="Article reactions">
+      <div class="engagement-copy"><span class="engagement-heading">Enjoyed this research?</span><span class="engagement-note">Leave a like — no account needed.</span></div>
+      <div class="engagement-actions">
+        <button type="button" class="article-like-button" data-like-button aria-label="Like this article" aria-pressed="false" disabled>
+          <svg class="article-like-heart" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z"/></svg>
+          <span data-like-count aria-live="polite">—</span><span>likes</span>
+        </button>
+        <span class="article-like-status" data-like-status role="status">Loading likes…</span>
+      </div>
+    </section>
+  </article>
+</main>
+</div>
+<footer class="footer"><div class="footer-inner"><span>© 2026 Dekrov</span><span class="footer-links"><a href="https://t.me/Dekrov_channel_en">Telegram / @Dekrov_channel_en ↗</a><a href="https://x.com/Dekrov_Dev">X / @Dekrov_Dev ↗</a><a href="https://github.com/DekrovDev">GitHub / DekrovDev ↗</a></span></div></footer>
+<script src="/article-likes.js?v=3" defer></script>
+<script src="/article.js" defer></script>
+<script src="/site.js"></script>
+</body>
+</html>

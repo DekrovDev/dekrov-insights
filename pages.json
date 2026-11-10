@@ -5,6 +5,13 @@
     "meta": "Overview"
   },
   {
+    "slug": "minimax-m3-1-flash-opencode",
+    "path": "/minimax-flash/",
+    "title": "MiniMax M3.1 Flash Is Free in OpenCode — Specs, Agent Benchmarks and the Hidden Trade-offs",
+    "meta": "AI Models · Nov 10, 2026",
+    "summary": "MiniMax's temporary OpenCode free offering, 1M context, vendor benchmarks and independent long-task caveats investigated."
+  },
+  {
     "slug": "github-actions-log-secret-scanning-2026",
     "path": "/actions-log-secrets/",
     "title": "GitHub Starts Scanning Actions Logs for Secrets — What the Preview Misses",
