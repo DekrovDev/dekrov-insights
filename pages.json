@@ -5,6 +5,13 @@
     "meta": "Overview"
   },
   {
+    "slug": "openai-java-sdk-async-tools",
+    "path": "/java-async-tools/",
+    "title": "OpenAI Java SDK 4.103.0: Async Tool Fields, Not a New Agent Engine",
+    "meta": "Developer SDK · Nov 11, 2026",
+    "summary": "Source-level investigation of typed Managed Agents async tool fields, request defaults and runtime limits."
+  },
+  {
     "slug": "minimax-m3-1-flash-opencode",
     "path": "/minimax-flash/",
     "title": "MiniMax M3.1 Flash Is Free in OpenCode — Specs, Agent Benchmarks and the Hidden Trade-offs",
