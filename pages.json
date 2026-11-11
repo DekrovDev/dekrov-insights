@@ -5,6 +5,13 @@
     "meta": "Overview"
   },
   {
+    "slug": "fable-52-vs-gemini-carbon",
+    "path": "/fable-vs-carbon/",
+    "title": "Claude Fable 5.2 vs Gemini 4 Carbon: Intelligence, Cost and Real-World Trade-offs",
+    "meta": "AI Model Comparison · Nov 11, 2026",
+    "summary": "Fresh effort-matched independent tests, live API pricing, model access, coding and automation differences, and developer forum objections."
+  },
+  {
     "slug": "openai-java-sdk-async-tools",
     "path": "/java-async-tools/",
     "title": "OpenAI Java SDK 4.103.0: Async Tool Fields, Not a New Agent Engine",
