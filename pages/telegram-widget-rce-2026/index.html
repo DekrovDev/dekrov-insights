@@ -1,0 +1,118 @@
+---
+layout: null
+permalink: /telegram-widget-rce/
+redirect_from:
+  - /pages/telegram-widget-rce-2026/
+  - /pages/telegram-widget-rce-2026/index.html
+---
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#ffffff">
+<meta name="description" content="Investigation of the November 11 Telegram HTML widget RCE claim, the QuickJS sandbox, Android demo, limits, exposure, and unverified patch status.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Telegram Widget RCE Claim: What the Android Demo Shows—and What Remains Unverified">
+<meta property="og:description" content="Investigation of the November 11 Telegram HTML widget RCE claim, the QuickJS sandbox, Android demo, limits, exposure, and unverified patch status.">
+<meta property="og:url" content="https://insights.dekrov.com/telegram-widget-rce/">
+<link rel="canonical" href="https://insights.dekrov.com/telegram-widget-rce/">
+<meta name="twitter:card" content="summary">
+<title>Telegram Widget RCE Claim: What the Android Demo Shows—and What Remains Unverified — Dekrov Insights</title>
+<script src="/theme.js"></script>
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body data-page="telegram-widget-rce-2026" data-root="/">
+<header class="top">
+  <div class="header-inner">
+    <div class="brand-signature">
+      <a class="brand" href="/"><span class="brand-mark" aria-hidden="true">DK</span>Dekrov Insights</a>
+      <span class="brand-role">Research / AI &amp; Technology</span>
+    </div>
+    <div class="header-actions">
+      <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme"><span data-theme-label>Light</span></button>
+      <a class="nav" href="https://github.com/DekrovDev/dekrov-insights">GitHub ↗</a>
+    </div>
+  </div>
+</header>
+<div class="layout">
+<aside class="sidebar" aria-label="Page navigation">
+  <p class="side-heading">Index</p>
+  <nav class="side-nav" aria-label="Pages" data-site-nav></nav>
+</aside>
+<main class="main-content" id="main">
+  <article class="article-body research-article" data-article-version="2">
+    <span class="tag">Security investigation · Unconfirmed exploit</span>
+<h1>Telegram Widget RCE Claim: What the Android Demo Shows—and What Remains Unverified</h1>
+<div class="article-meta"><span>By Dekrov</span><span>Published <time datetime="2026-11-11">November 11, 2026</time></span><span>Updated <time datetime="2026-11-11">November 11, 2026</time></span></div>
+<p class="intro">A newly released Telegram feature lets bots embed interactive HTML widgets directly in chat bubbles. Two days later, security researcher V12 reportedly demonstrated an Android calculator opening after a widget interaction. Here is what the platform actually executes, what the demonstration suggests, and why a confirmed root cause or fix cannot yet be claimed.</p>
+<p><a href="#explained-simply">Start with the plain-English explanation ↓</a></p>
+<section aria-labelledby="overview"><h2 id="overview">Overview: release, report and evidence</h2>
+<p>On November 9, Telegram's Bot API 10.4 introduced <code>sendWidget</code> and related widget support. In production, bots can currently send these widgets in private chats, and forwarding is disabled; wider group and inline features remain on the test server. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a> <a class="citation" href="#source-2" aria-label="Source 2">[2]</a></p>
+<p>On November 11, Kod.ru reported a demonstration attributed to security researcher V12. The Android sequence reportedly shows a bot chat, a Start interaction, a widget with a countdown, and the system Calculator opening. The researchers labeled it a Telegram Widgets RCE demonstration. The report explicitly says that exploit details, affected versions, platform scope, patch status and independent reproduction were not available. <a class="citation" href="#source-3" aria-label="Source 3">[3]</a></p>
+<aside class="evidence-note" data-evidence="unconfirmed" aria-label="Evidence qualification"><span class="evidence-label">Unconfirmed exploit report</span><p>A video of Calculator opening is a meaningful claim, not public proof of a complete arbitrary-code-execution chain. No reproducible exploit, affected-version matrix, vendor advisory or verified fixed version was available in the sources checked on November 11. <a class="citation" href="#source-3" aria-label="Source 3">[3]</a></p></aside>
+<h3 id="timeline">Timeline</h3><ol class="timeline"><li><time datetime="2026-11-09">November 9</time> — Bot API 10.4 adds HTML widget methods. <a class="citation" href="#source-2" aria-label="Source 2">[2]</a></li><li><time datetime="2026-11-10">November 10</time> — Coverage explains the QuickJS-based, in-message feature and limited rollout. <a class="citation" href="#source-4" aria-label="Source 4">[4]</a></li><li><time datetime="2026-11-11">November 11</time> — V12 Android RCE claim and Calculator demonstration reported; mechanism not disclosed. <a class="citation" href="#source-3" aria-label="Source 3">[3]</a></li></ol></section>
+<section aria-labelledby="technical-deep-dive"><h2 id="technical-deep-dive">Technical deep dive: what actually runs</h2>
+<h3 id="widget-model">1. A widget is code inside a message, not a Mini App</h3>
+<p>Telegram widgets contain a self-contained HTML document with inline CSS and JavaScript: up to 32,768 bytes of HTML and 4,096 bytes after compression. Unlike Mini Apps, widgets are not hosted websites opened in a WebView. The Telegram client executes their scripts in a QuickJS sandbox and renders allowed interface elements using the app's own UI. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p>
+<p>Examples include a live poll, a countdown, a game board or a price display. The code is immutable after the bot sends it; state can change through Telegram-managed updates. The client enforces a restricted HTML/CSS/JavaScript profile and resource limits. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p>
+<h3 id="sandbox">2. The intended security boundary</h3>
+<p>The documented sandbox blocks direct network APIs such as <code>fetch</code>, <code>XMLHttpRequest</code> and WebSockets. External scripts and remote images cannot load. The widget can request limited information from its own bot through <code>TelegramWidget.request()</code>, carried by Telegram rather than a raw socket. The bot, not the widget, changes shared or chat state. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p>
+<p>This architecture matters because running JavaScript in a widget is expected behavior. A security failure would require escaping its restricted capabilities or abusing a privileged interface outside the intended widget model. The public report does not establish which boundary, if any, was crossed. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a> <a class="citation" href="#source-3" aria-label="Source 3">[3]</a></p>
+<h3 id="reported-demo">3. What the Android demonstration would imply</h3>
+<p>In the reported sequence, the Android Calculator opens after the widget countdown. If the behavior was caused by widget-supplied instructions escaping isolation, it would be evidence of unintended interaction with Android capabilities. It does not by itself establish unrestricted shell commands, data theft, persistence, zero-click triggering or a universal exploit on every platform. <a class="citation" href="#source-3" aria-label="Source 3">[3]</a></p>
+<p>A demonstration app such as Calculator is often used because its launch is visible and relatively harmless. It is not proof that an attacker could automatically install an application or compromise every Telegram user. The underlying exploit primitives, prerequisites and reliability have not been published in the reviewed sources.</p>
+<h3 id="scope">4. Who could be exposed?</h3>
+<p>Production widgets are currently limited to private conversations with bots; they are not generally available as arbitrary forwardable group or channel messages. Earlier Telegram Info beta coverage had already raised concerns about executing widget scripts inside messages, but did not independently establish this exploit. <a class="citation" href="#source-5" aria-label="Source 5">[5]</a> The demo involved Android, and the available reporting does not verify exploitability on iOS, desktop or web. Do not extrapolate from a single Android video to all Telegram clients. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a> <a class="citation" href="#source-3" aria-label="Source 3">[3]</a></p>
+<h3 id="patch">5. Was it fixed or removed?</h3>
+<p>We could not verify a vendor patch notice, a fixed Telegram version, an exact source commit or a public statement that the widget vulnerability had been eliminated. Telegram's documentation still describes the widget API and limited rollout. A server-side disablement, a client patch, a temporary restriction and a full fix are different things; none should be asserted without evidence. This article will need an update if Telegram or V12 publishes details. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a> <a class="citation" href="#source-2" aria-label="Source 2">[2]</a> <a class="citation" href="#source-3" aria-label="Source 3">[3]</a></p>
+<h3 id="evidence-matrix">Evidence matrix</h3><div class="table-scroll" role="region" aria-label="Claim verification table" tabindex="0"><table class="research-table"><thead><tr><th scope="col">Claim</th><th scope="col">Status on Nov 11</th><th scope="col">Why</th></tr></thead><tbody>
+<tr><th scope="row">HTML widgets exist in production</th><td>Confirmed</td><td>Official Bot API 10.4 and widget documentation <a class="citation" href="#source-1" aria-label="Source 1">[1]</a> <a class="citation" href="#source-2" aria-label="Source 2">[2]</a></td></tr>
+<tr><th scope="row">QuickJS sandbox and blocked network</th><td>Documented design</td><td>Official specification <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></td></tr>
+<tr><th scope="row">V12 showed Android Calculator launch</th><td>Reported demonstration</td><td>Secondary report, not independent reproduction <a class="citation" href="#source-3" aria-label="Source 3">[3]</a></td></tr>
+<tr><th scope="row">Arbitrary code execution on all devices</th><td>Not established</td><td>No published chain or platform matrix <a class="citation" href="#source-3" aria-label="Source 3">[3]</a></td></tr>
+<tr><th scope="row">Issue fully fixed</th><td>Not verified</td><td>No confirmed fixed release or vendor notice in reviewed material</td></tr>
+</tbody></table></div>
+</section>
+<section aria-labelledby="practical"><h2 id="practical">Practical scenarios and precautions</h2>
+<h3 id="safe-example">A normal, safe widget</h3><p>A legitimate bot could send a countdown timer: its JavaScript updates the visible numbers inside the chat bubble. The timer should have no access to other apps, local files or unrestricted network requests. This is precisely the kind of interactive behavior the feature is designed for. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p>
+<h3 id="boundary-example">What would make the reported behavior abnormal?</h3><p>Imagine the same timer causing Android to open an unrelated system application without the user explicitly requesting it. That would be outside the timer's ordinary display responsibilities and would warrant investigation. This analogy explains the reported symptom; it is not a working exploit or a reproduction.</p>
+<h3 id="guidance">What users and bot developers can do</h3><p>Keep Telegram updated through trusted channels. Until the claim is clarified, avoid experimenting with unfamiliar bots that send new interactive widgets. Do not treat a countdown or attractive interface as proof that a bot is safe. Bot developers should use documented widget APIs, validate all bot-side requests and avoid treating widget-provided data as trusted. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p>
+<p>These are cautious risk-reduction measures, not proof that a specific version is vulnerable or that avoiding widgets is a complete defense. We have not conducted an exploit test.</p>
+</section>
+<section class="plain-english" id="explained-simply" data-explained-simply aria-labelledby="simple-title"><h2 id="simple-title">Explained simply</h2>
+<h3 id="simple-what">Why is there JavaScript inside a chat?</h3>
+<p>Telegram now lets a bot send a tiny interactive panel instead of a plain text message. You might see a poll with moving bars, a timer or a mini game right in the conversation. The panel uses HTML and JavaScript, just like some web pages, but Telegram is supposed to keep it locked in a small, controlled box.</p>
+<h3 id="simple-risk">What is the scary part?</h3>
+<p>Think of a toy car in a fenced playground. It is allowed to drive around inside the fence. If it suddenly opens your real garage door, something has gone wrong with the boundary. In the reported video, a Telegram widget is followed by Android's Calculator opening. The claim is that the widget crossed a boundary it should not cross. We do not yet know how, or whether independent testers can repeat it.</p>
+<h3 id="simple-response">Does this mean someone can hack my phone?</h3>
+<p>Not on the evidence currently public. The report concerns one Android demonstration, not a documented mass attack. There is no verified list of vulnerable versions or proof of a zero-click attack. Update Telegram, be selective about unfamiliar bots, and watch for an official security advisory. A claimed fix should be backed by a version number or technical explanation, not just a social post.</p>
+</section>
+<section aria-labelledby="conclusion"><h2 id="conclusion">Conclusion</h2>
+<p>The widget launch is real, and its design introduces a powerful new execution surface inside messages. The V12 Android RCE claim deserves serious scrutiny, but the available evidence does not justify a detailed exploit explanation or a declaration that Telegram has patched it. The next decisive evidence would be a researcher write-up, independent reproduction, a Telegram advisory, or a verifiable client/server change. Until then, separate documented architecture from reported exploit behavior. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a> <a class="citation" href="#source-2" aria-label="Source 2">[2]</a> <a class="citation" href="#source-3" aria-label="Source 3">[3]</a></p>
+</section>
+<section aria-labelledby="sources"><h2 id="sources">Evidence &amp; Sources</h2><p class="source-detail">Labels identify provenance, not guaranteed truth. Reviewed November 11, 2026.</p><ol class="source-list"><li id="source-1" data-source-type="official"><span class="evidence-label">Official</span> <a href="https://core.telegram.org/bots/widgets">Telegram — Widgets developer documentation</a><span class="source-detail">Current widget architecture, sandbox, API and production restrictions.</span><time datetime="2026-11-11">Accessed 2026-11-11</time></li>
+<li id="source-2" data-source-type="official"><span class="evidence-label">Official</span> <a href="https://core.telegram.org/bots/api-changelog">Telegram — Bot API changelog, November 9</a><span class="source-detail">Bot API 10.4 launch and sendWidget method.</span><time datetime="2026-11-11">Accessed 2026-11-11</time></li>
+<li id="source-3" data-source-type="independent"><span class="evidence-label">Independent</span> <a href="https://kod.ru/telegram-html-vidzhety-uyazvimost/amp">Kod.ru — Telegram HTML widget vulnerability report, November 11</a><span class="source-detail">Description of V12 demonstration, disclosure gaps and lack of independent confirmation.</span><time datetime="2026-11-11">Accessed 2026-11-11</time></li>
+<li id="source-4" data-source-type="independent"><span class="evidence-label">Independent</span> <a href="https://www.digitaltrends.com/phones/telegram-is-turning-chat-messages-into-mini-apps-because-apparently-switching-apps-is-so-last-year/">Digital Trends — Telegram interactive widgets, November 10</a><span class="source-detail">Contemporaneous account of widget release and limitations.</span><time datetime="2026-11-11">Accessed 2026-11-11</time></li>
+<li id="source-5" data-source-type="community"><span class="evidence-label">Community</span> <a href="https://t.me/s/tginfoen">Telegram Info English — early HTMLBubbles testing</a><span class="source-detail">Earlier beta observations and security concerns; not a vulnerability reproduction.</span><time datetime="2026-11-11">Accessed 2026-11-11</time></li></ol></section>
+
+    <section class="article-engagement" aria-label="Article reactions">
+      <div class="engagement-copy"><span class="engagement-heading">Enjoyed this research?</span><span class="engagement-note">Leave a like — no account needed.</span></div>
+      <div class="engagement-actions">
+        <button type="button" class="article-like-button" data-like-button aria-label="Like this article" aria-pressed="false" disabled>
+          <svg class="article-like-heart" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z"/></svg>
+          <span data-like-count aria-live="polite">—</span><span>likes</span>
+        </button>
+        <span class="article-like-status" data-like-status role="status">Loading likes…</span>
+      </div>
+    </section>
+  </article>
+</main>
+</div>
+<footer class="footer"><div class="footer-inner"><span>© 2026 Dekrov</span><span class="footer-links"><a href="https://t.me/Dekrov_channel_en">Telegram / @Dekrov_channel_en ↗</a><a href="https://x.com/Dekrov_Dev">X / @Dekrov_Dev ↗</a><a href="https://github.com/DekrovDev">GitHub / DekrovDev ↗</a></span></div></footer>
+<script src="/article-likes.js?v=3" defer></script>
+<script src="/article.js" defer></script>
+<script src="/site.js"></script>
+</body>
+</html>
