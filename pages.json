@@ -5,6 +5,13 @@
     "meta": "Overview"
   },
   {
+    "slug": "telegram-widget-rce-2026",
+    "path": "/telegram-widget-rce/",
+    "title": "Telegram Widget RCE Claim: What the Android Demo Shows—and What Remains Unverified",
+    "meta": "Telegram Security · Nov 11, 2026",
+    "summary": "V12 Android RCE demonstration assessed against official widget architecture, sandbox restrictions, disclosure gaps and unknown patch status."
+  },
+  {
     "slug": "fable-52-vs-gemini-carbon",
     "path": "/fable-vs-carbon/",
     "title": "Claude Fable 5.2 vs Gemini 4 Carbon: Intelligence, Cost and Real-World Trade-offs",
