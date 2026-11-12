@@ -1,0 +1,78 @@
+---
+layout: null
+permalink: /dependabot-inactive/
+redirect_from:
+  - /pages/dependabot-inactivity-2026/
+  - /pages/dependabot-inactivity-2026/index.html
+---
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#ffffff">
+<meta name="description" content="The December 8 policy, activity clock, exceptions and an audit for quiet but deployed projects.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Dependabot Alerts Will Pause on Inactive Repositories">
+<meta property="og:description" content="The December 8 policy, activity clock, exceptions and an audit for quiet but deployed projects.">
+<meta property="og:url" content="https://insights.dekrov.com/dependabot-inactive/">
+<link rel="canonical" href="https://insights.dekrov.com/dependabot-inactive/">
+<meta name="twitter:card" content="summary">
+<title>Dependabot Alerts Will Pause on Inactive Repositories — Dekrov Insights</title>
+<script src="/theme.js"></script>
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body data-page="dependabot-inactivity-2026" data-root="/">
+<header class="top">
+  <div class="header-inner">
+    <div class="brand-signature">
+      <a class="brand" href="/"><span class="brand-mark" aria-hidden="true">DK</span>Dekrov Insights</a>
+      <span class="brand-role">Research / AI &amp; Technology</span>
+    </div>
+    <div class="header-actions">
+      <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme"><span data-theme-label>Light</span></button>
+      <a class="nav" href="https://github.com/DekrovDev/dekrov-insights">GitHub ↗</a>
+    </div>
+  </div>
+</header>
+<div class="layout">
+<aside class="sidebar" aria-label="Page navigation">
+  <p class="side-heading">Index</p>
+  <nav class="side-nav" aria-label="Pages" data-site-nav></nav>
+</aside>
+<main class="main-content" id="main">
+  <article class="article-body research-article" data-article-version="2">
+    
+    <span class="tag">Supply Chain Security</span>
+    <h1>Dependabot Alerts Will Pause on Inactive Repositories</h1>
+    <div class="article-meta">
+      <span>By Dekrov</span>
+      <span>Published <time datetime="2026-11-12">Nov 12, 2026</time></span>
+      <span>Updated <time datetime="2026-11-12">Nov 12, 2026</time></span>
+    </div>
+    <p class="intro">A repository can stop receiving commits while its software remains in use. GitHub’s upcoming alert policy makes that distinction important.</p>
+    
+    <p><a href="#explained-simply">Start with the plain-English explanation ↓</a></p>
+
+    <section aria-labelledby="overview"><h2 id="overview">Overview</h2><p>GitHub announced on November 10 that starting December 8, 2026, most repositories without qualifying activity for a year will lose active Dependabot alert coverage. Previous findings will be retained for restoration. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p><p>A stable library can still be deployed or consumed by other projects. Its dependencies may acquire newly disclosed vulnerabilities even if its own code has not changed.</p></section><section aria-labelledby="technical-deep-dive"><h2 id="technical-deep-dive">Technical Deep Dive</h2><h3 id="clock">The activity clock</h3><p>Repository creation, enabling alerts and pushes to branches or tags count as activity. A push or manual reactivation restores archived findings and resets the clock. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p><div class="table-scroll" role="region" aria-label="Policy scenarios" tabindex="0"><table class="research-table"><caption>Illustrative scenarios, not rollout tests.</caption><thead><tr><th scope="col">Scenario</th><th scope="col">Expected result</th></tr></thead><tbody><tr><th scope="row">Year without qualifying activity</th><td>Pause for most repositories <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></td></tr><tr><th scope="row">Push or enable alerts</th><td>Restore findings and restart clock <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></td></tr><tr><th scope="row">Enforced configuration enabling alerts</th><td>Exempt from pause <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></td></tr></tbody></table></div><h3 id="scope">Exceptions and scope</h3><p>Enterprise policies preventing repository administrators from toggling alerts also exempt repositories. The policy covers GitHub.com and Enterprise Cloud with data residency, not Enterprise Server. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p><aside class="evidence-note" data-evidence="official"><span class="evidence-label">Official statement</span><p>GitHub cites increasing vulnerability and alert volume as motivation. It does not quantify the performance improvement or affected repository count. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p></aside><h3 id="features">Alerts versus updates</h3><p>Dependabot separately provides vulnerability alerts, security-update pull requests and routine version-update pull requests. The announcement concerns alerts; it does not establish that all scheduled version updates will stop. <a class="citation" href="#source-3" aria-label="Source 3">[3]</a></p><h3 id="audit">A practical audit</h3><ol><li>Inventory quiet repositories still producing deployed artifacts.</li><li>Check the actual alert setting and review open findings in Security and quality. <a class="citation" href="#source-2" aria-label="Source 2">[2]</a> <a class="citation" href="#source-3" aria-label="Source 3">[3]</a></li><li>For critical organization repositories, evaluate enforced security configurations. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></li><li>Assign an owner for periodic dependency reviews and maintain a deployed-version inventory.</li></ol><p>These are recommendations, not evidence that the upcoming rollout has already occurred. An alert service is only one part of dependency maintenance.</p></section><section class="plain-english" id="explained-simply" data-explained-simply aria-labelledby="simple-title"><h2 id="simple-title">Explained Simply</h2><p>Imagine a smoke alarm in a storage room nobody visits. The room may still contain valuable equipment even if nobody opens its door for a year. GitHub's upcoming policy is similar to pausing that alarm for many quiet repositories.</p><p>Dependabot alerts tell maintainers about known vulnerabilities in software packages they use. A project can remain unchanged while the outside world discovers a flaw in one of those packages. Quiet code is not automatically safe code.</p><p>If your repository falls under the new policy, pushing or re-enabling alerts restores archived findings. Some enterprise-managed repositories are protected from the pause by policy. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a> If you still use an old project, check its settings and give someone responsibility for reviewing dependencies rather than creating meaningless commits.</p></section><section aria-labelledby="conclusion"><h2 id="conclusion">Conclusion</h2><p>The policy is announced, not yet effective on November 12. Track repository activity separately from software exposure. The documented restoration path is useful, but actual rollout behavior and aggregate impact remain untested here. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p></section><section aria-labelledby="sources"><h2 id="sources">Evidence &amp; Sources</h2><ol class="source-list"><li id="source-1" data-source-type="official"><span class="evidence-label">Official</span><a href="https://github.blog/changelog/2026-11-10-dependabot-alerts-will-pause-on-inactive-repositories/">GitHub Changelog — November 10 announcement</a><span class="source-detail">Effective date, activity, restoration and exceptions.</span><time datetime="2026-11-12">Accessed 2026-11-12</time></li><li id="source-2" data-source-type="official"><span class="evidence-label">Official</span><a href="https://docs.github.com/en/code-security/how-tos/secure-your-supply-chain/secure-your-dependencies/configure-dependabot-alerts">GitHub Docs — Configuring alerts</a><span class="source-detail">Repository settings and alert management.</span><time datetime="2026-11-12">Accessed 2026-11-12</time></li><li id="source-3" data-source-type="official"><span class="evidence-label">Official</span><a href="https://docs.github.com/en/code-security/tutorials/secure-your-dependencies/dependabot-quickstart">GitHub Docs — Dependabot quickstart</a><span class="source-detail">Distinguishes the three Dependabot features.</span><time datetime="2026-11-12">Accessed 2026-11-12</time></li></ol></section>
+
+
+    <section class="article-engagement" aria-label="Article reactions">
+      <div class="engagement-copy"><span class="engagement-heading">Enjoyed this research?</span><span class="engagement-note">Leave a like — no account needed.</span></div>
+      <div class="engagement-actions">
+        <button type="button" class="article-like-button" data-like-button aria-label="Like this article" aria-pressed="false" disabled>
+          <svg class="article-like-heart" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z"/></svg>
+          <span data-like-count aria-live="polite">—</span><span>likes</span>
+        </button>
+        <span class="article-like-status" data-like-status role="status">Loading likes…</span>
+      </div>
+    </section>
+  </article>
+</main>
+</div>
+<footer class="footer"><div class="footer-inner"><span>© 2026 Dekrov</span><span class="footer-links"><a href="https://t.me/Dekrov_channel_en">Telegram / @Dekrov_channel_en ↗</a><a href="https://x.com/Dekrov_Dev">X / @Dekrov_Dev ↗</a><a href="https://github.com/DekrovDev">GitHub / DekrovDev ↗</a></span></div></footer>
+<script src="/article-likes.js?v=3" defer></script>
+<script src="/article.js" defer></script>
+<script src="/site.js"></script>
+</body>
+</html>
