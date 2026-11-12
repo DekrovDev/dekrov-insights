@@ -5,6 +5,13 @@
     "meta": "Overview"
   },
   {
+    "slug": "git-security-nov-2026",
+    "path": "/git-security/",
+    "title": "Git 2.56.1: Six Security Fixes and the Risk to Automated Development",
+    "meta": "Developer Security · Nov 12, 2026",
+    "summary": "November 10 Git security release, affected workflows, patched versions and a defensive inventory checklist."
+  },
+  {
     "slug": "copilot-xcode-native-2026",
     "path": "/copilot-xcode/",
     "title": "GitHub Copilot in Xcode 27.3 Beta: What the Native Integration Actually Changes",

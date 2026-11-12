@@ -1,0 +1,138 @@
+---
+layout: null
+permalink: /git-security/
+redirect_from:
+  - /pages/git-security-nov-2026/
+  - /pages/git-security-nov-2026/index.html
+---
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#ffffff">
+<meta name="description" content="November 10 Git security release, affected workflows, patched versions and a defensive inventory checklist.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Git 2.56.1: Six Security Fixes and the Risk to Automated Development">
+<meta property="og:description" content="November 10 Git security release, affected workflows, patched versions and a defensive inventory checklist.">
+<meta property="og:url" content="https://insights.dekrov.com/git-security/">
+<link rel="canonical" href="https://insights.dekrov.com/git-security/">
+<meta name="twitter:card" content="summary">
+<title>Git 2.56.1: Six Security Fixes and the Risk to Automated Development — Dekrov Insights</title>
+<script src="/theme.js"></script>
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body data-page="git-security-nov-2026" data-root="/">
+<header class="top">
+  <div class="header-inner">
+    <div class="brand-signature">
+      <a class="brand" href="/"><span class="brand-mark" aria-hidden="true">DK</span>Dekrov Insights</a>
+      <span class="brand-role">Research / AI &amp; Technology</span>
+    </div>
+    <div class="header-actions">
+      <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme"><span data-theme-label>Light</span></button>
+      <a class="nav" href="https://github.com/DekrovDev/dekrov-insights">GitHub ↗</a>
+    </div>
+  </div>
+</header>
+<div class="layout">
+<aside class="sidebar" aria-label="Page navigation">
+  <p class="side-heading">Index</p>
+  <nav class="side-nav" aria-label="Pages" data-site-nav></nav>
+</aside>
+<main class="main-content" id="main">
+  <article class="article-body research-article" data-article-version="2">
+    <!-- ARTICLE CONTENT START. Read ARTICLE_AUTHORING_GUIDE.md first.
+    HTML-escape inserted text and attributes.
+    Keep explicit heading IDs: they also work without JavaScript.
+    Add optional sections only when there is substantive sourced material.
+    Use one idea per paragraph and descriptive h3 subsections in long sections.
+    Insert complete sibling paragraphs; never wrap supplied HTML in another p.
+    Typography and spacing come from styles.css, not inline styles or br spacers.
+    The article.js script adds a compact TOC and a prominent plain-English jump.
+    -->
+    <span class="tag">Developer Security</span>
+    <h1>Git 2.56.1: Six Security Fixes and the Risk to Automated Development</h1>
+    <div class="article-meta">
+      <span>By Dekrov</span>
+      <span>Published <time datetime="2026-11-12">Nov 12, 2026</time></span>
+      <span>Updated <time datetime="2026-11-12">Nov 12, 2026</time></span>
+    </div>
+    <p class="intro">Git’s November security release is a reminder that repository ingestion is a security boundary, especially for CI workers and coding agents.</p>
+    <!-- This link must remain accessible even when scripts are unavailable. -->
+    <p><a href="#explained-simply">Start with the plain-English explanation ↓</a></p>
+
+    <section aria-labelledby="overview">
+      <h2 id="overview">Overview</h2>
+      <p>On November 10, Git announced six security fixes. The recommended release is 2.56.1; maintained branches also received patches. The risk is not limited to developers opening a repository in an editor.
+        <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p>
+    </section>
+
+    <section aria-labelledby="technical-deep-dive">
+      <h2 id="technical-deep-dive">Technical Deep Dive</h2>
+      <!-- Add/rename/remove h3 subsections to reflect the actual investigation. -->
+      <h3 id="mechanism">How it works</h3>
+      <p>The fixes cover six distinct classes of unsafe input handling: recursive repository retrieval, reference validation, signature processing, binary patch parsing, merge memory accounting and import isolation. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p>
+      <h3 id="affected-operations">Affected operations</h3><div class="table-scroll" role="region" aria-label="Security fixes" tabindex="0"><table class="research-table"><caption>Six disclosed vulnerabilities and defensive priorities</caption><thead><tr><th scope="col">CVE</th><th scope="col">Risk area</th></tr></thead><tbody><tr><th scope="row">CVE-2026-111760</th><td>Recursive clone: code execution <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></td></tr><tr><th scope="row">CVE-2026-113408</th><td>Reference handling: unintended writes <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></td></tr><tr><th scope="row">CVE-2026-114467</th><td>Signature processing: stack corruption <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></td></tr><tr><th scope="row">CVE-2026-114469</th><td>Binary patches: invalid memory reads <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></td></tr><tr><th scope="row">CVE-2026-105437</th><td>Merge processing: heap corruption <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></td></tr><tr><th scope="row">CVE-2026-114466</th><td>Import streams: filesystem access <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></td></tr></tbody></table></div><h3 id="patched-versions">Patch inventory</h3><p>Fixed upstream releases: 2.56.1, 2.55.1, 2.54.1, 2.53.1, 2.52.1, 2.51.3 and 2.50.2. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p><p>For a coding agent, check the executable inside its actual runtime, not just the host shell. A container image or bundled executable may be updated separately. Use <code>git --version</code> as an initial inventory check; distributors may backport fixes under their own version labels.</p><p>Review CI images, developer workstations, IDE bundles and repository-processing services. Prefer least-privilege workers without unnecessary secrets, and rebuild images from patched bases. These are defense-in-depth recommendations, not claims that a particular product was compromised.</p><aside class="evidence-note" data-evidence="official" aria-label="Evidence qualification">
+        <span class="evidence-label">Official statement</span>
+        <p>The announcement establishes the released fixes and affected operation classes. It does not establish exploitation in the wild or the installed Git version inside any particular third-party agent.
+          <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p>
+      </aside>
+      <!-- Optional: timeline, evidence table, code, or inline figure from the guide.
+      Cite fixes by version/commit/PR. Separate shipped fixes from proposed workarounds.
+      For numbers: name the evaluator, date, method, environment and limitations.
+      -->
+    </section>
+
+    <!-- Optional h2 sections: Evidence & Sources (analysis), Community Reactions,
+    Visual Evidence. Figures may appear directly beside relevant paragraphs.
+    Do not create empty sections or invent community reactions or experiments.
+    Put the complete numbered bibliography at the END, below Conclusion.
+    -->
+
+    <section class="plain-english" id="explained-simply" data-explained-simply aria-labelledby="simple-title">
+      <h2 id="simple-title">Explained Simply</h2>
+      <!-- Use short descriptive h3s when the simple explanation spans several topics. -->
+      <p>Git is the tool that downloads and tracks source code. A submodule is a separate repository referenced by another repository. Some automated workflows fetch both together.</p>
+      <p>Think of a package delivery service that must inspect a parcel before putting it on a shelf. A flaw in the inspection or placement process can affect the warehouse itself, not merely the parcel. In software, the Git process is part of that warehouse.</p>
+      <p>Install the fixed Git release from your trusted distributor and check whether your IDE or automated worker uses a separate copy. Until patched, restrict processing to trusted repositories. An update to the main GitHub service does not automatically update your laptop or third-party runner. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p>
+    </section>
+
+    <section aria-labelledby="conclusion">
+      <h2 id="conclusion">Conclusion</h2>
+      <p>The practical priority is inventory and patching, followed by limiting privileges and credentials in automated repository-processing environments. No exploitation test was performed for this article; the advice is based on the disclosed release.</p>
+    </section>
+
+    <section aria-labelledby="sources">
+      <h2 id="sources">Evidence &amp; Sources</h2>
+      <p class="source-detail">Source type describes provenance, not guaranteed truth. Availability checks do not verify a claim.</p>
+      <ol class="source-list">
+        <li id="source-1" data-source-type="official">
+          <span class="evidence-label">Official</span>
+          <a href="https://github.blog/open-source/git/git-security-vulnerabilities-announced-7/">GitHub Blog — Git security vulnerabilities announced</a>
+          <span class="source-detail">November 10, 2026. Official announcement covering the six fixes, release versions and mitigation.</span>
+          <time datetime="2026-11-12">Accessed 2026-11-12</time>
+        </li>
+      </ol>
+    </section>
+    <!-- ARTICLE CONTENT END: keep the shared reactions block below. -->
+
+    <section class="article-engagement" aria-label="Article reactions">
+      <div class="engagement-copy"><span class="engagement-heading">Enjoyed this research?</span><span class="engagement-note">Leave a like — no account needed.</span></div>
+      <div class="engagement-actions">
+        <button type="button" class="article-like-button" data-like-button aria-label="Like this article" aria-pressed="false" disabled>
+          <svg class="article-like-heart" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z"/></svg>
+          <span data-like-count aria-live="polite">—</span><span>likes</span>
+        </button>
+        <span class="article-like-status" data-like-status role="status">Loading likes…</span>
+      </div>
+    </section>
+  </article>
+</main>
+</div>
+<footer class="footer"><div class="footer-inner"><span>© 2026 Dekrov</span><span class="footer-links"><a href="https://t.me/Dekrov_channel_en">Telegram / @Dekrov_channel_en ↗</a><a href="https://x.com/Dekrov_Dev">X / @Dekrov_Dev ↗</a><a href="https://github.com/DekrovDev">GitHub / DekrovDev ↗</a></span></div></footer>
+<script src="/article-likes.js?v=3" defer></script>
+<script src="/article.js" defer></script>
+<script src="/site.js"></script>
+</body>
+</html>
