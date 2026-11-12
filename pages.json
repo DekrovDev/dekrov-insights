@@ -5,6 +5,13 @@
     "meta": "Overview"
   },
   {
+    "slug": "dependabot-inactivity-2026",
+    "path": "/dependabot-inactive/",
+    "title": "Dependabot Alerts Will Pause on Inactive Repositories",
+    "meta": "Supply Chain Security · Nov 12, 2026",
+    "summary": "The December 8 policy, activity clock, exceptions and an audit for quiet but deployed projects."
+  },
+  {
     "slug": "git-security-nov-2026",
     "path": "/git-security/",
     "title": "Git 2.56.1: Six Security Fixes and the Risk to Automated Development",
