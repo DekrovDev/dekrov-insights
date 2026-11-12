@@ -5,6 +5,13 @@
     "meta": "Overview"
   },
   {
+    "slug": "copilot-xcode-native-2026",
+    "path": "/copilot-xcode/",
+    "title": "GitHub Copilot in Xcode 27.3 Beta: What the Native Integration Actually Changes",
+    "meta": "Developer Tools · Nov 12, 2026",
+    "summary": "Native Copilot integration in Xcode 27.3 beta: requirements, setup, separate extension and evidence gaps."
+  },
+  {
     "slug": "telegram-widget-rce-2026",
     "path": "/telegram-widget-rce/",
     "title": "Telegram Widget RCE Claim: What the Android Demo Shows—and What Remains Unverified",
