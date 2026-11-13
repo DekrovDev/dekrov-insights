@@ -1,0 +1,181 @@
+---
+layout: null
+permalink: /gemini-hydrogen/
+redirect_from:
+  - /pages/gemini-4-hydrogen-coding/
+  - /pages/gemini-4-hydrogen-coding/index.html
+---
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#ffffff">
+<meta name="description" content="Google&#39;s new agentic coding model pairs a 1M-token context with adjustable reasoning. Here&#39;s what official claims, independent tests and early access reports actually show.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Gemini 4 Hydrogen: Google&#39;s Coding-Speed Bet, Benchmarked">
+<meta property="og:description" content="Google&#39;s new agentic coding model pairs a 1M-token context with adjustable reasoning. Here&#39;s what official claims, independent tests and early access reports actually show.">
+<meta property="og:url" content="https://insights.dekrov.com/gemini-hydrogen/">
+<link rel="canonical" href="https://insights.dekrov.com/gemini-hydrogen/">
+<meta name="twitter:card" content="summary">
+<title>Gemini 4 Hydrogen: Google&#39;s Coding-Speed Bet, Benchmarked — Dekrov Insights</title>
+<script src="/theme.js"></script>
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body data-page="gemini-4-hydrogen-coding" data-root="/">
+<header class="top">
+  <div class="header-inner">
+    <div class="brand-signature">
+      <a class="brand" href="/"><span class="brand-mark" aria-hidden="true">DK</span>Dekrov Insights</a>
+      <span class="brand-role">Research / AI &amp; Technology</span>
+    </div>
+    <div class="header-actions">
+      <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme"><span data-theme-label>Light</span></button>
+      <a class="nav" href="https://github.com/DekrovDev/dekrov-insights">GitHub ↗</a>
+    </div>
+  </div>
+</header>
+<div class="layout">
+<aside class="sidebar" aria-label="Page navigation">
+  <p class="side-heading">Index</p>
+  <nav class="side-nav" aria-label="Pages" data-site-nav></nav>
+</aside>
+<main class="main-content" id="main">
+  <article class="article-body research-article" data-article-version="2">
+    <!-- ARTICLE CONTENT START. Read ARTICLE_AUTHORING_GUIDE.md first.
+    Replace every placeholder; HTML-escape inserted text and attributes.
+    Keep explicit heading IDs: they also work without JavaScript.
+    Add optional sections only when there is substantive sourced material.
+    Use one idea per paragraph and descriptive h3 subsections in long sections.
+    Insert complete sibling paragraphs; never wrap supplied HTML in another p.
+    Typography and spacing come from styles.css, not inline styles or br spacers.
+    The article.js script adds a compact TOC and a prominent plain-English jump.
+    -->
+    <span class="tag">AI Coding Models · November 2026</span>
+    <h1>Gemini 4 Hydrogen: Google&#39;s Coding-Speed Bet, Benchmarked</h1>
+    <div class="article-meta">
+      <span>By Dekrov</span>
+      <span>Published <time datetime="2026-11-13">November 13, 2026</time></span>
+      <span>Updated <time datetime="2026-11-13">November 13, 2026</time></span>
+    </div>
+    <p class="intro">Gemini 4 Hydrogen is Google’s new execution-focused model for everyday coding and agent workflows. Its adjustable reasoning, broad rollout and 1-million-token context make it interesting; its benchmark story is more nuanced than a simple “fastest model” headline.</p>
+    <!-- This link must remain accessible even when scripts are unavailable. -->
+    <p><a href="#explained-simply">Start with the plain-English explanation ↓</a></p>
+
+    <section aria-labelledby="overview">
+      <h2 id="overview">Overview</h2>
+      <p>Google announced Gemini 4 Hydrogen on November 12, 2026 as a faster, efficiency-oriented member of the Gemini 4 family, aimed at everyday coding and agentic work. Google describes Carbon and Argon as models for harder, longer reasoning and Hydrogen as a model for rapid execution, either by itself or paired with them. That makes Hydrogen a practical workflow question: can a cheaper execution model handle routine edits, tests and tool use while a stronger model is reserved for architecture and difficult bugs? <a class="citation" href="#source-1" aria-label="Source 1">[1]</a>
+        <a class="citation" href="#source-1" aria-label="Source 1"><a class="citation" href="#source-1" aria-label="Source 1">[1]</a></a></p>
+    </section>
+
+    <section aria-labelledby="technical-deep-dive">
+      <h2 id="technical-deep-dive">Technical Deep Dive</h2>
+      <!-- Add/rename/remove h3 subsections to reflect the actual investigation. -->
+      <h3 id="mechanism">How it works</h3>
+      <p>Google’s model card says Hydrogen is adapted from Gemini 4 Carbon; it does not disclose parameter count, training recipe or weights. Google exposes four “thinking” settings—low, medium, high and xhigh—so users can trade deeper reasoning for speed and cost rather than selecting only one fixed behavior. Google reports that Antigravity’s Orchestrator can switch between Carbon and Hydrogen within a session, but this is a product-specific orchestration feature, not evidence that every IDE or API client does the same. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a><a class="citation" href="#source-2" aria-label="Source 2">[2]</a><a class="citation" href="#source-5" aria-label="Source 5">[5]</a></p>
+      <aside class="evidence-note" data-evidence="official" aria-label="Evidence qualification">
+        <span class="evidence-label">Official statement</span>
+        <p>Google positions Hydrogen for fast execution and says it is available across consumer, developer and enterprise surfaces. Those are launch claims and access statements; they do not establish that the model is equally available in every country, account, IDE or API region, or that it will outperform Carbon on a particular codebase. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a>
+          <a class="citation" href="#source-1" aria-label="Source 1"><a class="citation" href="#source-1" aria-label="Source 1">[1]</a></a></p>
+      </aside>
+      <!-- Optional: timeline, evidence table, code, or inline figure from the guide.
+      Cite fixes by version/commit/PR. Separate shipped fixes from proposed workarounds.
+      For numbers: name the evaluator, date, method, environment and limitations.
+      -->
+    </section>
+
+<section aria-labelledby="benchmark-reading">
+      <h2 id="benchmark-reading">What the benchmark evidence says</h2>
+      <h3 id="google-claims">Google’s launch figures are vendor-reported</h3>
+      <p>Google says Hydrogen scores 51 on the Artificial Analysis Intelligence Index at its default high setting and 54 at xhigh, compared with 50 for Gemini 4 Argon. It also reports Terminal-Bench 4.1 at 57% and says Hydrogen completes tasks 2.5 times faster than Gemini 3.8 Flash. Treat those as Google’s launch claims, not independent reproductions. The index number is independently published by Artificial Analysis, but Google’s Terminal-Bench figure uses a separately named version; benchmark versions and run conditions matter. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a><a class="citation" href="#source-3" aria-label="Source 3">[3]</a></p>
+      <h3 id="independent-index">Independent index and cost snapshot</h3>
+      <p>Artificial Analysis currently lists Hydrogen at 54 for xhigh, 51 for high, 41 for medium and 27 for low. Its page reports a 1M context window and API rates of $1.50 input / $7.50 output per million tokens, consistent with Google’s announced rates. It currently estimates $3.16 per Intelligence Index task and 13.7 minutes per task for the xhigh variant. Those are Artificial Analysis’s weighted task estimates, not a flat fee or a promise about a user’s own prompt; its page says speed data averages endpoint runs over the previous five days and the evaluation is updated regularly. <a class="citation" href="#source-4" aria-label="Source 4">[4]</a></p>
+      <div class="table-scroll" role="region" aria-label="Gemini 4 Hydrogen evidence comparison" tabindex="0">
+        <table class="research-table">
+          <caption>Different evaluations answer different questions</caption>
+          <thead><tr><th scope="col">Evidence</th><th scope="col">Reported result</th><th scope="col">What it does not prove</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Google launch evaluation</th><td>Terminal-Bench 4.1: 57% (Google-reported)</td><td>Not an independent reproduction or a direct comparison with another benchmark version. <a class="citation" href="#source-3" aria-label="Source 3"><a class="citation" href="#source-3" aria-label="Source 3">[3]</a></a></td></tr>
+            <tr><th scope="row">Artificial Analysis</th><td>Index: 54 xhigh / 51 high; current xhigh task estimate: $3.16</td><td>A composite benchmark score is not a guarantee on a specific repository. <a class="citation" href="#source-4" aria-label="Source 4"><a class="citation" href="#source-4" aria-label="Source 4">[4]</a></a></td></tr>
+            <tr><th scope="row">Plotly data exam</th><td>43/43; $6.36; 32-second median per question</td><td>One run per model is a single sample; GPT-6.1 Sol also scored 43/43 at $2.61. <a class="citation" href="#source-6" aria-label="Source 6"><a class="citation" href="#source-6" aria-label="Source 6">[6]</a></a></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Plotly’s result is useful because it documents a concrete work task, cost and timing rather than only a leaderboard position. It is also a test designed and published by a company whose products use AI analytics models; the sample is small, and the authors explicitly warn that one run per model is a single observation. It should be read as one independent datapoint, not a universal coding ranking. <a class="citation" href="#source-6" aria-label="Source 6">[6]</a></p>
+    </section>
+
+    <section aria-labelledby="developer-workflow">
+      <h2 id="developer-workflow">What changes in a coding workflow?</h2>
+      <h3 id="thinking-levels">Reasoning is a setting, not a model guarantee</h3>
+      <p>The four thinking levels give developers a dial for deciding how much reasoning to spend. Artificial Analysis’s current results show a real spread between low (27), medium (41), high (51) and xhigh (54). Higher settings may be useful for a tangled bug or a multi-step change, while low or medium may fit routine edits. But the ranking page’s index task estimates also show that settings can change latency and cost. A sensible evaluation should compare settings on the same issue set and include unsuccessful runs, not cherry-pick the best answer. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a><a class="citation" href="#source-4" aria-label="Source 4">[4]</a></p>
+      <h3 id="orchestrator">Orchestrator: promising, but limited to its product</h3>
+      <p>Google says Antigravity’s Orchestrator can dynamically switch between Carbon and Hydrogen. In Google’s Terminal-Bench 4.0 evaluation, it reportedly achieved near-Carbon task success while using 24% less quota and finishing 19% faster. This is a Google-reported result for Google’s own product and test; it does not establish the same savings for another agent framework. The Antigravity changelog confirms the integration was added on November 12 and notes that rollout can take days, so access may vary while deployment propagates. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a><a class="citation" href="#source-5" aria-label="Source 5">[5]</a></p>
+      <h3 id="access-cost">Access, pricing and practical limits</h3>
+      <p>Google’s launch post lists the Gemini API and AI Studio for developers, Android Studio, the Gemini app and Search, business access, and Antigravity for paid AI Pro and Ultra subscribers. The API rate is $1.50 per million input tokens and $7.50 per million output tokens across the announced 1M-token context window. “Flat across the window” means the listed rate does not rise at a context threshold in Google’s announcement; it does not mean a million-token request is free or cheap. Output, repeated agent turns, tool execution and retries still matter. Availability was rolling out at publication time, and the Antigravity release note says some users may wait for rollout. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a><a class="citation" href="#source-5" aria-label="Source 5">[5]</a></p>
+      <h3 id="model-comparison">Hydrogen, Argon and Carbon are positioned for different jobs</h3>
+      <p>Google’s intended division is more useful than treating the three names as a simple ranking: Hydrogen for quick execution, Argon for intermediate work and Carbon for the hardest long-horizon reasoning. The published Artificial Analysis figures currently put Hydrogen at 51 high / 54 xhigh and Argon at 50 at its relevant setting; that narrow index difference does not establish a universal ordering. A real team should route by task: ask a lower-cost setting to handle a routine fix, then escalate only when tests, review or uncertainty indicate the task needs more reasoning. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a><a class="citation" href="#source-4" aria-label="Source 4">[4]</a></p>
+    </section>
+
+    <section aria-labelledby="limits-safety">
+      <h2 id="limits-safety">What is not known yet</h2>
+      <p>Google’s model card identifies Hydrogen as adapted from Carbon but does not publish the training recipe, parameter count or model weights. It also says the complete Hydrogen Safety &amp; Security Report will be published later. The card reports that Hydrogen did not reach Google’s critical capability thresholds in targeted biological and cybersecurity assessments, while reaching alert thresholds in both domains; those results are Google’s own evaluation, and the detailed report was not yet available. <a class="citation" href="#source-2" aria-label="Source 2">[2]</a></p>
+      <p>The model card also reports a 5.57 percentage-point increase in unjustified refusals compared with Gemini 3.8 Flash, especially for multimodal content, and warns that its evaluation methodology changed, so comparisons with older model cards may not be direct. This is a quality and access caveat as much as a safety metric: if a legitimate request is refused, the effective developer workflow gets slower. The full report should provide more methodological detail. <a class="citation" href="#source-2" aria-label="Source 2">[2]</a></p>
+      <p>No public evidence in the sources checked established reliable performance across large real-world repositories, a stable speed advantage over every rival, or that an agent can safely merge code without human review. A model score does not replace tests, code review or sandboxing.</p>
+    </section>
+
+    <section aria-labelledby="community-reactions">
+      <h2 id="community-reactions">Early community reactions: useful signals, weak evidence</h2>
+      <p>Launch-day Reddit posts include individual reports that Hydrogen appeared in Antigravity and then disappeared, and that some sessions seemed to fall back to Argon or show quota errors. Other users reported better results on their own tasks than with Gemini 3.8 Flash. These are anecdotes from a small number of accounts, not a verified outage report or controlled comparison; the full threads were not consistently retrievable during this check. They are consistent with a staged rollout, which Google’s changelog also says may take several days, but they do not independently confirm the cause. <a class="citation" href="#source-7" aria-label="Source 7">[7]</a><a class="citation" href="#source-8" aria-label="Source 8">[8]</a></p>
+      <p>For developers testing it now, record the exact model and thinking level returned by the API or IDE, capture tool traces, and rerun the same issue if results look surprising. A silent fallback can make a comparison misleading.</p>
+    </section>
+
+
+
+    <section class="plain-english" id="explained-simply" data-explained-simply aria-labelledby="simple-title">
+      <h2 id="simple-title">Explained Simply</h2>
+      <!-- Use short descriptive h3s when the simple explanation spans several topics. -->
+      <p>An AI coding model can answer a question, but an agentic coding model can also use tools: inspect files, edit code, run tests and report what happened. Hydrogen is Google’s new model designed for that repeatable execution work. It is not open-weight software: Google hosts it, and its internal design is not fully public. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a><a class="citation" href="#source-2" aria-label="Source 2">[2]</a></p>
+      <p>Think of a software team with a senior engineer and a fast implementer. Carbon is positioned as the senior planner for tangled architectural problems; Hydrogen is positioned as the implementer who can take a clear task, make a change, run checks and hand back the result. Google’s Antigravity Orchestrator is intended to route work between them. The benefit would be getting routine coding done quickly while saving the most expensive reasoning for the problems that need it—but that benefit is Google’s product thesis until independent, repeatable workflow measurements confirm it. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p>
+      <p>Hydrogen is available through Google AI Studio and the Gemini API, with Google listing a 1-million-token context and API prices of $1.50 per million input tokens and $7.50 per million output tokens. A large context is room to provide more code and documentation, not a guarantee that the model will notice every relevant detail. Before adopting it, test it on your own repository, compare low/high/xhigh settings, count retries and tool errors, and measure end-to-end cost—not just tokens. The model remains proprietary, and its full safety report was still forthcoming when this article was checked. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a><a class="citation" href="#source-2" aria-label="Source 2">[2]</a></p>
+    </section>
+
+    <section aria-labelledby="conclusion">
+      <h2 id="conclusion">Conclusion</h2>
+      <p>Hydrogen looks like a serious new option for developers who want a hosted coding agent with adjustable reasoning and a large context window. Google’s release figures are promising, while Artificial Analysis currently places its xhigh version at 54 and ranks it below the very top models overall; Plotly’s small, single-run task set shows a perfect result but also shows GPT-6.1 Sol reaching the same score for less money. Those results answer different questions and should not be collapsed into one winner claim. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a><a class="citation" href="#source-4" aria-label="Source 4">[4]</a><a class="citation" href="#source-6" aria-label="Source 6">[6]</a> The sensible next step is a controlled trial on representative issues: compare output quality, tool reliability, completion time and total spend at matched task difficulty. Architecture, training details, long-context reliability and the full safety report remain open questions. <a class="citation" href="#source-2" aria-label="Source 2">[2]</a></p>
+    </section>
+
+    <section aria-labelledby="sources">
+      <h2 id="sources">Evidence &amp; Sources</h2>
+      <p class="source-detail">Source type describes provenance, not guaranteed truth. Availability checks do not verify a claim.</p>
+      <ol class="source-list">
+        <li id="source-1" data-source-type="official"><span class="evidence-label">Official</span><a href="https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-hydrogen/">Google — Introducing Gemini 4 Hydrogen for Agentic Workflows</a><span class="source-detail">Published November 12, 2026. Supports product positioning, access surfaces, API pricing, 1M context and Orchestrator claims.</span><time datetime="2026-11-13">Accessed 2026-11-13</time></li>
+        <li id="source-2" data-source-type="official"><span class="evidence-label">Official</span><a href="https://deepmind.google/models/model-cards/gemini-4-hydrogen/">Google DeepMind — Gemini 4 Hydrogen Model Card</a><span class="source-detail">Safety and security status checked November 13, 2026. Supports adaptation from Carbon, refusal comparison, evaluation caveats and forthcoming report.</span><time datetime="2026-11-13">Accessed 2026-11-13</time></li>
+        <li id="source-3" data-source-type="official"><span class="evidence-label">Official</span><a href="https://storage.googleapis.com/deepmind-media/gemini/gemini_4_hydrogen_model_evaluation.pdf">Google DeepMind — Gemini 4 Hydrogen Model Evaluation (PDF)</a><span class="source-detail">Google evaluation report linked from the launch. Supports vendor-reported benchmark tables; not an independent reproduction.</span><time datetime="2026-11-13">Accessed 2026-11-13</time></li>
+        <li id="source-4" data-source-type="independent"><span class="evidence-label">Independent</span><a href="https://artificialanalysis.ai/models/releases/gemini-4-hydrogen">Artificial Analysis — Gemini 4 Hydrogen: Release Intelligence, Performance &amp; Price</a><span class="source-detail">Live independent evaluation page, checked November 13, 2026. Current settings scores, task estimates, context, rates and evaluation methodology.</span><time datetime="2026-11-13">Accessed 2026-11-13</time></li>
+        <li id="source-5" data-source-type="official"><span class="evidence-label">Official</span><a href="https://antigravity.google/docs/changelog/">Google Antigravity — Changelog</a><span class="source-detail">November 12, 2026 entry confirms Hydrogen and Orchestrator rollout; changelog warns availability may take days.</span><time datetime="2026-11-13">Accessed 2026-11-13</time></li>
+        <li id="source-6" data-source-type="independent"><span class="evidence-label">Independent</span><a href="https://plotly.com/blog/gemini-4-hydrogen-plotly-data-analytics-bench/">Plotly — Gemini 4 Hydrogen Benchmark Results for Data Analysis</a><span class="source-detail">Published November 12, 2026. Plotly’s 43-question data analytics exam; one run per model, with disclosed costs and timing.</span><time datetime="2026-11-13">Accessed 2026-11-13</time></li>
+        <li id="source-7" data-source-type="community"><span class="evidence-label">Community</span><a href="https://www.reddit.com/r/GeminiAI/comments/1xuj575/gemini_4_hydrogen/">r/GeminiAI — Gemini 4 Hydrogen launch-day availability report</a><span class="source-detail">Individual report surfaced in indexed search results; full page was not retrievable on this check. Anecdotal only; not used to establish product status.</span><time datetime="2026-11-13">Checked 2026-11-13</time></li>
+        <li id="source-8" data-source-type="community"><span class="evidence-label">Community</span><a href="https://www.reddit.com/r/GeminiAI/comments/1xukz84/my_test_with_gemini-4-hydrogen-compared-to-gemini/">r/GeminiAI — A user’s Gemini 4 Hydrogen comparison</a><span class="source-detail">Single-user first impression surfaced in indexed search results; not a controlled benchmark and full thread was not retrievable.</span><time datetime="2026-11-13">Checked 2026-11-13</time></li>
+      </ol>
+    </section>
+    <!-- ARTICLE CONTENT END: keep the shared reactions block below. -->
+
+    <section class="article-engagement" aria-label="Article reactions">
+      <div class="engagement-copy"><span class="engagement-heading">Enjoyed this research?</span><span class="engagement-note">Leave a like — no account needed.</span></div>
+      <div class="engagement-actions">
+        <button type="button" class="article-like-button" data-like-button aria-label="Like this article" aria-pressed="false" disabled>
+          <svg class="article-like-heart" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z"/></svg>
+          <span data-like-count aria-live="polite">—</span><span>likes</span>
+        </button>
+        <span class="article-like-status" data-like-status role="status">Loading likes…</span>
+      </div>
+    </section>
+  </article>
+</main>
+</div>
+<footer class="footer"><div class="footer-inner"><span>© 2026 Dekrov</span><span class="footer-links"><a href="https://t.me/Dekrov_channel_en">Telegram / @Dekrov_channel_en ↗</a><a href="https://x.com/Dekrov_Dev">X / @Dekrov_Dev ↗</a><a href="https://github.com/DekrovDev">GitHub / DekrovDev ↗</a></span></div></footer>
+<script src="/article-likes.js?v=3" defer></script>
+<script src="/article.js" defer></script>
+<script src="/site.js"></script>
+</body>
+</html>

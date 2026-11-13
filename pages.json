@@ -5,6 +5,13 @@
     "meta": "Overview"
   },
   {
+    "slug": "gemini-4-hydrogen-coding",
+    "path": "/gemini-hydrogen/",
+    "title": "Gemini 4 Hydrogen: Google’s Coding-Speed Bet, Benchmarked",
+    "meta": "AI Coding Models · Nov 13, 2026",
+    "summary": "Google’s execution-focused Gemini 4 model, compared across official claims, independent coding evaluations, pricing, safety and rollout limits."
+  },
+  {
     "slug": "dependabot-inactivity-2026",
     "path": "/dependabot-inactive/",
     "title": "Dependabot Alerts Will Pause on Inactive Repositories",
