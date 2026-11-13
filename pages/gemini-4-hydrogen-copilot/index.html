@@ -1,0 +1,88 @@
+---
+layout: null
+permalink: /hydrogen-copilot/
+redirect_from:
+  - /pages/gemini-4-hydrogen-copilot/
+  - /pages/gemini-4-hydrogen-copilot/index.html
+---
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#ffffff">
+<meta name="description" content="Gemini 4 Hydrogen is now available across GitHub Copilot surfaces. We check plan access, gradual rollout, token billing, coding benchmark evidence, and the important gap between IDE availability and cloud-agent model support.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Gemini 4 Hydrogen in GitHub Copilot: Access, Cost and What the Benchmarks Prove">
+<meta property="og:description" content="A practical guide to Hydrogen in Copilot: who can use it, where it appears, how usage is billed, and what CursorBench can—and cannot—tell us.">
+<meta property="og:url" content="https://insights.dekrov.com/hydrogen-copilot/">
+<link rel="canonical" href="https://insights.dekrov.com/hydrogen-copilot/">
+<meta name="twitter:card" content="summary">
+<title>Gemini 4 Hydrogen in GitHub Copilot: Access, Cost and What the Benchmarks Prove — Dekrov Insights</title>
+<script src="/theme.js"></script>
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body data-page="gemini-4-hydrogen-copilot" data-root="/">
+<header class="top"><div class="header-inner"><div class="brand-signature"><a class="brand" href="/"><span class="brand-mark" aria-hidden="true">DK</span>Dekrov Insights</a><span class="brand-role">Research / AI &amp; Technology</span></div><div class="header-actions"><button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme"><span data-theme-label>Light</span></button><a class="nav" href="https://github.com/DekrovDev/dekrov-insights">GitHub ↗</a></div></div></header>
+<div class="layout"><aside class="sidebar" aria-label="Page navigation"><p class="side-heading">Index</p><nav class="side-nav" aria-label="Pages" data-site-nav></nav></aside>
+<main class="main-content" id="main"><article class="article-body research-article" data-article-version="2">
+<span class="tag">AI Coding Tools · November 2026</span>
+<h1>Gemini 4 Hydrogen in GitHub Copilot: Access, Cost and What the Benchmarks Prove</h1>
+<div class="article-meta"><span>By Dekrov</span><span>Published <time datetime="2026-11-14">November 14, 2026</time></span><span>Updated <time datetime="2026-11-14">November 14, 2026</time></span></div>
+<p class="intro">GitHub added Google’s Gemini 4 Hydrogen to Copilot on November 13, 2026. The important change is practical access across Copilot’s IDE, CLI and agent surfaces—not a new Gemini model release. Here is who can select it, what billing means, and what current coding benchmarks do and do not show.</p>
+<p><a href="#explained-simply">Start with the plain-English explanation ↓</a></p>
+
+<section aria-labelledby="overview"><h2 id="overview">Overview</h2>
+<p>GitHub’s November 13 changelog lists Gemini 4 Hydrogen as generally available to Copilot Pro, Pro+, Max, Business and Enterprise users. It can be selected from model pickers across Visual Studio Code, Visual Studio, Copilot CLI, GitHub Copilot coding agent, the Copilot app, GitHub.com, mobile, JetBrains, Xcode, Eclipse and the Copilot SDK. Rollout is gradual, so “GA” does not mean every account will see the picker immediately. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p>
+<p>This is a platform integration of the Gemini 4 Hydrogen model Google announced on November 12. Google positions Hydrogen as the faster execution member of the Gemini 4 family; the model itself, its 1-million-token context and its API pricing were covered in our earlier model investigation. This page focuses on what changes inside Copilot and where the documentation still leaves uncertainty. <a class="citation" href="#source-2" aria-label="Source 2">[2]</a></p></section>
+
+<section aria-labelledby="technical-deep-dive"><h2 id="technical-deep-dive">Technical Deep Dive</h2>
+<h3 id="availability">Who gets access and where</h3>
+<p>Copilot Pro, Pro+, Max, Business and Enterprise are explicitly listed. GitHub says the model picker includes ten named surfaces, from editors through CLI and coding agent. The announcement calls the release generally available but also says rollout is gradual; enterprise and business administrators can manage availability through model policies. Under default model enablement, new models are enabled unless administrators have changed that default or disabled this model. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p>
+<p>That administrator note matters: a missing model may be a rollout delay or an organization policy, not a broken IDE. Update the client and extension, check the model policy, and compare the exact Copilot surface where you expect it. GitHub’s current docs say model availability can vary by plan and client. <a class="citation" href="#source-3" aria-label="Source 3">[3]</a></p>
+
+<h3 id="billing">Usage-based billing: model choice affects the credit budget</h3>
+<p>GitHub says Hydrogen is billed at provider list pricing under usage-based billing. Copilot measures input, cached and output tokens, converts usage into AI credits, and applies each plan’s included monthly allowance; after that allowance, additional usage can be billed in credits. A long agent session may use many model calls, so the cost is not captured by a single prompt or a model’s advertised per-million-token price alone. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a><a class="citation" href="#source-4" aria-label="Source 4">[4]</a></p>
+<p>GitHub’s current public pricing table did not yet show a Hydrogen row when checked on November 14, even though the launch post points users to that table. Therefore this article does not assign Hydrogen a Copilot multiplier or assert an exact Copilot cost. Google’s separate Gemini API rates are not a substitute for the Copilot billing rate. Check the live Copilot billing page and your organization’s usage budget before adopting it broadly. <a class="citation" href="#source-4" aria-label="Source 4">[4]</a></p>
+
+<h3 id="surface-gap">Copilot surfaces are not all the same</h3>
+<p>GitHub’s Hydrogen announcement names Copilot coding agent, but its current cloud-agent model-selection guide does not list Hydrogen among the selectable models. The supported-model reference separately lists Hydrogen as GA in Copilot. These pages may represent rollout or documentation timing differences; they do not justify claiming that Hydrogen is already selectable in every cloud-agent entry point. Verify the model picker in the precise client and workflow you use. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a><a class="citation" href="#source-3" aria-label="Source 3">[3]</a><a class="citation" href="#source-5" aria-label="Source 5">[5]</a></p>
+
+<h3 id="benchmark">What the coding benchmark says</h3>
+<p>Cursor’s public CursorBench 4.0 leaderboard evaluates agents on ambiguous, multi-file tasks taken from real Cursor sessions. In its current table, Gemini 4 Hydrogen High scores 54.3%, uses 88,682 tokens, takes 59 steps and is estimated at $5.59 per task. Gemini 4 Carbon High scores 60.4% at $9.22 per task; Gemini 4 Argon High scores 52.9% at $4.57. On this one benchmark and harness, Hydrogen sits between Argon and Carbon on score and cost. <a class="citation" href="#source-6" aria-label="Source 6">[6]</a></p>
+<div class="table-scroll" role="region" aria-label="CursorBench model comparison" tabindex="0"><table class="research-table"><caption>CursorBench 4.0 snapshot, checked November 14, 2026</caption><thead><tr><th scope="col">Model / effort</th><th scope="col">Score</th><th scope="col">Cost per task</th><th scope="col">Tokens</th><th scope="col">Steps</th></tr></thead><tbody><tr><th scope="row">Gemini 4 Carbon High</th><td>60.4%</td><td>$9.22</td><td>39,960</td><td>71</td></tr><tr><th scope="row">Gemini 4 Hydrogen High</th><td>54.3%</td><td>$5.59</td><td>88,682</td><td>59</td></tr><tr><th scope="row">Gemini 4 Argon High</th><td>52.9%</td><td>$4.57</td><td>109,500</td><td>118</td></tr></tbody></table></div>
+<p>These figures are Cursor’s own evaluation and cost calculation, not GitHub Copilot results. Cursor describes the task set as real-session, ambiguous multi-file work; its public page warns that small score differences may not be statistically meaningful and that cost depends on published token pricing. Do not treat 54.3% as a universal coding score or predict Copilot outcomes from it. It is a useful external datapoint for relative task quality and cost in Cursor’s harness. <a class="citation" href="#source-6" aria-label="Source 6">[6]</a></p>
+
+<h3 id="privacy">Data handling and model limits</h3>
+<p>GitHub’s model-hosting page says Gemini models used by Copilot are hosted on Google Cloud Platform. It states prompts and responses are not used by Google to train models, and that encrypted durable-cache data may be retained for up to 24 hours and is not used for training or fine-tuning. The page’s listed models had not yet been updated to include Hydrogen at the time checked, so this is the published Gemini hosting policy, not a Hydrogen-specific confirmation beyond the Copilot rollout itself. <a class="citation" href="#source-7" aria-label="Source 7">[7]</a></p>
+<p>Google’s model card describes Hydrogen as adapted from Gemini 4 Carbon, with closed weights and a combined input/output context window up to one million tokens. It warns of hallucinations, occasional slowness or timeouts, higher token use at higher thinking levels, and a March 2026 knowledge cutoff. These are Google’s disclosures, not independent tests of Hydrogen inside Copilot. <a class="citation" href="#source-2" aria-label="Source 2">[2]</a></p></section>
+
+<section aria-labelledby="evidence-sources"><h2 id="evidence-sources">Evidence &amp; Sources</h2>
+<p>Sources establish the release, product access, current public documentation and one vendor-run coding benchmark. The mismatch between the Hydrogen announcement and cloud-agent selection guide is recorded as a documentation/rollout uncertainty, not resolved by assumption.</p>
+<ol class="source-list">
+<li id="source-1" data-source-type="official"><span class="evidence-label">Official</span><a href="https://github.blog/changelog/2026-11-13-gemini-4-hydrogen-in-github-copilot/">GitHub Changelog — Gemini 4 Hydrogen in GitHub Copilot</a><span class="source-detail">Published November 13, 2026. Access plans, clients, billing statement, admin policies and rollout caveat.</span><time datetime="2026-11-14">Accessed 2026-11-14</time></li>
+<li id="source-2" data-source-type="official"><span class="evidence-label">Official</span><a href="https://deepmind.google/models/model-cards/gemini-4-hydrogen/">Google DeepMind — Gemini 4 Hydrogen Model Card</a><span class="source-detail">Model positioning, context, dependency, known limitations and safety caveats.</span><time datetime="2026-11-14">Accessed 2026-11-14</time></li>
+<li id="source-3" data-source-type="official"><span class="evidence-label">Official</span><a href="https://docs.github.com/en/copilot/reference/ai-models/supported-models">GitHub Docs — Supported AI models in Copilot</a><span class="source-detail">Live support status and plan/client availability; checked November 14, 2026.</span><time datetime="2026-11-14">Accessed 2026-11-14</time></li>
+<li id="source-4" data-source-type="official"><span class="evidence-label">Official</span><a href="https://docs.github.com/en/copilot/reference/copilot-billing/models-and-pricing">GitHub Docs — Models and pricing for Copilot</a><span class="source-detail">AI credits, usage billing and current pricing table; no Hydrogen-specific rate row observed at check time.</span><time datetime="2026-11-14">Accessed 2026-11-14</time></li>
+<li id="source-5" data-source-type="official"><span class="evidence-label">Official</span><a href="https://docs.github.com/en/copilot/how-tos/use-copilot-agents/cloud-agent/changing-the-ai-model">GitHub Docs — Changing the AI model for Copilot cloud agent</a><span class="source-detail">Current selectable cloud-agent models; Hydrogen was not listed when checked November 14, 2026.</span><time datetime="2026-11-14">Accessed 2026-11-14</time></li>
+<li id="source-6" data-source-type="independent"><span class="evidence-label">Independent evaluation</span><a href="https://cursor.com/en-US/cursorbench">Cursor — CursorBench 4.0 results</a><span class="source-detail">Cursor’s own coding-agent benchmark and token-derived task costs; checked November 14, 2026. Not a Copilot evaluation; methodology and sample variance apply.</span><time datetime="2026-11-14">Accessed 2026-11-14</time></li>
+<li id="source-7" data-source-type="official"><span class="evidence-label">Official</span><a href="https://docs.github.com/en/copilot/reference/ai-models/model-hosting">GitHub Docs — Hosting of models for Copilot</a><span class="source-detail">Published Google Gemini hosting, caching and no-training commitments; page’s named Gemini list had not yet caught up to Hydrogen when checked.</span><time datetime="2026-11-14">Accessed 2026-11-14</time></li>
+<li id="source-8" data-source-type="community"><span class="evidence-label">Community</span><a href="https://www.reddit.com/r/GeminiAI/comments/1xuii88/gemini_4_hydrogen_just_released/">r/GeminiAI — launch-day Hydrogen availability reports</a><span class="source-detail">Anecdotal November 12 account of the model appearing, disappearing and reappearing in a consumer app, consistent with a staged rollout but not proof of Copilot behavior.</span><time datetime="2026-11-14">Accessed 2026-11-14</time></li>
+</ol></section>
+
+<section aria-labelledby="community-reactions"><h2 id="community-reactions">Community Reactions</h2>
+<p>There is not yet a meaningful body of developer feedback specific to Hydrogen inside GitHub Copilot. Launch-day Reddit comments about the Gemini app mention intermittent visibility during rollout and excitement about trying the model, but they concern Google’s consumer surface, not Copilot. We treat those posts as anecdotal and do not use them to infer Copilot reliability or quality. <a class="citation" href="#source-8" aria-label="Source 8">[8]</a></p>
+<p>The most useful early developer signal is therefore product documentation and benchmark transparency, not a pile of impressions. Copilot users should record plan, client, model picker state, thinking effort where available, credits consumed, task outcome and diff quality so that later comparisons are reproducible.</p></section>
+
+<section class="plain-english" id="explained-simply" data-explained-simply aria-labelledby="simple-title"><h2 id="simple-title">Explained Simply</h2>
+<h3 id="simple-model">What changed?</h3><p>Hydrogen is a new Google model. The specific news here is that GitHub added it to many parts of Copilot, so paid Copilot users can choose it in supported apps, IDEs and command-line tools.</p>
+<h3 id="simple-billing">What might it cost?</h3><p>Copilot charges usage in AI credits. The amount depends on how many tokens the model and coding agent use. The public Copilot pricing page had not yet published Hydrogen’s exact model row when we checked, so don’t copy Google’s API rate and assume Copilot bills the same way.</p>
+<h3 id="simple-next">What should I do?</h3><p>Update your Copilot client, check whether your plan and organization policy allow the model, and watch the AI-credits panel on a real task. Compare it with another model on the same bug or feature before deciding it is faster or cheaper for your own projects.</p></section>
+
+<section aria-labelledby="conclusion"><h2 id="conclusion">Conclusion</h2><p>Hydrogen’s Copilot rollout is a meaningful new option for everyday coding, especially where teams want a fast execution-oriented model across several Copilot clients. The evidence supports availability and a promising CursorBench result; it does not prove a universal performance advantage or a precise Copilot cost. Test it in your actual workflow, verify which surface can select it, and monitor AI-credit use until GitHub’s pricing and cloud-agent documentation fully align with the release notice.</p></section>
+
+<section class="article-engagement" aria-label="Article reactions"><div class="engagement-copy"><span class="engagement-heading">Enjoyed this research?</span><span class="engagement-note">Leave a like — no account needed.</span></div><div class="engagement-actions"><button type="button" class="article-like-button" data-like-button aria-label="Like this article" aria-pressed="false" disabled><svg class="article-like-heart" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0 0-7.78Z"/></svg><span data-like-count aria-live="polite">—</span><span>likes</span></button><span class="article-like-status" data-like-status role="status">Loading likes…</span></div></section>
+</article></main></div>
+<footer class="footer"><div class="footer-inner"><span>© 2026 Dekrov</span><span class="footer-links"><a href="https://t.me/Dekrov_channel_en">Telegram / @Dekrov_channel_en ↗</a><a href="https://x.com/Dekrov_Dev">X / @Dekrov_Dev ↗</a><a href="https://github.com/DekrovDev">GitHub / DekrovDev ↗</a></span></div></footer>
+<script src="/article-likes.js?v=3" defer></script><script src="/article.js" defer></script><script src="/site.js"></script>
+</body></html>
