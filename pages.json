@@ -5,6 +5,13 @@
     "meta": "Overview"
   },
   {
+    "slug": "gemini-4-hydrogen-copilot",
+    "path": "/hydrogen-copilot/",
+    "title": "Gemini 4 Hydrogen in GitHub Copilot: Access, Cost and What the Benchmarks Prove",
+    "meta": "AI Coding Tools · Nov 14, 2026",
+    "summary": "A source-backed guide to Hydrogen's Copilot rollout, plan access, usage-based billing, benchmark limits and cloud-agent documentation gaps."
+  },
+  {
     "slug": "github-actions-arm32-retirement-2026",
     "path": "/actions-arm32-retirement/",
     "title": "GitHub Actions Retires ARM32 Hosted Jobs on December 8: What to Check Now",
