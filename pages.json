@@ -5,6 +5,13 @@
     "meta": "Overview"
   },
   {
+    "slug": "github-actions-arm32-retirement-2026",
+    "path": "/actions-arm32-retirement/",
+    "title": "GitHub Actions Retires ARM32 Hosted Jobs on December 8: What to Check Now",
+    "meta": "GitHub Actions · Nov 13, 2026",
+    "summary": "The December 8 ARM32 hosted-runner retirement: scope, Node 24 rationale, ARM64 distinctions and a workflow migration audit."
+  },
+  {
     "slug": "gemini-4-hydrogen-coding",
     "path": "/gemini-hydrogen/",
     "title": "Gemini 4 Hydrogen: Google’s Coding-Speed Bet, Benchmarked",

@@ -1,0 +1,172 @@
+---
+layout: null
+permalink: /actions-arm32-retirement/
+redirect_from:
+  - /pages/github-actions-arm32-retirement-2026/
+  - /pages/github-actions-arm32-retirement-2026/index.html
+---
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#ffffff">
+<meta name="description" content="GitHub will end native ARM32 job execution on hosted Windows and Linux runners on December 8, 2026. Scope, Node 24 context, ARM64 distinction and migration options.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GitHub Actions Retires ARM32 Hosted Jobs on December 8: What to Check Now">
+<meta property="og:description" content="GitHub will end native ARM32 job execution on hosted Windows and Linux runners on December 8, 2026. Scope, Node 24 context, ARM64 distinction and migration options.">
+<meta property="og:url" content="https://insights.dekrov.com/actions-arm32-retirement/">
+<link rel="canonical" href="https://insights.dekrov.com/actions-arm32-retirement/">
+<meta name="twitter:card" content="summary">
+<title>GitHub Actions Retires ARM32 Hosted Jobs on December 8: What to Check Now — Dekrov Insights</title>
+<script src="/theme.js"></script>
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body data-page="github-actions-arm32-retirement-2026" data-root="/">
+<header class="top">
+  <div class="header-inner">
+    <div class="brand-signature">
+      <a class="brand" href="/"><span class="brand-mark" aria-hidden="true">DK</span>Dekrov Insights</a>
+      <span class="brand-role">Research / AI &amp; Technology</span>
+    </div>
+    <div class="header-actions">
+      <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme"><span data-theme-label>Light</span></button>
+      <a class="nav" href="https://github.com/DekrovDev/dekrov-insights">GitHub ↗</a>
+    </div>
+  </div>
+</header>
+<div class="layout">
+<aside class="sidebar" aria-label="Page navigation">
+  <p class="side-heading">Index</p>
+  <nav class="side-nav" aria-label="Pages" data-site-nav></nav>
+</aside>
+<main class="main-content" id="main">
+  <article class="article-body research-article" data-article-version="2">
+    <!-- ARTICLE CONTENT START. Read ARTICLE_AUTHORING_GUIDE.md first.
+    Replace every placeholder; HTML-escape inserted text and attributes.
+    Keep explicit heading IDs: they also work without JavaScript.
+    Add optional sections only when there is substantive sourced material.
+    Use one idea per paragraph and descriptive h3 subsections in long sections.
+    Insert complete sibling paragraphs; never wrap supplied HTML in another p.
+    Typography and spacing come from styles.css, not inline styles or br spacers.
+    The article.js script adds a compact TOC and a prominent plain-English jump.
+    -->
+    <span class="tag">GitHub Actions · Platform Change</span>
+    <h1>GitHub Actions Retires ARM32 Hosted Jobs on December 8: What to Check Now</h1>
+    <div class="article-meta">
+      <span>By Dekrov</span>
+      <span>Published <time datetime="2026-11-13">November 13, 2026</time></span>
+      <span>Updated <time datetime="2026-11-13">November 13, 2026</time></span>
+    </div>
+    <p class="intro">GitHub’s November 12 notice gives maintainers less than four weeks to check workflows that depend on native 32-bit ARM execution in hosted Windows or Linux jobs. The change is specifically about ARM32; ARM64 is a different architecture and is not named in the retirement notice.</p>
+    <!-- This link must remain accessible even when scripts are unavailable. -->
+    <p><a href="#explained-simply">Start with the plain-English explanation ↓</a></p>
+
+    <section aria-labelledby="overview">
+      <h2 id="overview">Overview</h2>
+      <p>On November 12, GitHub announced that GitHub Actions hosted runners will stop supporting ARM32 job execution on Windows and Linux on December 8, 2026. The notice says the change includes native AArch32 user-space execution and follows GitHub Actions’ removal of Node 20, because Node 24 does not support ARM32. Maintainers have under four weeks from announcement to identify any jobs that genuinely execute 32-bit ARM code and decide where that test will run next. This is a CI compatibility change, not a notice that every ARM device or every ARM-based workflow will stop working. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a><a class="citation" href="#source-2" aria-label="Source 2">[2]</a>
+        <a class="citation" href="#source-1" aria-label="Source 1"><a class="citation" href="#source-1" aria-label="Source 1">[1]</a></a></p>
+    </section>
+
+    <section aria-labelledby="technical-deep-dive">
+      <h2 id="technical-deep-dive">Technical Deep Dive</h2>
+      <!-- Add/rename/remove h3 subsections to reflect the actual investigation. -->
+      <h3 id="mechanism">How it works</h3>
+      <p>GitHub’s retirement notice is narrow: hosted runner jobs on Windows and Linux that rely on ARM32 execution, including native AArch32 user-space execution. GitHub ties it to the Node 20 to Node 24 transition in Actions: Node 24 does not support ARM32, so the hosted environment is removing that execution support. This does not say that ARM64 is being retired, that GitHub-hosted x64 jobs disappear, or that all self-hosted ARM32 hardware is removed. The announcement describes hosted runners; the current self-hosted runner documentation separately lists ARM32 support for Linux. Confirm the exact environment and runner type before changing a pipeline. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a><a class="citation" href="#source-2" aria-label="Source 2">[2]</a><a class="citation" href="#source-4" aria-label="Source 4">[4]</a></p>
+      <aside class="evidence-note" data-evidence="official" aria-label="Evidence qualification">
+        <span class="evidence-label">Official statement</span>
+        <p>GitHub confirms the affected platforms, the December 8 date, native AArch32 user-space scope and the stated Node 24 reason. The notice does not enumerate every affected workflow, identify a new ARM32 hosted image, or promise that emulation will continue to behave the same way. Repository owners should inventory their own jobs and validate a replacement in the real pipeline. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a>
+          <a class="citation" href="#source-1" aria-label="Source 1"><a class="citation" href="#source-1" aria-label="Source 1">[1]</a></a></p>
+      </aside>
+      <!-- Optional: timeline, evidence table, code, or inline figure from the guide.
+      Cite fixes by version/commit/PR. Separate shipped fixes from proposed workarounds.
+      For numbers: name the evaluator, date, method, environment and limitations.
+      -->
+    </section>
+
+<section aria-labelledby="affected-scope">
+      <h2 id="affected-scope">The exact scope: hosted ARM32 execution</h2>
+      <p>GitHub’s wording matters. The change is for <strong>hosted runners</strong> and concerns ARM32 job execution on Windows and Linux, including native AArch32 user-space execution. It is not a blanket retirement of the ARM family. GitHub’s runner-image project lists separate ARM64 images alongside x64 images, and its self-hosted runner reference separately lists ARM32 support for Linux. Availability and support details differ by runner type; do not transfer a statement about hosted runners to every self-hosted machine. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a><a class="citation" href="#source-3" aria-label="Source 3">[3]</a><a class="citation" href="#source-4" aria-label="Source 4">[4]</a></p>
+      <div class="table-scroll" role="region" aria-label="Architecture and runner scope" tabindex="0">
+        <table class="research-table">
+          <caption>What the notice says—and what it does not say</caption>
+          <thead><tr><th scope="col">Environment or architecture</th><th scope="col">Status from the checked sources</th><th scope="col">Action</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Hosted Windows/Linux, ARM32</th><td>Retirement announced for December 8, 2026; native AArch32 execution is included. <a class="citation" href="#source-1" aria-label="Source 1"><a class="citation" href="#source-1" aria-label="Source 1">[1]</a></a></td><td>Audit jobs that run ARM32 binaries or depend on native ARM32 user space.</td></tr>
+            <tr><th scope="row">Hosted ARM64</th><td>Not named in the retirement notice; runner-image documentation lists ARM64 images separately. <a class="citation" href="#source-3" aria-label="Source 3"><a class="citation" href="#source-3" aria-label="Source 3">[3]</a></a></td><td>Use only when the workload and binaries support ARM64; test the actual workflow.</td></tr>
+            <tr><th scope="row">Self-hosted ARM32 Linux</th><td>GitHub’s self-hosted runner reference currently lists ARM32 for Linux. The hosted-runner notice does not announce its removal. <a class="citation" href="#source-4" aria-label="Source 4"><a class="citation" href="#source-4" aria-label="Source 4">[4]</a></a></td><td>Check current product and organization requirements before relying on this route.</td></tr>
+            <tr><th scope="row">Hosted x64 job cross-compiling ARM32</th><td>The notice targets ARM32 execution; cross-compilation alone is not the same as executing an ARM32 job. <a class="citation" href="#source-1" aria-label="Source 1"><a class="citation" href="#source-1" aria-label="Source 1">[1]</a></a></td><td>Separate compile-only steps from runtime tests and verify the latter.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section aria-labelledby="why-node24">
+      <h2 id="why-node24">Why Node 24 is part of the explanation</h2>
+      <p>GitHub says this follows end of support for Node 20 in Actions: Node 24 does not support ARM32. The September 23 Node 20 retirement notice instructed action maintainers to update JavaScript actions to <code>runs.using: node24</code> and workflow owners to update to action releases that support Node 24. That earlier change is related context, but it does not prove that every ARM32 workflow necessarily fails in the same way. GitHub’s new November notice separately announces the hosted runner execution retirement and its date. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a><a class="citation" href="#source-2" aria-label="Source 2">[2]</a></p>
+      <p>There are at least two maintenance layers to inspect: JavaScript actions’ runtime declarations, and project jobs that execute architecture-specific code. An action can be Node 24-compatible while a test matrix still assumes native ARM32; conversely, a job may only cross-compile ARM32 output and not run it. Treating those as one problem can lead to unnecessary migrations or leave the real dependency undiscovered.</p>
+    </section>
+
+    <section aria-labelledby="audit-migration">
+      <h2 id="audit-migration">A migration audit for maintainers</h2>
+      <ol>
+        <li><strong>Search the repository.</strong> Review <code>.github/workflows</code>, reusable workflows, scripts, Dockerfiles and action configuration for <code>arm32</code>, <code>armhf</code>, <code>AArch32</code>, 32-bit ARM target triples, platform labels and architecture-specific package names.</li>
+        <li><strong>Follow the execution path.</strong> Identify whether the job compiles a target, packages it, runs it under emulation, or executes natively. Inspect logs and image architecture; a string match is a lead, not proof.</li>
+        <li><strong>Classify the runner.</strong> Separate GitHub-hosted jobs from self-hosted runners and third-party CI. The announcement explicitly covers GitHub-hosted Windows and Linux runners. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></li>
+        <li><strong>Choose a replacement based on the test.</strong> Cross-compile when that is all the release needs; use ARM64 only if it is an equivalent product target; retain an ARM32 runtime test on a supported self-hosted Linux machine or another provider when true ARM32 behavior is required. The documented options are not guarantees that every hosted runner or test setup supports the same workflow. <a class="citation" href="#source-3" aria-label="Source 3">[3]</a><a class="citation" href="#source-4" aria-label="Source 4">[4]</a></li>
+        <li><strong>Validate before the deadline.</strong> Run the complete workflow, including native dependencies, caches, artifact upload and release steps. Keep a known-good commit and record any coverage you intentionally drop.</li>
+      </ol>
+      <p>Do not fix this by changing every matrix entry from “arm” to “arm64.” That may make the queue green while silently ceasing to test the architecture your users run. Conversely, do not provision ARM32 hardware for a job that only cross-compiles. Preserve the requirement the test was meant to check.</p>
+    </section>
+
+    <section aria-labelledby="community-signal">
+      <h2 id="community-signal">Community and evidence limits</h2>
+      <p>This is a short platform retirement notice, not a benchmark or feature launch, and the checked sources do not provide an impact count for repositories or jobs. I found no reliable public estimate of how many workflows depend on hosted ARM32. The practical impact therefore has to be assessed repository by repository. GitHub’s notice is the primary evidence for the change; runner documentation helps distinguish architectures and runner types, but does not reveal an individual project’s usage. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a><a class="citation" href="#source-3" aria-label="Source 3">[3]</a><a class="citation" href="#source-4" aria-label="Source 4">[4]</a></p>
+    </section>
+
+    
+
+    <section class="plain-english" id="explained-simply" data-explained-simply aria-labelledby="simple-title">
+      <h2 id="simple-title">Explained Simply</h2>
+      <!-- Use short descriptive h3s when the simple explanation spans several topics. -->
+      <p>ARM32 (also called AArch32) is the 32-bit version of ARM instructions. ARM64 (AArch64) is a separate 64-bit instruction set. A program built for one is not automatically interchangeable with a program built for the other, even though both are ARM. GitHub is removing ARM32 job execution from its hosted Windows and Linux runners on December 8; the announcement does not retire ARM64 runners. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a><a class="citation" href="#source-4" aria-label="Source 4">[4]</a></p>
+      <p>Think of ARM32 and ARM64 like two related but different plug shapes: sharing the ARM name does not guarantee that a device, binary or test fits both. If a project tests a 32-bit ARM build, the test needs a machine or supported execution layer that can run that exact target. Hosted CI is the rented test bench. GitHub is changing which bench is available, so maintainers need to find those tests before the deadline rather than assume an ARM64 runner is a drop-in replacement. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a><a class="citation" href="#source-4" aria-label="Source 4">[4]</a></p>
+      <p>Start by searching workflow files, scripts, containers and third-party actions for ARM32/AArch32 references, architecture-specific binaries, cross-compilers and QEMU or other emulation setup. Then inspect the actual job logs and runner image: a search term alone does not prove a job depends on native ARM32, and an x64 job that merely produces a cross-compiled artifact is different from one that executes that artifact. If the test needs native ARM32 behavior, the documented self-hosted Linux runner route may fit, or the project may use a dedicated ARM32 device/provider. If ARM64 is sufficient for the product requirement, test a documented ARM64 runner, but verify binary compatibility and test intent. Do not assume an emulator path is unaffected without testing it. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a><a class="citation" href="#source-3" aria-label="Source 3">[3]</a><a class="citation" href="#source-4" aria-label="Source 4">[4]</a></p>
+    </section>
+
+    <section aria-labelledby="conclusion">
+      <h2 id="conclusion">Conclusion</h2>
+      <p>The confirmed deadline is December 8, 2026, and the stated scope is native ARM32 execution on GitHub-hosted Windows/Linux runners. The source does not identify a universal replacement or say that ARM64 covers ARM32 test needs. First identify the affected jobs, distinguish hosted from self-hosted runners, then run the replacement architecture through the same build, test and release pipeline before removing the old dependency. There is no reason to migrate unrelated x64 or ARM64 jobs on the basis of this notice alone. The remaining uncertainty is how each repository uses ARM32 execution; only its own workflow and binary behavior can answer that. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a><a class="citation" href="#source-2" aria-label="Source 2">[2]</a><a class="citation" href="#source-3" aria-label="Source 3">[3]</a><a class="citation" href="#source-4" aria-label="Source 4">[4]</a></p>
+    </section>
+
+    <section aria-labelledby="sources">
+      <h2 id="sources">Evidence &amp; Sources</h2>
+      <p class="source-detail">Source type describes provenance, not guaranteed truth. Availability checks do not verify a claim.</p>
+      <ol class="source-list">
+        <li id="source-1" data-source-type="official"><span class="evidence-label">Official</span><a href="https://github.blog/changelog/2026-11-12-actions-for-arm32-linux-windows-retirement/">GitHub Changelog — Actions for ARM32 Linux &amp; Windows retirement</a><span class="source-detail">Published November 12, 2026. Primary announcement for date, hosted Windows/Linux scope, native AArch32 execution and Node 24 rationale.</span><time datetime="2026-11-13">Accessed 2026-11-13</time></li>
+<li id="source-2" data-source-type="official"><span class="evidence-label">Official</span><a href="https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/">GitHub Changelog — Node 20 is no longer available in GitHub Actions</a><span class="source-detail">Published September 23, 2026. Node 20 retirement and action-maintainer guidance; context for the stated Node 24 transition.</span><time datetime="2026-11-13">Accessed 2026-11-13</time></li>
+<li id="source-3" data-source-type="official"><span class="evidence-label">Official</span><a href="https://github.com/actions/runner-images">GitHub — Actions runner images</a><span class="source-detail">Current image list distinguishes x64 and ARM64 hosted runner images; it does not establish ARM32 support after the announced date.</span><time datetime="2026-11-13">Accessed 2026-11-13</time></li>
+<li id="source-4" data-source-type="official"><span class="evidence-label">Official</span><a href="https://docs.github.com/en/actions/reference/runners/self-hosted-runners">GitHub Docs — Self-hosted runners reference</a><span class="source-detail">Current architecture list includes ARM32 for Linux self-hosted runners; scope differs from hosted runners.</span><time datetime="2026-11-13">Accessed 2026-11-13</time></li>
+      </ol>
+    </section>
+    <!-- ARTICLE CONTENT END: keep the shared reactions block below. -->
+
+    <section class="article-engagement" aria-label="Article reactions">
+      <div class="engagement-copy"><span class="engagement-heading">Enjoyed this research?</span><span class="engagement-note">Leave a like — no account needed.</span></div>
+      <div class="engagement-actions">
+        <button type="button" class="article-like-button" data-like-button aria-label="Like this article" aria-pressed="false" disabled>
+          <svg class="article-like-heart" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z"/></svg>
+          <span data-like-count aria-live="polite">—</span><span>likes</span>
+        </button>
+        <span class="article-like-status" data-like-status role="status">Loading likes…</span>
+      </div>
+    </section>
+  </article>
+</main>
+</div>
+<footer class="footer"><div class="footer-inner"><span>© 2026 Dekrov</span><span class="footer-links"><a href="https://t.me/Dekrov_channel_en">Telegram / @Dekrov_channel_en ↗</a><a href="https://x.com/Dekrov_Dev">X / @Dekrov_Dev ↗</a><a href="https://github.com/DekrovDev">GitHub / DekrovDev ↗</a></span></div></footer>
+<script src="/article-likes.js?v=3" defer></script>
+<script src="/article.js" defer></script>
+<script src="/site.js"></script>
+</body>
+</html>
