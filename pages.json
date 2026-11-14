@@ -5,6 +5,13 @@
     "meta": "Overview"
   },
   {
+    "slug": "artificial-analysis-coding-agent-index-v21-2026",
+    "title": "The New Coding-Agent Index Tests Models Inside Their Tools",
+    "path": "/coding-agent-index/",
+    "meta": "AI Coding Benchmarks · Nov 14, 2026",
+    "summary": "Artificial Analysis’s Coding Agent Index v2.1 scores model–agent setups across repository changes, terminal work and codebase Q&A. We unpack what the scores, costs and version changes mean."
+  },
+  {
     "slug": "antigravity-orchestrator-hydrogen-2026",
     "title": "Google Antigravity Orchestrator: Carbon Plans, Hydrogen Builds—and the Evidence Gaps",
     "path": "/antigravity-orchestrator/",
