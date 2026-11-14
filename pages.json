@@ -5,6 +5,13 @@
     "meta": "Overview"
   },
   {
+    "slug": "vercel-agent-desktop-accessibility-20261114",
+    "path": "/agent-desktop/",
+    "title": "Vercel’s agent-desktop Gives Coding Agents Native GUI Access—with Clear Limits",
+    "meta": "AI Coding Infrastructure · Nov 14, 2026",
+    "summary": "Vercel Labs’ agent-desktop lets coding agents inspect and operate native desktop apps through OS accessibility trees. Its Nov 13 v1.3.1 release fixes macOS sandbox lifetime; this analysis compares it with browser automation and explains permissions, stale refs, licensing and what remains unproven."
+  },
+  {
     "slug": "expo-simulators-agent-mobile-testing-20261114",
     "title": "Expo Simulators Give Coding Agents a Phone to Test—But Not a Real Device",
     "path": "/expo-simulators/",
