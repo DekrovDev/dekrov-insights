@@ -1,0 +1,190 @@
+---
+layout: null
+permalink: /coding-agent-index/
+redirect_from:
+  - /pages/artificial-analysis-coding-agent-index-v21-2026/
+  - /pages/artificial-analysis-coding-agent-index-v21-2026/index.html
+---
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#ffffff">
+<meta name="description" content="Artificial Analysis’s Coding Agent Index v2.1 combines three benchmarks. We explain what its 58-point Claude Code results, $0.32 DeepSeek run and cost differences do—and do not—tell developers.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="The New Coding-Agent Index Tests Models Inside Their Tools">
+<meta property="og:description" content="Artificial Analysis’s Coding Agent Index v2.1 combines three benchmarks. We explain what its 58-point Claude Code results, $0.32 DeepSeek run and cost differences do—and do not—tell developers.">
+<meta property="og:url" content="https://insights.dekrov.com/coding-agent-index/">
+<link rel="canonical" href="https://insights.dekrov.com/coding-agent-index/">
+<meta name="twitter:card" content="summary">
+<title>The New Coding-Agent Index Tests Models Inside Their Tools — Dekrov Insights</title>
+<script src="/theme.js"></script>
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body data-page="artificial-analysis-coding-agent-index-v21-2026" data-root="/">
+<header class="top">
+  <div class="header-inner">
+    <div class="brand-signature">
+      <a class="brand" href="/"><span class="brand-mark" aria-hidden="true">DK</span>Dekrov Insights</a>
+      <span class="brand-role">Research / AI &amp; Technology</span>
+    </div>
+    <div class="header-actions">
+      <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme"><span data-theme-label>Light</span></button>
+      <a class="nav" href="https://github.com/DekrovDev/dekrov-insights">GitHub ↗</a>
+    </div>
+  </div>
+</header>
+<div class="layout">
+<aside class="sidebar" aria-label="Page navigation">
+  <p class="side-heading">Index</p>
+  <nav class="side-nav" aria-label="Pages" data-site-nav></nav>
+</aside>
+<main class="main-content" id="main">
+  <article class="article-body research-article" data-article-version="2">
+    <!-- ARTICLE CONTENT START. Read ARTICLE_AUTHORING_GUIDE.md first.
+    Replace every ; HTML-escape inserted text and attributes.
+    Keep explicit heading IDs: they also work without JavaScript.
+    Add optional sections only when there is substantive sourced material.
+    Use one idea per paragraph and descriptive h3 subsections in long sections.
+    Insert complete sibling paragraphs; never wrap supplied HTML in another p.
+    Typography and spacing come from styles.css, not inline styles or br spacers.
+    The article.js script adds a compact TOC and a prominent plain-English jump.
+    -->
+    <span class="tag">AI Coding Benchmarks</span>
+    <h1>The New Coding-Agent Index Tests Models Inside Their Tools</h1>
+    <div class="article-meta">
+      <span>By Dekrov</span>
+      <span>Published <time datetime="2026-11-14">Nov 14, 2026</time></span>
+      <span>Updated <time datetime="2026-11-14">Nov 14, 2026</time></span>
+    </div>
+    <p class="intro">Artificial Analysis’s November 2026 Coding Agent Index v2.1 scores a model together with its agent harness and settings. Its published rows show why one leaderboard score can hide different capabilities, costs and runtimes.</p>
+    <!-- This link must remain accessible even when scripts are unavailable. -->
+    <p><a href="#explained-simply">Start with the plain-English explanation ↓</a></p>
+
+    <section aria-labelledby="overview">
+      <h2 id="overview">Overview</h2>
+      <p>Artificial Analysis now labels its public coding-agent leaderboard v2.1. It combines three kinds of work—changing real repositories, completing terminal tasks and answering questions about code—and gives each benchmark equal weight. That makes the result a useful workflow snapshot, but it is not a pure model ranking: each row represents an agent harness, model and settings together.<a class="citation" href="#source-1" aria-label="Source 1">[1]</a>
+        <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p>
+    </section>
+
+    <section aria-labelledby="technical-deep-dive">
+      <h2 id="technical-deep-dive">Technical Deep Dive</h2>
+      <!-- Add/rename/remove h3 subsections to reflect the actual investigation. -->
+      <h3 id="mechanism">How it works</h3>
+      <p>The version history says v2.1, current in November 2026, upgraded Terminal-Bench 4.0 to 4.1 and replaced 100-task FrontierCode v1.1 with FrontierCode-AA 2.0, a 132-task implementation of Cognition’s FrontierCode 2.0. It also aligned cost estimates with Artificial Analysis’s model-evaluation method. Because two benchmark components and the pricing calculation changed, a v2.1 result should not be compared casually with an older index version.<a class="citation" href="#source-2" aria-label="Source 2">[2]</a></p>
+      <aside class="evidence-note" data-evidence="official" aria-label="Evidence qualification">
+        <span class="evidence-label">Official statement</span>
+        <p>Artificial Analysis says each benchmark component is averaged over three attempts per task and the three component scores receive equal weight. The score therefore summarizes a chosen suite; it is not the percentage of all 322 tasks passed, nor proof that one model will win on a developer’s own repository.<a class="citation" href="#source-2" aria-label="Source 2">[2]</a>
+          <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p>
+      </aside>
+      <!-- Optional: timeline, evidence table, code, or inline figure from the guide.
+      Cite fixes by version/commit/PR. Separate shipped fixes from proposed workarounds.
+      For numbers: name the evaluator, date, method, environment and limitations.
+      -->
+    </section>
+
+    <!-- Optional h2 sections: Evidence & Sources (analysis), Community Reactions,
+    Visual Evidence. Figures may appear directly beside relevant paragraphs.
+    Do not create empty sections or invent community reactions or experiments.
+    Put the complete numbered bibliography at the END, below Conclusion.
+    -->
+
+    <section aria-labelledby="reading-the-results">
+      <h2 id="reading-the-results">What the Current Results Say</h2>
+      <p>The published Claude Code versus DeepSeek Harness comparison makes the composite’s trade-offs concrete. The table below reproduces selected Artificial Analysis rows; the agent, model and reasoning setting are part of each result.<a class="citation" href="#source-3" aria-label="Source 3">[3]</a></p>
+      <div class="table-scroll" role="region" aria-label="Selected coding agent benchmark results" tabindex="0">
+        <table class="research-table">
+          <caption>Selected Artificial Analysis Coding Agent Index v2.1 results, accessed Nov 14, 2026</caption>
+          <thead><tr><th scope="col">Agent and configuration</th><th scope="col">Index</th><th scope="col">FrontierCode-AA 2.0</th><th scope="col">Terminal-Bench 4.1</th><th scope="col">SWE-Atlas-QnA-AA</th><th scope="col">API cost / task</th><th scope="col">Agent time / task</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Claude Code · Fable 5.2 High</th><td>58</td><td>49</td><td>64</td><td>62</td><td>$7.51</td><td>31.3 min</td></tr>
+            <tr><th scope="row">Claude Code · Fable 5.2 Xhigh</th><td>58</td><td>49</td><td>64</td><td>62</td><td>$15.47</td><td>53.3 min</td></tr>
+            <tr><th scope="row">Claude Code · Opus 5.5 Max</th><td>58</td><td>44</td><td>65</td><td>66</td><td>$12.61</td><td>1.1 h</td></tr>
+            <tr><th scope="row">DeepSeek Harness · V4.1 Flash 1017 Max</th><td>37</td><td>21</td><td>28</td><td>62</td><td>$0.32</td><td>31.4 min</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Fable 5.2 High and Xhigh received identical listed scores in all three components, while the Xhigh run cost about twice as much and took longer. That is a useful prompt to test effort settings before paying for more reasoning; it is not proof that Xhigh never helps outside this suite.<a class="citation" href="#source-3" aria-label="Source 3">[3]</a></p>
+      <p>Claude Code’s Opus row reaches the same composite with a different profile: a higher SWE-Atlas-QnA-AA score, but a lower FrontierCode-AA 2.0 score than the Fable rows. DeepSeek Harness ties Claude Code on SWE-Atlas-QnA-AA in this comparison but has lower scores on repository changes and terminal work. The benchmark supports a task-specific reading, not a universal “best model” claim.<a class="citation" href="#source-3" aria-label="Source 3">[3]</a></p>
+    </section>
+
+    <section aria-labelledby="benchmark-method">
+      <h2 id="benchmark-method">How v2.1 Builds Its Score</h2>
+      <h3 id="three-workloads">Three different workloads</h3>
+      <p>FrontierCode-AA 2.0 asks an agent to change real open-source repositories and grades the patch against blocking and non-blocking checks, including whether a maintainer would merge it. The 132 tasks are not publicly released. Artificial Analysis runs each task three times, caps an attempt at 500 turns and checks trajectories for attempts to look up the upstream solution.<a class="citation" href="#source-2" aria-label="Source 2">[2]</a><a class="citation" href="#source-4" aria-label="Source 4">[4]</a></p>
+      <p>Terminal-Bench 4.1 covers 66 terminal tasks across areas such as software engineering, machine learning, scientific computing, security and system administration. Version 4.1 keeps the 4.0 tasks and environments, but updates verifiers to reduce reward hacking and correct cases where valid answers were rejected. SWE-Atlas-QnA-AA tests whether an agent can trace code and answer repository questions; its 124 tasks use a rubric-based pass/fail score.<a class="citation" href="#source-2" aria-label="Source 2">[2]</a></p>
+      <h3 id="composite-score">A composite, not 322 equally pooled tasks</h3>
+      <p>Each component score is averaged over three attempts per task, then the three component scores are averaged equally. This gives each benchmark one-third of the headline index even though the components contain 132, 66 and 124 tasks. It is therefore not equivalent to pooling 322 tasks and counting one overall pass rate. Artificial Analysis publishes the component scores so readers can see when an aggregate hides a capability gap.<a class="citation" href="#source-1" aria-label="Source 1">[1]</a><a class="citation" href="#source-2" aria-label="Source 2">[2]</a></p>
+      <h3 id="cost-and-time">Cost and time are estimates with scope limits</h3>
+      <p>The cost column is a pay-per-token API estimate using token counts and provider pricing, with cache discounts and cache-write charges where applicable. Artificial Analysis says it may use recorded run cost when it cannot rebuild token counts. This is not subscription-plan pricing, infrastructure cost or the total cost of a human-reviewed production workflow. The reported agent wall time also excludes environment startup, verifier and judge time.<a class="citation" href="#source-1" aria-label="Source 1">[1]</a><a class="citation" href="#source-2" aria-label="Source 2">[2]</a></p>
+      <aside class="evidence-note" data-evidence="independent" aria-label="Evidence qualification">
+        <span class="evidence-label">Independent evaluation</span>
+        <p>These are Artificial Analysis’s published measurements for specific agent/model/settings combinations. We found no independent reproduction of this exact comparison in the sources reviewed. FrontierCode-AA 2.0’s task set is private, which limits outside replication; that is a constraint to account for, not evidence that the scores are wrong.<a class="citation" href="#source-2" aria-label="Source 2">[2]</a><a class="citation" href="#source-4" aria-label="Source 4">[4]</a></p>
+      </aside>
+    </section>
+
+    <section class="plain-english" id="explained-simply" data-explained-simply aria-labelledby="simple-title">
+      <h2 id="simple-title">Explained Simply</h2>
+      <!-- Use short descriptive h3s when the simple explanation spans several topics. -->
+      <p>A coding model is the system that reasons and writes code. An agent harness is the software around it: it gives the model files to inspect, tools to run, and a loop for checking results. Artificial Analysis measures these combinations, so “Claude Code with Fable 5.2” and “DeepSeek Harness with DeepSeek V4.1 Flash” are full setups, not just model names.<a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p>
+      <p>Think of a model as an engine and the harness as the car around it. A strong engine can be slowed by poor controls, while a well-designed car can make a less powerful engine useful. The index tries three driving conditions: modify a real codebase, complete a terminal task, and explain how a repository works.</p>
+      <p>For a real project, compare the benchmark’s per-category results, then test candidates on a small set of your own issues with the same repository, tools, tests and time limit. A single aggregate number hides whether you need implementation, terminal operation or codebase understanding. The public FrontierCode tasks are withheld, and the published comparison is Artificial Analysis’s evaluation rather than an independent reproduction, so treat it as useful evidence—not a guarantee.</p>
+    </section>
+
+    <section aria-labelledby="conclusion">
+      <h2 id="conclusion">Conclusion</h2>
+      <p>The most useful signal is the trade-off, not a single winner. Claude Code’s Fable 5.2 High and Opus 5.5 Max rows both score 58, but their component strengths differ; Fable High costs less in this run. DeepSeek Harness is far cheaper on the published API-cost estimate, while scoring lower on repository changes and terminal tasks. These are evaluator results for particular configurations, not a promise about subscription plans or your own codebase. Compare the task mix and test your workflow before switching.</p>
+    </section>
+
+    <section aria-labelledby="sources">
+      <h2 id="sources">Evidence &amp; Sources</h2>
+      <p class="source-detail">Source type describes provenance, not guaranteed truth. Availability checks do not verify a claim.</p>
+      <ol class="source-list">
+        <li id="source-1" data-source-type="independent">
+          <span class="evidence-label">Independent evaluation</span>
+          <a href="https://artificialanalysis.ai/agents/coding-agents">Artificial Analysis — Coding Agent Benchmarks and public index</a>
+          <span class="source-detail">Current public snapshot labeled Coding Agent Index v2.1. Supports the component names, task counts, equal weights and the evaluator’s stated comparison limits.</span>
+          <time datetime="2026-11-14">Accessed 2026-11-14</time>
+        </li>
+        <li id="source-2" data-source-type="independent">
+          <span class="evidence-label">Independent evaluation</span>
+          <a href="https://artificialanalysis.ai/methodology/coding-agents-benchmarking">Artificial Analysis — Coding Agent Index Methodology and version history</a>
+          <span class="source-detail">Version 2.1 methodology and November 2026 version notes. Supports scoring, task composition, verifier changes, cost method and limitations.</span>
+          <time datetime="2026-11-14">Accessed 2026-11-14</time>
+        </li>
+        <li id="source-3" data-source-type="independent">
+          <span class="evidence-label">Independent evaluation</span>
+          <a href="https://artificialanalysis.ai/agents/coding-agents/comparisons/claude-code-vs-deepseek-harness">Artificial Analysis — Claude Code vs. DeepSeek Harness</a>
+          <span class="source-detail">Published comparison table and tested configurations. Supports the cited index, component, cost, runtime and token figures; all figures are the evaluator’s results.</span>
+          <time datetime="2026-11-14">Accessed 2026-11-14</time>
+        </li>
+        <li id="source-4" data-source-type="independent">
+          <span class="evidence-label">Independent evaluation</span>
+          <a href="https://artificialanalysis.ai/evaluations/frontiercode-2-0">Artificial Analysis — FrontierCode-AA 2.0 benchmark</a>
+          <span class="source-detail">Background and methodology for the 132-task repository-change benchmark, including private tasks, rubric checks and run limits.</span>
+          <time datetime="2026-11-14">Accessed 2026-11-14</time>
+        </li>
+      </ol>
+    </section>
+    <!-- ARTICLE CONTENT END: keep the shared reactions block below. -->
+
+    <section class="article-engagement" aria-label="Article reactions">
+      <div class="engagement-copy"><span class="engagement-heading">Enjoyed this research?</span><span class="engagement-note">Leave a like — no account needed.</span></div>
+      <div class="engagement-actions">
+        <button type="button" class="article-like-button" data-like-button aria-label="Like this article" aria-pressed="false" disabled>
+          <svg class="article-like-heart" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z"/></svg>
+          <span data-like-count aria-live="polite">—</span><span>likes</span>
+        </button>
+        <span class="article-like-status" data-like-status role="status">Loading likes…</span>
+      </div>
+    </section>
+  </article>
+</main>
+</div>
+<footer class="footer"><div class="footer-inner"><span>© 2026 Dekrov</span><span class="footer-links"><a href="https://t.me/Dekrov_channel_en">Telegram / @Dekrov_channel_en ↗</a><a href="https://x.com/Dekrov_Dev">X / @Dekrov_Dev ↗</a><a href="https://github.com/DekrovDev">GitHub / DekrovDev ↗</a></span></div></footer>
+<script src="/article-likes.js?v=3" defer></script>
+<script src="/article.js" defer></script>
+<script src="/site.js"></script>
+</body>
+</html>
