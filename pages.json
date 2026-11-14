@@ -5,6 +5,13 @@
     "meta": "Overview"
   },
   {
+    "slug": "expo-simulators-agent-mobile-testing-20261114",
+    "title": "Expo Simulators Give Coding Agents a Phone to Test—But Not a Real Device",
+    "path": "/expo-simulators/",
+    "meta": "AI Coding Infrastructure · Nov 14, 2026",
+    "summary": "Expo Simulators gives coding agents isolated cloud iOS and Android runtimes plus recordings and logs. We examine access, $0.10/min pricing, security risks and why simulator evidence is not physical-device proof."
+  },
+  {
     "slug": "github-agent-workflow-bounds-20261114",
     "title": "GitHub’s Agentic Workflow Spotlight Shows How to Put a Hard Stop on AI Coding Loops",
     "path": "/agent-loops/",
