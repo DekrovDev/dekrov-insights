@@ -1,0 +1,200 @@
+---
+layout: null
+permalink: /antigravity-orchestrator/
+redirect_from:
+  - /pages/antigravity-orchestrator-hydrogen-2026/
+  - /pages/antigravity-orchestrator-hydrogen-2026/index.html
+---
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#ffffff">
+<meta name="description" content="Google Antigravity's Orchestrator pairs Gemini 4 Carbon or Argon planning with Hydrogen execution. We examine its workflow, plan access, conflicting benchmark versions and early, unverified quota reports.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Google Antigravity Orchestrator: Carbon Plans, Hydrogen Builds—and the Evidence Gaps">
+<meta property="og:description" content="Google Antigravity's Orchestrator pairs Gemini 4 Carbon or Argon planning with Hydrogen execution. We examine its workflow, plan access, conflicting benchmark versions and early, unverified quota reports.">
+<meta property="og:url" content="https://insights.dekrov.com/antigravity-orchestrator/">
+<link rel="canonical" href="https://insights.dekrov.com/antigravity-orchestrator/">
+<meta name="twitter:card" content="summary">
+<title>Google Antigravity Orchestrator: Carbon Plans, Hydrogen Builds—and the Evidence Gaps — Dekrov Insights</title>
+<script src="/theme.js"></script>
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body data-page="antigravity-orchestrator-hydrogen-2026" data-root="/">
+<header class="top">
+  <div class="header-inner">
+    <div class="brand-signature">
+      <a class="brand" href="/"><span class="brand-mark" aria-hidden="true">DK</span>Dekrov Insights</a>
+      <span class="brand-role">Research / AI &amp; Technology</span>
+    </div>
+    <div class="header-actions">
+      <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme"><span data-theme-label>Light</span></button>
+      <a class="nav" href="https://github.com/DekrovDev/dekrov-insights">GitHub ↗</a>
+    </div>
+  </div>
+</header>
+<div class="layout">
+<aside class="sidebar" aria-label="Page navigation">
+  <p class="side-heading">Index</p>
+  <nav class="side-nav" aria-label="Pages" data-site-nav></nav>
+</aside>
+<main class="main-content" id="main">
+  <article class="article-body research-article" data-article-version="2">
+    <!-- ARTICLE CONTENT START. Read ARTICLE_AUTHORING_GUIDE.md first.
+    Replace every all placeholders; HTML-escape inserted text and attributes.
+    Keep explicit heading IDs: they also work without JavaScript.
+    Add optional sections only when there is substantive sourced material.
+    Use one idea per paragraph and descriptive h3 subsections in long sections.
+    Insert complete sibling paragraphs; never wrap supplied HTML in another p.
+    Typography and spacing come from styles.css, not inline styles or br spacers.
+    The article.js script adds a compact TOC and a prominent plain-English jump.
+    -->
+    <span class="tag">AI Coding Tools · Nov 14, 2026</span>
+    <h1>Google Antigravity Orchestrator: Carbon Plans, Hydrogen Builds—and the Evidence Gaps</h1>
+    <div class="article-meta">
+      <span>By Dekrov</span>
+      <span>Published <time datetime="2026-11-14">Nov 14, 2026</time></span>
+      <span>Updated <time datetime="2026-11-14">Nov 14, 2026</time></span>
+    </div>
+    <p class="intro">Google Antigravity's new Orchestrator does not choose one model once and leave it alone. It lets a stronger Gemini model plan and review while Gemini 4 Hydrogen edits, runs checks and can hand difficult decisions back. The concept is promising, but Google's own launch material disagrees on the benchmark version behind its efficiency claim, and early forum reports remain unverified.</p>
+    <!-- This link must remain accessible even when scripts are unavailable. -->
+    <p><a href="#explained-simply">Start with the plain-English explanation ↓</a></p>
+
+    <section aria-labelledby="overview">
+      <h2 id="overview">Overview</h2>
+      <p>Google launched Orchestrator in Antigravity on Nov. 12, 2026, alongside Gemini 4 Hydrogen. The feature pairs a planner—Gemini 4 Carbon or Argon—with Hydrogen as the implementation model in one conversation. Google says Orchestrator came close to Carbon's task success while using 24% less quota and finishing 19% faster. Those are vendor-reported results, not an independent test. The important caveat: Antigravity's launch post attributes the numbers to Terminal-Bench 4.1, while Google's Gemini 4 Hydrogen announcement says Terminal-Bench 4.0. Neither page explains the mismatch or gives enough run-level methodology to reproduce the comparison. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a> <a class="citation" href="#source-2" aria-label="Source 2">[2]</a>
+        <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p>
+    </section>
+
+    <section aria-labelledby="technical-deep-dive">
+      <h2 id="technical-deep-dive">Technical Deep Dive</h2>
+      <!-- Add/rename/remove h3 subsections to reflect the actual investigation. -->
+      <h3 id="mechanism">How it works</h3>
+      <p>Antigravity describes a dynamic, two-way handoff—not a static router that classifies the first prompt and sends the whole job to one model. Carbon or Argon first explores the repository in a read-only planning phase, resolves ambiguity and creates a plan with conditions for replanning. Hydrogen then edits files, updates packages, builds and tests. If it hits repeated verification failures, unexpected interface behavior or an unresolved design choice, control returns to the planner; on longer tasks, the planner also reviews progress. This is one coordinated trajectory, while Google's separate /swarm feature is aimed at parallel agents and multiple worktrees. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a> <a class="citation" href="#source-3" aria-label="Source 3">[3]</a></p>
+      <aside class="evidence-note" data-evidence="official" aria-label="Evidence qualification">
+        <span class="evidence-label">Official statement</span>
+        <p>The official launch page describes the handoff design and publishes the 24% / 19% figures. A separate Google announcement repeats the same figures but names a different Terminal-Bench version. The accessible materials do not provide the number of tasks, run counts, variance, prompt set, quota accounting formula or a public result table for this specific comparison. Until Google clarifies the version and method—or an independent evaluator reproduces it—the figures should be treated as a promising vendor claim, not a guaranteed saving for an individual developer. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a> <a class="citation" href="#source-2" aria-label="Source 2">[2]</a>
+          <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p>
+      </aside>
+      <!-- Optional: timeline, evidence table, code, or inline figure from the guide.
+      Cite fixes by version/commit/PR. Separate shipped fixes from proposed workarounds.
+      For numbers: name the evaluator, date, method, environment and limitations.
+      -->
+    </section>
+
+    <section aria-labelledby="access-and-quota">
+      <h2 id="access-and-quota">Model Roles, Access and Quota</h2>
+      <p>The current model guide describes two fixed pairings. You cannot pick a thinking level for Orchestrator itself; selecting Carbon or Argon directly is the alternative when you want one model throughout. <a class="citation" href="#source-3" aria-label="Source 3">[3]</a></p>
+      <div class="research-table">
+        <table>
+          <thead><tr><th>Selector</th><th>Planner</th><th>Executor</th><th>Current access in docs</th></tr></thead>
+          <tbody>
+            <tr><td>Orchestrator (Carbon)</td><td>Gemini 4 Carbon</td><td>Gemini 4 Hydrogen</td><td>Google AI Ultra</td></tr>
+            <tr><td>Orchestrator (Argon)</td><td>Gemini 4 Argon</td><td>Gemini 4 Hydrogen</td><td>Ultra; paid Pro and certain eligible trials</td></tr>
+            <tr><td>Hydrogen</td><td>Gemini 4 Hydrogen for all steps</td><td>Same model</td><td>Listed across Antigravity plans</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Antigravity's plan page says quotas vary by plan and available capacity: free access refreshes weekly, Pro and Ultra receive five-hour refreshes plus weekly limits, and Ultra has the most generous quota and third-party model access. Pro and Ultra users can allow or forbid AI-credit overages. The service currently lists no BYOK or custom endpoint for additional quota. These are Antigravity plan rules, not the separate Gemini API token prices. <a class="citation" href="#source-4" aria-label="Source 4">[4]</a></p>
+    </section>
+
+    <section aria-labelledby="benchmark-evidence">
+      <h2 id="benchmark-evidence">The Benchmark Claim Has a Version Mismatch</h2>
+      <p>Google Antigravity's launch post says the Orchestrator comparison used Terminal-Bench 4.1. Google's separate Gemini 4 Hydrogen announcement says Terminal-Bench 4.0, while repeating the same 24% lower quota and 19% faster completion figures. Both are official Google sources, so this is a source discrepancy—not evidence that either number is false. The public posts do not show the specific task count, number of runs, scoring uncertainty, or exact quota calculation for the Orchestrator comparison. Do not merge the two benchmark versions or present the result as an independently verified win. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a> <a class="citation" href="#source-2" aria-label="Source 2">[2]</a></p>
+      <p>The same Antigravity post reports Hydrogen at 57% on Terminal-Bench 4.1 versus 18.2% for Gemini 3.8 Flash. That is also Google's own comparison and does not establish how Orchestrator behaves on your codebase. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p>
+    </section>
+
+    <section aria-labelledby="community-reactions">
+      <h2 id="community-reactions">Early Community Reports: Useful Signals, Not Confirmation</h2>
+      <p>Two posts in Google's Antigravity developer forum appeared around launch. On Nov. 13, one user said Orchestrator failed to start in Cloud/Remote Agents with an <code>INVALID_ARGUMENT</code> error while local use worked for the same account. On Nov. 14, another user shared local transcript telemetry alleging that Carbon–Hydrogen handoffs reduced cache hits and increased uncached input on their sessions. These are individual reports, not controlled tests: the telemetry and environment were supplied by the authors, the threads had no corroborating replies when checked, and we found no official confirmation or fix. They justify checking your own quota and session behavior, but not declaring a general regression. <a class="citation" href="#source-5" aria-label="Source 5">[5]</a> <a class="citation" href="#source-6" aria-label="Source 6">[6]</a></p>
+    </section>
+
+    <section aria-labelledby="practical-fit">
+      <h2 id="practical-fit">When to Try It</h2>
+      <p>Orchestrator is most interesting for a task that genuinely benefits from strong planning followed by many execution steps: a multi-file feature, dependency migration or debugging loop with tests. For a six-line edit, a fast standalone model may avoid handoff overhead; for a hard architectural question, the planner alone may be sufficient. These are workflow hypotheses, not benchmark results.</p>
+      <ul>
+        <li>Confirm which Orchestrator variant your plan exposes before starting.</li>
+        <li>Run one representative task with Orchestrator and one comparable task with a direct model; keep repository, prompt scope and acceptance tests as similar as practical.</li>
+        <li>Record elapsed time, whether tests passed, quota shown in the dashboard, and whether the agent needed replanning. Repeat before drawing a conclusion.</li>
+        <li>Check the AI Credit Overages setting if you do not want paid credits used automatically.</li>
+      </ul>
+    </section>
+
+    <section class="plain-english" id="explained-simply" data-explained-simply aria-labelledby="simple-title">
+      <h2 id="simple-title">Explained Simply</h2>
+      <!-- Use short descriptive h3s when the simple explanation spans several topics. -->
+      <p>An AI coding agent is software that can inspect a codebase, change files and run tools such as builds or tests. A model is the system that reasons and writes the agent's responses. Orchestrator uses two models in sequence inside one task: a planner that is better suited to architecture and a faster executor that does the hands-on edits. You still give one prompt; the product manages the handoffs.</p>
+      <p>Think of a small renovation. The planner studies the room, decides what should change and sets checkpoints; the builder does the repetitive work. If a hidden pipe changes the plan, the builder asks the planner to reconsider. That can avoid paying the most capable model to handle every routine edit—but only if switching models does not add too much coordination or consume more of your plan's quota.</p>
+      <p>For developers, the appeal is a single workflow that can plan, edit and recover without manually switching model selectors. The limit is access: Hydrogen is listed across plans, but Orchestrator (Carbon) is Ultra-only; Orchestrator (Argon) is listed for Ultra and eligible paid Pro accounts. Antigravity quotas are task-based and plan-dependent, and the docs say they can change. Start by checking the model selector and usage dashboard. For small edits or predictable quota, compare with standalone Hydrogen or a direct planner model; do not assume the advertised average applies to every repository or task. <a class="citation" href="#source-3" aria-label="Source 3">[3]</a> <a class="citation" href="#source-4" aria-label="Source 4">[4]</a></p>
+    </section>
+
+    <section aria-labelledby="conclusion">
+      <h2 id="conclusion">Conclusion</h2>
+      <p>Confirmed: Orchestrator is a real Antigravity model-selector option with a documented planner/executor handoff, and Google is rolling out Carbon and Argon variants to different paid tiers. Unresolved: why official pages cite Terminal-Bench 4.0 and 4.1 for the same efficiency figures; how large or representative the benchmark was; whether quota savings generalize; and whether the early forum reports reflect product bugs, plan accounting or isolated setups. One user has posted detailed cache/quota telemetry and another reported a Cloud/Remote Agents startup error, but neither report is independently reproduced here and no fix or official confirmation was found in those threads. Test with the same task and plan, record elapsed time, completed checks and quota before/after, and keep a direct-model baseline. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a> <a class="citation" href="#source-2" aria-label="Source 2">[2]</a> <a class="citation" href="#source-3" aria-label="Source 3">[3]</a> <a class="citation" href="#source-5" aria-label="Source 5">[5]</a> <a class="citation" href="#source-6" aria-label="Source 6">[6]</a></p>
+    </section>
+
+    <section aria-labelledby="sources">
+      <h2 id="sources">Evidence &amp; Sources</h2>
+      <p class="source-detail">Source type describes provenance, not guaranteed truth. Availability checks do not verify a claim.</p>
+      <ol class="source-list">
+        <li id="source-1" data-source-type="official">
+          <span class="evidence-label">Official</span>
+          <a href="https://antigravity.google/blog/gemini-4-hydrogen-in-google-antigravity">Gemini 4 Hydrogen and Orchestrator — Google Antigravity Blog</a>
+          <span class="source-detail">Published Nov. 12, 2026. Supports the handoff design, plan rollout, Terminal-Bench 4.1 wording and Google's 24% quota / 19% time claims.</span>
+          <time datetime="2026-11-14">Accessed 2026-11-14</time>
+        </li>
+        <li id="source-2" data-source-type="official">
+          <span class="evidence-label">Official</span>
+          <a href="https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-Hydrogen/">Introducing Gemini 4 Hydrogen — Google</a>
+          <span class="source-detail">Published Nov. 12, 2026. Repeats the Orchestrator efficiency figures but identifies Terminal-Bench 4.0, creating a source-version mismatch with source 1.</span>
+          <time datetime="2026-11-14">Accessed 2026-11-14</time>
+        </li>
+        <li id="source-3" data-source-type="official">
+          <span class="evidence-label">Official</span>
+          <a href="https://antigravity.google/docs/models#orchestrator">Choose a model — Google Antigravity documentation</a>
+          <span class="source-detail">Current model-role descriptions, handoff details, and access tiers for Orchestrator (Carbon), Orchestrator (Argon), and Hydrogen.</span>
+          <time datetime="2026-11-14">Accessed 2026-11-14</time>
+        </li>
+        <li id="source-4" data-source-type="official">
+          <span class="evidence-label">Official</span>
+          <a href="https://antigravity.google/docs/plans">Plans — Google Antigravity documentation</a>
+          <span class="source-detail">Current quota refresh, weekly limits, overage controls, and BYOK/custom endpoint availability.</span>
+          <time datetime="2026-11-14">Accessed 2026-11-14</time>
+        </li>
+        <li id="source-5" data-source-type="community">
+          <span class="evidence-label">Community report — unverified</span>
+          <a href="https://discuss.ai.google.dev/t/bug-orchestrator-fails-to-start-conversation-with-invalid-argument-code-400-in-cloud-remote-agents-mode/200245">Orchestrator startup error in Cloud / Remote Agents — Google AI Developers Forum</a>
+          <span class="source-detail">One user report dated Nov. 13, 2026; local success and cloud failure are author-reported, not independently reproduced here.</span>
+          <time datetime="2026-11-14">Accessed 2026-11-14</time>
+        </li>
+        <li id="source-6" data-source-type="community">
+          <span class="evidence-label">Community report — unverified</span>
+          <a href="https://discuss.ai.google.dev/t/bug-quota-regression-orchestrator-carbon-plan-execute-handoffs-invalidate-kv-prefix-cache-cache-read-tokens-0-dropping-session-cache-hit-rate-from-94-5-to-75/200387">Cache and quota telemetry under Orchestrator (Carbon) — Google AI Developers Forum</a>
+          <span class="source-detail">One user's post dated Nov. 14, 2026, describing local telemetry; claims are not a controlled independent evaluation or confirmed product behavior.</span>
+          <time datetime="2026-11-14">Accessed 2026-11-14</time>
+        </li>
+      </ol>
+    </section>
+    <!-- ARTICLE CONTENT END: keep the shared reactions block below. -->
+
+    <section class="article-engagement" aria-label="Article reactions">
+      <div class="engagement-copy"><span class="engagement-heading">Enjoyed this research?</span><span class="engagement-note">Leave a like — no account needed.</span></div>
+      <div class="engagement-actions">
+        <button type="button" class="article-like-button" data-like-button aria-label="Like this article" aria-pressed="false" disabled>
+          <svg class="article-like-heart" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z"/></svg>
+          <span data-like-count aria-live="polite">—</span><span>likes</span>
+        </button>
+        <span class="article-like-status" data-like-status role="status">Loading likes…</span>
+      </div>
+    </section>
+  </article>
+</main>
+</div>
+<footer class="footer"><div class="footer-inner"><span>© 2026 Dekrov</span><span class="footer-links"><a href="https://t.me/Dekrov_channel_en">Telegram / @Dekrov_channel_en ↗</a><a href="https://x.com/Dekrov_Dev">X / @Dekrov_Dev ↗</a><a href="https://github.com/DekrovDev">GitHub / DekrovDev ↗</a></span></div></footer>
+<script src="/article-likes.js?v=3" defer></script>
+<script src="/article.js" defer></script>
+<script src="/site.js"></script>
+</body>
+</html>
