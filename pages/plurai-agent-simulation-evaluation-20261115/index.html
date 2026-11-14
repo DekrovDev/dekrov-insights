@@ -1,0 +1,172 @@
+---
+layout: null
+permalink: /plurai-simulation/
+redirect_from:
+  - /pages/plurai-agent-simulation-evaluation-20261115/
+  - /pages/plurai-agent-simulation-evaluation-20261115/index.html
+---
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#ffffff">
+<meta name="description" content="Plurai Simulation turns an agent’s code and selected data into stateful scenarios. We examine its architecture, integrations, privacy boundary, cost evidence and limits.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Plurai Simulation Builds Stateful Worlds to Test AI Agents">
+<meta property="og:description" content="Plurai Simulation turns an agent’s code and selected data into stateful scenarios. We examine its architecture, integrations, privacy boundary, cost evidence and limits.">
+<meta property="og:url" content="https://insights.dekrov.com/plurai-simulation/">
+<link rel="canonical" href="https://insights.dekrov.com/plurai-simulation/">
+<meta name="twitter:card" content="summary">
+<title>Plurai Simulation Builds Stateful Worlds to Test AI Agents — Dekrov Insights</title>
+<script src="/theme.js"></script>
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body data-page="plurai-agent-simulation-evaluation-20261115" data-root="/">
+<header class="top">
+  <div class="header-inner">
+    <div class="brand-signature">
+      <a class="brand" href="/"><span class="brand-mark" aria-hidden="true">DK</span>Dekrov Insights</a>
+      <span class="brand-role">Research / AI &amp; Technology</span>
+    </div>
+    <div class="header-actions">
+      <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme"><span data-theme-label>Light</span></button>
+      <a class="nav" href="https://github.com/DekrovDev/dekrov-insights">GitHub ↗</a>
+    </div>
+  </div>
+</header>
+<div class="layout">
+<aside class="sidebar" aria-label="Page navigation">
+  <p class="side-heading">Index</p>
+  <nav class="side-nav" aria-label="Pages" data-site-nav></nav>
+</aside>
+<main class="main-content" id="main">
+  <article class="article-body research-article" data-article-version="2">
+    
+    <span class="tag">AI Agent Evaluation</span>
+    <h1>Plurai Simulation Builds Stateful Worlds to Test AI Agents</h1>
+    <div class="article-meta">
+      <span>By Dekrov</span>
+      <span>Published <time datetime="2026-11-15">Nov 15, 2026</time></span>
+      <span>Updated <time datetime="2026-11-15">Nov 15, 2026</time></span>
+    </div>
+    <p class="intro">Plurai Simulation turns an agent’s code and selected data into a versioned test suite with simulated users, stateful mock tools and outcome checks. We examine how the local runner and hosted backend fit together, what the vendor’s evidence does and does not show, and where conventional tests still matter.</p>
+    <!-- This link must remain accessible even when scripts are unavailable. -->
+    <p><a href="#explained-simply">Start with the plain-English explanation ↓</a></p>
+
+    
+    <section aria-labelledby="overview">
+      <h2 id="overview">Overview</h2>
+      <p>Plurai launched Simulation on November 11, 2026 as a way to test an AI agent against a small, stateful version of the world it acts on. Its announcement says the tool builds mocked tools, simulated users and evaluations from an agent’s code and optional data, then runs the agent through scenarios. The product is available through plugins for Claude Code, Codex and GitHub Copilot CLI; Cursor is listed as coming soon. The company says it is free to start, but the public launch page gives no exact usage limits or ongoing price. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p>
+    </section>
+
+    
+    <section aria-labelledby="technical-deep-dive">
+      <h2 id="technical-deep-dive">Technical Deep Dive</h2>
+      <h3 id="scan-and-build">Scan first, then build the scenario</h3>
+      <p>The workflow begins with a coding-agent plugin that scans the agent’s repository and maps the tools, APIs and knowledge stores it uses. The agent proposes which systems to mock and which to leave real; a developer reviews that choice. After approval, the workflow writes a <code>plurai_sim/</code> folder containing configuration, a plain-language description of the agent, a standalone <code>simulate.py</code> harness and scenario variables such as records, user types and complications. <a class="citation" href="#source-2" aria-label="Source 2">[2]</a></p>
+      <h3 id="stateful-world">A shared world state is the key design choice</h3>
+      <p>In a realistic support scenario, the customer’s claim, the order record, the payment tool and the expected outcome must agree. If an agent refunds a duplicate charge, a later order lookup should show that refund. Plurai says it generates a seeded state for each scenario and makes every mocked tool read and write that same state; code checks can then inspect the final state, while model judges handle questions that need interpretation. <a class="citation" href="#source-2" aria-label="Source 2">[2]</a></p>
+      <p>This makes the test about the agent’s actions and their consequences, rather than only whether its final message sounds plausible. The vendor says it validates that scenario IDs exist in the seeded records, checks whether a scenario can be solved, and uses a critic on a qualification run before assembling the suite. Those are descriptions of the product’s own process; no independent audit of the generator was found. <a class="citation" href="#source-2" aria-label="Source 2">[2]</a></p>
+      <h3 id="local-and-backend">What runs locally, and what reaches the backend</h3>
+      <p>The architecture has three pieces: a coding-agent plugin that reads the repository and talks to Plurai over MCP; a local SDK that starts the real agent and drives its turns over REST; and a Plurai backend that builds the world graph, scenarios, evaluations and mock services. The company says the agent, model keys and tool credentials stay on the developer’s machine. It also says the backend receives the generated <code>plurai_sim/</code> folder, any optional sources a user chose to provide, and the simulated conversation during a run. <a class="citation" href="#source-2" aria-label="Source 2">[2]</a></p>
+      <p>Optional inputs include production traces, a knowledge base or database, and example records or documents. These can make a test more specific, but they also change the data being sent to the service. Before using real customer material, teams should review the data terms and retention settings, minimize or redact sensitive fields, and confirm which sources are included. That is a practical consequence of the vendor-described data flow, not a claim that Plurai mishandles data. <a class="citation" href="#source-2" aria-label="Source 2">[2]</a></p>
+      <h3 id="how-it-compares">Where it fits beside other evaluation methods</h3>
+      <div class="table-scroll" role="region" aria-label="Comparison of AI agent testing methods" tabindex="0">
+        <table class="research-table">
+          <caption>Different tests answer different questions</caption>
+          <thead><tr><th scope="col">Method</th><th scope="col">Best question it answers</th><th scope="col">Main blind spot</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Unit and contract tests</th><td>Does a component or integration follow a specified behavior?</td><td>They do not, by themselves, explore an agent’s open-ended multi-turn decisions.</td></tr>
+            <tr><th scope="row">General agent benchmark</th><td>How do models or agent systems perform across shared interactive tasks? AgentBench, for example, uses eight environments.</td><td>A general benchmark does not encode one company’s private tools, policies or records.</td></tr>
+            <tr><th scope="row">Plurai Simulation</th><td>How does this agent behave in generated, project-specific scenarios with shared mock state?</td><td>The result depends on the quality and coverage of the generated world and evaluations.</td></tr>
+            <tr><th scope="row">Production trace replay</th><td>Does a known real failure still happen, or did a targeted fix address it?</td><td>It only covers failures and paths represented in the traces supplied.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>These approaches are complementary. AgentBench is a research benchmark for comparing agents across common environments; Plurai describes a project-specific test suite that can reuse a versioned world and replay selected production traces. Neither removes the need for deterministic unit, contract and staging tests. <a class="citation" href="#source-2" aria-label="Source 2">[2]</a><a class="citation" href="#source-4" aria-label="Source 4">[4]</a></p>
+      <h3 id="cost-license-and-availability">Access, license and evidence</h3>
+      <p>The November 11 announcement says Simulation is free to start and names Claude Code, Codex and GitHub Copilot CLI integrations, with Cursor marked as coming soon. The pages reviewed do not state a full pricing schedule, usage caps or a license for the hosted service, so none should be inferred from “free to start.” <a class="citation" href="#source-1" aria-label="Source 1">[1]</a><a class="citation" href="#source-3" aria-label="Source 3">[3]</a></p>
+      <aside class="evidence-note" data-evidence="official" aria-label="Vendor-reported results">
+        <span class="evidence-label">Vendor-reported results</span>
+        <p>Plurai’s launch post says design partners saw agent-development cycles fall from months to hours and failures reaching users fall by 82%. It does not publish the sample size, baseline definition or evaluation method alongside those figures. Treat them as company-reported claims, not an independent result or a general forecast. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p>
+      </aside>
+    </section>
+
+    
+    <section aria-labelledby="evidence-analysis">
+      <h2 id="evidence-analysis">Evidence &amp; Limits</h2>
+      <p>The product architecture and claimed checks above come from Plurai’s own technical post and FAQ. They explain how the system is intended to work, but they do not independently establish scenario quality, regression detection rates or production outcomes. <a class="citation" href="#source-2" aria-label="Source 2">[2]</a><a class="citation" href="#source-3" aria-label="Source 3">[3]</a></p>
+      <p>A stateful mock can expose mistakes that a transcript-only score misses. It can still differ from the real service’s timing, permissions, rate limits or undocumented behavior. That is an inference from the difference between a simulated environment and production; it is why contract tests and a safe staging environment remain useful alongside simulation.</p>
+    </section>
+    <section aria-labelledby="community-reactions">
+      <h2 id="community-reactions">Community Reactions</h2>
+      <p>In the public sources checked for this launch, I found the vendor’s announcement, implementation description and FAQ, but no independent evaluation or detailed user report of Plurai Simulation itself. That leaves adoption, reliability and the vendor’s outcome figures unverified. It is a gap in available evidence, not proof that the product does not work.</p>
+    </section>
+
+    
+    <section class="plain-english" id="explained-simply" data-explained-simply aria-labelledby="simple-title">
+      <h2 id="simple-title">Explained Simply</h2>
+      <p>Imagine testing a delivery assistant. You tell it that a customer was charged twice. A weak test checks only whether the assistant apologizes. A better test gives it a pretend order and payment system, lets it issue a refund, and checks whether the order record really changed.</p>
+      <p>Plurai’s idea is to build that pretend world from the agent’s code, then ask a coding agent to create customer scenarios and checks around it. The real agent runs locally, while the vendor says its service prepares and hosts the simulated tools and scenario.</p>
+      <p>This can help find mistakes before a real user sees them. But a pretend system is still a model of reality: it can miss a behavior the real payment or database service handles differently. Keep ordinary tests, review the generated scenarios, and use carefully chosen real traces or staging checks where appropriate.</p>
+    </section>
+
+    
+    <section aria-labelledby="conclusion">
+      <h2 id="conclusion">Conclusion</h2>
+      <p>Plurai Simulation targets a real gap in agent testing: multi-step systems need tests that keep users, tools and data consistent across a conversation. Its local runner, generated stateful mocks and versioned scenarios are a concrete design worth evaluating for agents that take consequential actions. Start with non-sensitive fixtures, inspect the generated suite, and compare it with known failures and deterministic tests before relying on its pass rate. Public evidence is still vendor-led; independent results and exact paid-plan limits remain unknown.</p>
+    </section>
+
+    
+    <section aria-labelledby="sources">
+      <h2 id="sources">Evidence &amp; Sources</h2>
+      <p class="source-detail">Source type describes provenance, not guaranteed truth. Availability checks do not verify a claim.</p>
+      <ol class="source-list">
+        <li id="source-1" data-source-type="official">
+          <span class="evidence-label">Official</span>
+          <a href="https://www.plurai.ai/blog/introducing-plurai-simulation-self-improving-layer-for-ai-agents">Plurai — Introducing Plurai Simulation: The self-improving layer for AI agents</a>
+          <span class="source-detail">Published Nov 11, 2026. Supports launch date, integrations, free-to-start statement and company-reported partner results.</span>
+          <time datetime="2026-11-15">Accessed 2026-11-15</time>
+        </li>
+        <li id="source-2" data-source-type="official">
+          <span class="evidence-label">Official</span>
+          <a href="https://www.plurai.ai/blog/how-plurai-tests-real-agents-in-simulated-worlds">Plurai — How Plurai tests real agents in simulated worlds</a>
+          <span class="source-detail">Published Nov 11, 2026. Supports the scan/build/run workflow, shared mock state, local runner, backend data boundary and versioning claims.</span>
+          <time datetime="2026-11-15">Accessed 2026-11-15</time>
+        </li>
+        <li id="source-3" data-source-type="official">
+          <span class="evidence-label">Official</span>
+          <a href="https://www.plurai.ai/faq">Plurai — Simulation FAQ</a>
+          <span class="source-detail">Accessed Nov 15, 2026. Supports currently listed integrations and the vendor’s description of scenario generation and use.</span>
+          <time datetime="2026-11-15">Accessed 2026-11-15</time>
+        </li>
+        <li id="source-4" data-source-type="independent">
+          <span class="evidence-label">Independent research</span>
+          <a href="https://arxiv.org/abs/2308.03688">Liu et al. — AgentBench: Evaluating LLMs as Agents</a>
+          <span class="source-detail">ICLR 2024; arXiv:2308.03688. Supports the distinction between a general benchmark evaluated across eight interactive environments and a project-specific simulation.</span>
+          <time datetime="2026-11-15">Accessed 2026-11-15</time>
+        </li>
+      </ol>
+    </section>
+    <!-- ARTICLE CONTENT END: keep the shared reactions block below. -->
+
+    <section class="article-engagement" aria-label="Article reactions">
+      <div class="engagement-copy"><span class="engagement-heading">Enjoyed this research?</span><span class="engagement-note">Leave a like — no account needed.</span></div>
+      <div class="engagement-actions">
+        <button type="button" class="article-like-button" data-like-button aria-label="Like this article" aria-pressed="false" disabled>
+          <svg class="article-like-heart" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z"/></svg>
+          <span data-like-count aria-live="polite">—</span><span>likes</span>
+        </button>
+        <span class="article-like-status" data-like-status role="status">Loading likes…</span>
+      </div>
+    </section>
+  </article>
+</main>
+</div>
+<footer class="footer"><div class="footer-inner"><span>© 2026 Dekrov</span><span class="footer-links"><a href="https://t.me/Dekrov_channel_en">Telegram / @Dekrov_channel_en ↗</a><a href="https://x.com/Dekrov_Dev">X / @Dekrov_Dev ↗</a><a href="https://github.com/DekrovDev">GitHub / DekrovDev ↗</a></span></div></footer>
+<script src="/article-likes.js?v=3" defer></script>
+<script src="/article.js" defer></script>
+<script src="/site.js"></script>
+</body>
+</html>
