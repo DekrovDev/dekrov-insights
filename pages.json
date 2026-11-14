@@ -5,6 +5,13 @@
     "meta": "Overview"
   },
   {
+    "slug": "github-agent-workflow-bounds-20261114",
+    "title": "GitHub’s Agentic Workflow Spotlight Shows How to Put a Hard Stop on AI Coding Loops",
+    "path": "/agent-loops/",
+    "meta": "AI Coding Workflows · Nov 14, 2026",
+    "summary": "A source-checked analysis of an installable GitHub Agentic Workflows example: bounded agent retries, comment-only review, conditional security checks and a human merge gate."
+  },
+  {
     "slug": "artificial-analysis-coding-agent-index-v21-2026",
     "title": "The New Coding-Agent Index Tests Models Inside Their Tools",
     "path": "/coding-agent-index/",
