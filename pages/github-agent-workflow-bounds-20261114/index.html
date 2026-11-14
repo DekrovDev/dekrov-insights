@@ -1,0 +1,208 @@
+---
+layout: null
+permalink: /agent-loops/
+redirect_from:
+  - /pages/github-agent-workflow-bounds-20261114/
+  - /pages/github-agent-workflow-bounds-20261114/index.html
+---
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#ffffff">
+<meta name="description" content="A source-checked look at an installable GitHub Agentic Workflows example that caps agent retries, preserves a human merge gate and conditions security review on risky changes.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GitHub’s Agentic Workflow Spotlight Shows How to Put a Hard Stop on AI Coding Loops">
+<meta property="og:description" content="A source-checked look at an installable GitHub Agentic Workflows example that caps agent retries, preserves a human merge gate and conditions security review on risky changes.">
+<meta property="og:url" content="https://insights.dekrov.com/agent-loops/">
+<link rel="canonical" href="https://insights.dekrov.com/agent-loops/">
+<meta name="twitter:card" content="summary">
+<title>GitHub’s Agentic Workflow Spotlight Shows How to Put a Hard Stop on AI Coding Loops — Dekrov Insights</title>
+<script src="/theme.js"></script>
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body data-page="github-agent-workflow-bounds-20261114" data-root="/">
+<header class="top">
+  <div class="header-inner">
+    <div class="brand-signature">
+      <a class="brand" href="/"><span class="brand-mark" aria-hidden="true">DK</span>Dekrov Insights</a>
+      <span class="brand-role">Research / AI &amp; Technology</span>
+    </div>
+    <div class="header-actions">
+      <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme"><span data-theme-label>Light</span></button>
+      <a class="nav" href="https://github.com/DekrovDev/dekrov-insights">GitHub ↗</a>
+    </div>
+  </div>
+</header>
+<div class="layout">
+<aside class="sidebar" aria-label="Page navigation">
+  <p class="side-heading">Index</p>
+  <nav class="side-nav" aria-label="Pages" data-site-nav></nav>
+</aside>
+<main class="main-content" id="main">
+  <article class="article-body research-article" data-article-version="2">
+    <!-- ARTICLE CONTENT START. Read ARTICLE_AUTHORING_GUIDE.md first.
+    Replace every github-agent-workflow-bounds-20261114; HTML-escape inserted text and attributes.
+    Keep explicit heading IDs: they also work without JavaScript.
+    Add optional sections only when there is substantive sourced material.
+    Use one idea per paragraph and descriptive h3 subsections in long sections.
+    Insert complete sibling paragraphs; never wrap supplied HTML in another p.
+    Typography and spacing come from styles.css, not inline styles or br spacers.
+    The article.js script adds a compact TOC and a prominent plain-English jump.
+    -->
+    <span class="tag">AI Coding Workflows</span>
+    <h1>GitHub’s Agentic Workflow Spotlight Shows How to Put a Hard Stop on AI Coding Loops</h1>
+    <div class="article-meta">
+      <span>By Dekrov</span>
+      <span>Published <time datetime="2026-11-14">November 14, 2026</time></span>
+      <span>Updated <time datetime="2026-11-14">November 14, 2026</time></span>
+    </div>
+    <p class="intro">GitHub’s Agentic Workflows team spotlighted a community workflow library today that turns an issue into a proposed pull request, then gives the reviewer a strict three-round ceiling. The useful idea is architectural: put retry limits in workflow conditions, keep the reviewer comment-only, and leave the final merge to a maintainer.</p>
+    <!-- This link must remain accessible even when scripts are unavailable. -->
+    <p><a href="#explained-simply">Start with the plain-English explanation ↓</a></p>
+
+    <section aria-labelledby="overview">
+      <h2 id="overview">Overview</h2>
+      <p>On November 14, 2026, the official GitHub Agentic Workflows site featured <code>svennijhuis/agentic-workflows</code>, a public catalog of eleven installable workflows. Its issue-builder and PR-reviewer pair can implement an issue, open a builder pull request, inspect it across several review axes, request bounded fixes, and then stop for a human. This is an ecosystem example, not a newly announced GitHub product or an independent benchmark. The distinction matters: its strongest evidence is inspectable workflow configuration, not a measured claim that AI-written changes are correct.
+        <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p>
+    </section>
+
+    <section aria-labelledby="technical-deep-dive">
+      <h2 id="technical-deep-dive">Technical Deep Dive</h2>
+      <!-- Add/rename/remove h3 subsections to reflect the actual investigation. -->
+      <h3 id="mechanism">How it works</h3>
+      <p>The package manifest lists the workflows and a minimum gh-aw compiler version. A maintainer installs the Markdown workflow definitions with <code>gh aw add</code>, then compiles them into ordinary GitHub Actions YAML. In the featured pair, an Actions-level <code>if:</code> condition admits a new issue build or builder fix rounds 1 and 2; the reviewer admits rounds 1, 2 and 3. A reviewer finding can dispatch the builder again, but after the last review the workflow labels the PR for human attention and starts no further round. The repository says the review pass never approves, merges or pushes. Its settings also cap per-run credits, turns and execution time; those are guardrails, not a promise of predictable quality or an independent bill estimate.</p>
+      <aside class="evidence-note" data-evidence="official" aria-label="Evidence qualification">
+        <span class="evidence-label">Official statement</span>
+        <p>The official spotlight describes the example’s intended flow, and the public workflow files expose the trigger conditions, safe outputs, permissions and review rules. Reading the files confirms that the configured loop has a bounded number of starts and that the reviewer cannot merge through its declared review output. It does not prove that an agent will find every defect, that all generated code is safe, or that the setup works unchanged in another repository. GitHub’s broader gh-aw documentation also describes security controls as configurable; imported workflows and local changes must be inspected in their compiled form.
+          <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p>
+      </aside>
+      <!-- Optional: timeline, evidence table, code, or inline figure from the guide.
+      Cite fixes by version/commit/PR. Separate shipped fixes from proposed workarounds.
+      For numbers: name the evaluator, date, method, environment and limitations.
+      -->
+    </section>
+
+    <section aria-labelledby="evidence-analysis">
+      <h2 id="evidence-analysis">What the Configuration Actually Enforces</h2>
+      <p>The feature worth borrowing is not “let an agent keep trying.” It is the opposite: make the workflow runner enforce a finite path. The issue-builder’s trigger condition allows a fresh build or a fix round numbered 1 or 2; the reviewer’s condition allows only rounds 1 through 3. The spotlight says the reviewer derives the round from its own history of “changes needed” reviews, so a caller cannot reset the counter just by sending a lower round value. <a class="citation" href="#source-2" aria-label="Source 2">[2]</a> <a class="citation" href="#source-3" aria-label="Source 3">[3]</a></p>
+      <div class="table-scroll" role="region" aria-label="Agent workflow guardrails and limits" tabindex="0">
+        <table class="research-table">
+          <thead><tr><th scope="col">Control</th><th scope="col">What the files configure</th><th scope="col">What it does not establish</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Retry boundary</th><td>Builder accepts at most two fix rounds; reviewer stops after round three.</td><td>That the change is correct or that a fixed number of attempts is enough.</td></tr>
+            <tr><th scope="row">Review authority</th><td>PR review output is <code>COMMENT</code>; the agent can label a PR, not approve or merge it.</td><td>That a label is equivalent to maintainer approval.</td></tr>
+            <tr><th scope="row">Security pass</th><td>A separate review axis runs when the diff touches listed trust boundaries.</td><td>That every vulnerability is detected or every risky file is classified perfectly.</td></tr>
+            <tr><th scope="row">Execution controls</th><td>Shared security settings keep the network closed except for declared defaults and turn threat detection on.</td><td>That downstream edits cannot weaken these settings or that all data stays local.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>The builder’s declared safe outputs limit it to one new PR, one push to an eligible builder branch, one comment and one reviewer dispatch per run. The reviewer separates standards, spec, cleanup and blast-radius analysis into fresh sub-agent contexts, and adds a security pass only when changed paths cross a trust boundary. This makes the intended review structure legible, but the model’s findings still need ordinary CI and human judgment. <a class="citation" href="#source-2" aria-label="Source 2">[2]</a> <a class="citation" href="#source-3" aria-label="Source 3">[3]</a></p>
+      <p>There is a concrete setup cost: the builder documents a placeholder <code>CI_TRIGGER_TOKEN</code> secret so its PR can trigger repository checks, because pushes made with the standard workflow token do not start those checks. The install guide calls for a fine-grained token and recommends later replacing a person-bound token with a GitHub App. That credential path is a trust boundary; teams should rename the placeholder, scope the token narrowly and understand which job can use it. <a class="citation" href="#source-2" aria-label="Source 2">[2]</a> <a class="citation" href="#source-6" aria-label="Source 6">[6]</a></p>
+    </section>
+
+    <section aria-labelledby="community-reactions">
+      <h2 id="community-reactions">Community Reactions and Evidence Limits</h2>
+      <p>The November 14 item is a GitHub Agentic Workflows project spotlight, and the workflow library belongs to its named author. The spotlight is useful as a map to the code; it is not an independent evaluation. I found no independently published run data for this exact package in the sources checked, so there is no verified success rate, average repair count, cost per merged change or proof that the four review axes improve defect detection.</p>
+      <p>At the framework level, GitHub’s documentation says workflows are read-only by default and route configured writes through validated safe outputs; it also warns that direct write permissions and custom jobs create separate trust boundaries. The guarantee depends on the compiled workflow and any local overrides, so review the generated <code>.lock.yml</code>, not just the natural-language Markdown. <a class="citation" href="#source-5" aria-label="Source 5">[5]</a></p>
+    </section>
+
+    <section aria-labelledby="visual-evidence">
+      <h2 id="visual-evidence">Visual Evidence: Where the Loop Stops</h2>
+      <figure class="article-figure">
+        <figcaption>Sequence reconstructed from the featured workflow files; it describes configured handoffs, not a measured run.</figcaption>
+        <div class="table-scroll" role="region" aria-label="Issue to pull request workflow sequence" tabindex="0">
+          <table class="research-table">
+            <thead><tr><th scope="col">Stage</th><th scope="col">Configured action</th><th scope="col">Stop condition</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">1 · Build</th><td>Issue-builder creates a PR on a <code>builder/*</code> branch.</td><td>One new PR output per run.</td></tr>
+              <tr><th scope="row">2 · Review</th><td>Reviewer comments across separate review axes and may request a bounded fix.</td><td>Only review rounds 1–3 start.</td></tr>
+              <tr><th scope="row">3 · Fix</th><td>Builder receives a PR number and fix-round input.</td><td>Only fix rounds 1–2 start.</td></tr>
+              <tr><th scope="row">4 · Human gate</th><td>After the final round, the reviewer can mark <code>needs-help</code> or <code>ready-to-merge</code>.</td><td>No agent approval, merge or push from the reviewer.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </figure>
+      <p>This is the part to inspect before copying the example: workflow-level conditions decide whether a new agent job runs, while labels and comments make the handoff visible. The code does not say that all projects should use three rounds; it demonstrates how to choose and enforce an explicit limit.</p>
+    </section>
+
+    <section class="plain-english" id="explained-simply" data-explained-simply aria-labelledby="simple-title">
+      <h2 id="simple-title">Explained Simply</h2>
+      <h3 id="terms">What is an agent workflow?</h3>
+      <p>A GitHub Actions workflow is an automated job started by an event, such as an issue being opened or a workflow being dispatched. In this example, a coding agent receives an issue, edits code and proposes a pull request. A second agent reviews that change and may ask for another fix.</p>
+      <h3 id="hard-stop">Why a hard stop matters</h3>
+      <p>Think of the builder as a contractor and the reviewer as a separate checklist desk. The checklist desk can send the work back only a fixed number of times; after that, a person decides whether it is ready. The limit is attached to the job’s start condition, like a door that stops admitting attempts, instead of being only a sentence asking the agent to stop.</p>
+      <h3 id="what-to-check">What should a developer do?</h3>
+      <p>That structure can prevent an unattended agent loop from repeatedly spending time or credits and can make the handoff visible. It cannot guarantee that the reviewer is right or that a “ready” label means the code should be merged. Before using a workflow, inspect the generated YAML, permissions, network allowlist, provider access, secrets and write actions; keep tests and a human merge review in the loop.</p>
+      <p>The simplest safe trial is a disposable repository with a pinned release tag. Compile the workflow, read the generated lock file, then confirm the configured labels, branch rules, token scope, provider billing and maximum rounds before allowing the agent to touch important code.</p>
+    </section>
+
+    <section aria-labelledby="conclusion">
+      <h2 id="conclusion">Conclusion</h2>
+      <p>The public files support a practical pattern: enforce a retry ceiling in event conditions, make agent writes pass through narrow safe outputs, and keep merge authority outside the agents. The GitHub spotlight is dated November 14, while the inspected community repository’s latest commit is November 9; this is a newly featured example, not a claim that the code was released today. No independent run report for this exact package appeared in the sources checked. Try it first in a disposable repository, pin an actual release tag, compile, review the lock file and verify the branch and token settings before enabling it on valuable code.</p>
+    </section>
+
+    <section aria-labelledby="sources">
+      <h2 id="sources">Evidence &amp; Sources</h2>
+      <p class="source-detail">Source type describes provenance, not guaranteed truth. Availability checks do not verify a claim.</p>
+      <ol class="source-list">
+        <li id="source-1" data-source-type="official">
+          <span class="evidence-label">Official</span>
+          <a href="https://github.github.com/gh-aw/blog/2026-11-14-ecosystem-spotlight/">Ecosystem Spotlight: svennijhuis/agentic-workflows — GitHub Agentic Workflows</a>
+          <span class="source-detail">Published November 14, 2026. Supports the feature description, workflow sequence and details summarized in the spotlight.</span>
+          <time datetime="2026-11-14">Accessed 2026-11-14</time>
+        </li>
+        <li id="source-2" data-source-type="official">
+          <span class="evidence-label">Official project source</span>
+          <a href="https://github.com/svennijhuis/agentic-workflows/blob/69e80463902d2ad54e8a2ef3d4aa04572cfd5586/workflows/issue-builder.md">Issue-builder workflow — svennijhuis/agentic-workflows</a>
+          <span class="source-detail">Inspected at commit 69e8046, dated November 9, 2026. Supports trigger limits, safe outputs, permissions, branch policy and CI token notes.</span>
+          <time datetime="2026-11-14">Accessed 2026-11-14</time>
+        </li>
+        <li id="source-3" data-source-type="official">
+          <span class="evidence-label">Official project source</span>
+          <a href="https://github.com/svennijhuis/agentic-workflows/blob/69e80463902d2ad54e8a2ef3d4aa04572cfd5586/workflows/pr-reviewer.md">PR-reviewer workflow — svennijhuis/agentic-workflows</a>
+          <span class="source-detail">Inspected at commit 69e8046, dated November 9, 2026. Supports the three review rounds, comment-only output, four review axes and conditional security pass.</span>
+          <time datetime="2026-11-14">Accessed 2026-11-14</time>
+        </li>
+        <li id="source-4" data-source-type="official">
+          <span class="evidence-label">Official project source</span>
+          <a href="https://github.com/svennijhuis/agentic-workflows/blob/69e80463902d2ad54e8a2ef3d4aa04572cfd5586/workflows/shared/security.md">Shared security defaults — svennijhuis/agentic-workflows</a>
+          <span class="source-detail">Inspected at commit 69e8046, dated November 9, 2026. Supports closed-by-default network configuration and enabled threat detection in this catalog.</span>
+          <time datetime="2026-11-14">Accessed 2026-11-14</time>
+        </li>
+        <li id="source-5" data-source-type="official">
+          <span class="evidence-label">Official</span>
+          <a href="https://github.github.com/gh-aw/reference/faq/">GitHub Agentic Workflows FAQ — GitHub</a>
+          <span class="source-detail">Current documentation accessed November 14, 2026. Supports framework-level safe-output and configurable trust-boundary qualifications.</span>
+          <time datetime="2026-11-14">Accessed 2026-11-14</time>
+        </li>
+        <li id="source-6" data-source-type="official">
+          <span class="evidence-label">Official project source</span>
+          <a href="https://github.com/svennijhuis/agentic-workflows/blob/69e80463902d2ad54e8a2ef3d4aa04572cfd5586/docs/install.md">Install in an organization — svennijhuis/agentic-workflows</a>
+          <span class="source-detail">Inspected at commit 69e8046, dated November 9, 2026. Supports prerequisites, CI token setup and the recommendation to replace personal credentials with a GitHub App.</span>
+          <time datetime="2026-11-14">Accessed 2026-11-14</time>
+        </li>
+      </ol>
+    </section>
+    <!-- ARTICLE CONTENT END: keep the shared reactions block below. -->
+
+    <section class="article-engagement" aria-label="Article reactions">
+      <div class="engagement-copy"><span class="engagement-heading">Enjoyed this research?</span><span class="engagement-note">Leave a like — no account needed.</span></div>
+      <div class="engagement-actions">
+        <button type="button" class="article-like-button" data-like-button aria-label="Like this article" aria-pressed="false" disabled>
+          <svg class="article-like-heart" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z"/></svg>
+          <span data-like-count aria-live="polite">—</span><span>likes</span>
+        </button>
+        <span class="article-like-status" data-like-status role="status">Loading likes…</span>
+      </div>
+    </section>
+  </article>
+</main>
+</div>
+<footer class="footer"><div class="footer-inner"><span>© 2026 Dekrov</span><span class="footer-links"><a href="https://t.me/Dekrov_channel_en">Telegram / @Dekrov_channel_en ↗</a><a href="https://x.com/Dekrov_Dev">X / @Dekrov_Dev ↗</a><a href="https://github.com/DekrovDev">GitHub / DekrovDev ↗</a></span></div></footer>
+<script src="/article-likes.js?v=3" defer></script>
+<script src="/article.js" defer></script>
+<script src="/site.js"></script>
+</body>
+</html>
