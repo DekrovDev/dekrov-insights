@@ -1,0 +1,162 @@
+---
+layout: null
+permalink: /copilot-ghes/
+redirect_from:
+  - /pages/github-copilot-app-ghes-2026/
+  - /pages/github-copilot-app-ghes-2026/index.html
+---
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#ffffff">
+<meta name="description" content="GitHub Copilot App 1.2.0 brings GitHub Enterprise Server repositories, issues and pull requests into the desktop workflow. Here is what GA changes, what still depends on a cloud account, and why GHES support is not the same as on-premise AI.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GitHub Copilot App Adds GHES—But Cloud Sessions Stay Out">
+<meta property="og:description" content="GitHub Copilot App 1.2.0 brings GitHub Enterprise Server repositories, issues and pull requests into the desktop workflow. Here is what GA changes, what still depends on a cloud account, and why GHES support is not the same as on-premise AI.">
+<meta property="og:url" content="https://insights.dekrov.com/copilot-ghes/">
+<link rel="canonical" href="https://insights.dekrov.com/copilot-ghes/">
+<meta name="twitter:card" content="summary">
+<title>GitHub Copilot App Adds GHES—But Cloud Sessions Stay Out — Dekrov Insights</title>
+<script src="/theme.js"></script>
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body data-page="github-copilot-app-ghes-2026" data-root="/">
+<header class="top">
+  <div class="header-inner">
+    <div class="brand-signature">
+      <a class="brand" href="/"><span class="brand-mark" aria-hidden="true">DK</span>Dekrov Insights</a>
+      <span class="brand-role">Research / AI &amp; Technology</span>
+    </div>
+    <div class="header-actions">
+      <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme"><span data-theme-label>Light</span></button>
+      <a class="nav" href="https://github.com/DekrovDev/dekrov-insights">GitHub ↗</a>
+    </div>
+  </div>
+</header>
+<div class="layout">
+<aside class="sidebar" aria-label="Page navigation">
+  <p class="side-heading">Index</p>
+  <nav class="side-nav" aria-label="Pages" data-site-nav></nav>
+</aside>
+<main class="main-content" id="main">
+  <article class="article-body research-article" data-article-version="2">
+    <!-- ARTICLE CONTENT START. Read ARTICLE_AUTHORING_GUIDE.md first.
+    Replace every placeholder; HTML-escape inserted text and attributes.
+    Keep explicit heading IDs: they also work without JavaScript.
+    Add optional sections only when there is substantive sourced material.
+    Use one idea per paragraph and descriptive h3 subsections in long sections.
+    Insert complete sibling paragraphs; never wrap supplied HTML in another p.
+    Typography and spacing come from styles.css, not inline styles or br spacers.
+    The article.js script adds a compact TOC and a prominent plain-English jump.
+    -->
+    <span class="tag">Developer Tools</span>
+    <h1>GitHub Copilot App Adds GHES—But Cloud Sessions Stay Out</h1>
+    <div class="article-meta">
+      <span>By Dekrov</span>
+      <span>Published <time datetime="2026-11-14">Nov 14, 2026</time></span>
+      <span>Updated <time datetime="2026-11-14">Nov 14, 2026</time></span>
+    </div>
+    <p class="intro">GitHub has made GitHub Enterprise Server support generally available in the Copilot app, starting with app version 1.2.0. Teams can connect a GHES account to work with remote repositories, issues and pull requests, but the boundary matters: the app still needs a cloud Copilot account or a separately configured model provider, and GitHub says cloud sessions are unavailable for GHES. This is an integration milestone, not proof that Copilot inference now runs inside a company’s server.</p>
+    <!-- This link must remain accessible even when scripts are unavailable. -->
+    <p><a href="#explained-simply">Start with the plain-English explanation ↓</a></p>
+
+    <section aria-labelledby="overview">
+      <h2 id="overview">Overview</h2>
+      <p>On November 13, 2026, GitHub moved GitHub Enterprise Server (GHES) support in its Copilot app from an opt-in preview to general availability. In app version 1.2.0 or later, a user can add a GHES account and work with remote repositories, issues and pull requests. GitHub also states that cloud sessions are not available for GHES. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a>
+        <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p>
+    </section>
+
+    <section aria-labelledby="technical-deep-dive">
+      <h2 id="technical-deep-dive">Technical Deep Dive</h2>
+      <!-- Add/rename/remove h3 subsections to reflect the actual investigation. -->
+      <h3 id="mechanism">How it works</h3>
+      <p>GHES is the self-hosted GitHub product that an organization operates on its own infrastructure. It is different from GitHub Enterprise Cloud on GHE.com, which is still hosted by GitHub but offers enterprise data residency. The November release connects the Copilot desktop app to a GHES account so the app can reach the server’s repository and work-item data. It does not say that the Copilot app or its model inference is installed inside the customer’s GHES instance. <a class="citation" href="#source-2" aria-label="Source 2">[2]</a>
+
+The setup deliberately uses two account steps. First, sign in to GitHub.com or GHE.com in the app. Then open Settings → Accounts → Add account → GitHub Enterprise Server and authorize the server account in a browser. GitHub’s GHES documentation says that making model requests still requires a cloud account with a Copilot license, unless the user configures a separate model provider. <a class="citation" href="#source-2" aria-label="Source 2">[2]</a> <a class="citation" href="#source-3" aria-label="Source 3">[3]</a>
+
+That split is the practical point: the GHES account identifies where project work lives; the cloud Copilot account or custom provider supplies the model access. GHES documentation says Copilot licenses and administrative settings are managed through GitHub.com or GHE.com, with local bring-your-own-key (BYOK) setups as an exception. It also describes a separate Copilot CLI path for air-gapped GHES environments. That CLI configuration is a different product workflow, not evidence that the desktop app’s GHES connection works offline. <a class="citation" href="#source-3" aria-label="Source 3">[3]</a>
+
+The app’s own quickstart now documents adding GHES-hosted repositories after the initial cloud sign-in. For Copilot Business and Enterprise users, the GitHub Copilot app policy must remain enabled; the documentation says this is separate from the Copilot CLI policy. <a class="citation" href="#source-4" aria-label="Source 4">[4]</a></p>
+      <aside class="evidence-note" data-evidence="official" aria-label="Evidence qualification">
+        <span class="evidence-label">Official statement</span>
+        <p>GitHub’s changelog establishes the rollout status, minimum Copilot app version named by GitHub, supported GHES objects and the cloud-session limitation. The current GHES setup guide establishes the separate account flow and model-access requirement. These sources do not publish a complete feature-parity matrix, a minimum GHES server version for the app connection, or a promise that the app performs inference inside the customer’s network. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a> <a class="citation" href="#source-2" aria-label="Source 2">[2]</a>
+          <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p>
+      </aside>
+      <!-- Optional: timeline, evidence table, code, or inline figure from the guide.
+      Cite fixes by version/commit/PR. Separate shipped fixes from proposed workarounds.
+      For numbers: name the evaluator, date, method, environment and limitations.
+      -->
+    </section>
+
+    <section aria-labelledby="evidence-analysis">
+      <h2 id="evidence-analysis">Evidence &amp; Analysis</h2>
+      <p>The word “generally available” describes the rollout of the GHES account connection in the app. It does not mean that every Copilot feature, execution environment or model service is hosted on GHES. GitHub’s pages distinguish the server account from the cloud account used for Copilot access. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a> <a class="citation" href="#source-3" aria-label="Source 3">[3]</a></p>
+      <div class="table-scroll" role="region" aria-label="GHES and Copilot capability boundaries" tabindex="0">
+        <table class="research-table">
+          <caption>What the documentation currently says</caption>
+          <thead><tr><th scope="col">Workflow</th><th scope="col">Confirmed capability</th><th scope="col">Important boundary</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Copilot app connected to GHES</th><td>Connect a GHES account to work with remote repositories, issues and pull requests.</td><td>Requires Copilot app 1.2.0 or later; cloud sessions are unavailable for GHES. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></td></tr>
+            <tr><th scope="row">Model requests from the app</th><td>Use a cloud account with a Copilot license, or configure a model provider.</td><td>The GHES account alone does not supply a Copilot license or establish on-premise inference. <a class="citation" href="#source-2" aria-label="Source 2">[2]</a> <a class="citation" href="#source-3" aria-label="Source 3">[3]</a></td></tr>
+            <tr><th scope="row">Copilot CLI in an air-gapped GHES setup</th><td>A separate, administrator-configured workflow is documented for GHES.</td><td>Do not infer that this CLI setup applies to the desktop app. GHES 3.22 docs mark the CLI path GA from 3.22.3. <a class="citation" href="#source-3" aria-label="Source 3">[3]</a></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>GitHub does not give a minimum GHES version for the app connection in the changelog. The versioned documentation reviewed here is for GHES 3.22; that is the documentation version, not proof that 3.22 is the minimum required by the app. Check current compatibility guidance before rolling out to an older instance.</p>
+    </section>
+    <section aria-labelledby="community-reactions">
+      <h2 id="community-reactions">Community Reactions</h2>
+      <p>The public feature request <a href="https://github.com/github/app/issues/1892">#1892</a> records the gap from a user’s perspective: GHES users could not add their server account to the app, leaving remote repository and issue/PR workflows unavailable. In October, a maintainer said an experimental connection was available in app v1.1.28 and clarified that a cloud account was still required for inference. The reporter later confirmed that the preview worked. This is a useful development timeline, but one issue thread is anecdotal evidence—not a survey of enterprise users or a reliability test. <a class="citation" href="#source-5" aria-label="Source 5">[5]</a></p>
+    </section>
+
+    <section class="plain-english" id="explained-simply" data-explained-simply aria-labelledby="simple-title">
+      <h2 id="simple-title">Explained Simply</h2>
+      <!-- Use short descriptive h3s when the simple explanation spans several topics. -->
+      <p>Think of GHES as a company’s own GitHub building and Copilot as a service that can help with the work inside it. The new connection gives the Copilot app a permitted route to the company’s repositories, issues and pull requests. It does not move the Copilot service into that building.
+
+The app asks you to sign in to a cloud account first, then connect the GHES account separately. One account is for Copilot/model access; the other points to the server holding the project. A company can also configure a model provider, but that is a separate setup and has its own credentials and policy choices.</p>
+      <p>It is like a desktop workbench that can now open a project stored in a company’s private archive. The workbench can see the project, but that does not mean the archive itself now contains the workbench’s AI engine. The distinction matters to teams whose security rules depend on where code is stored, where a model request goes, and which account controls access.</p>
+      <p>What is confirmed: Copilot app 1.2.0 or later can connect a GHES account for remote repositories, issues and pull requests; the documented sign-in flow starts with GitHub.com or GHE.com and then adds the GHES account. GitHub says cloud sessions are unavailable for GHES. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a> <a class="citation" href="#source-2" aria-label="Source 2">[2]</a>
+
+Before rolling it out, check the installed app version, confirm the app policy is enabled for the organization or enterprise, and ask the administrator which model-access path is approved. Test one representative repository and issue workflow with the team’s actual network and authentication controls. Do not treat the feature as an air-gapped solution or assume every cloud-agent capability has parity with GitHub.com. The public changelog does not specify the minimum GHES server version supported by the app connection.</p>
+    </section>
+
+    <section aria-labelledby="conclusion">
+      <h2 id="conclusion">Conclusion</h2>
+      <p>This is a meaningful bridge for teams whose source of truth remains on GitHub Enterprise Server: the Copilot desktop app can now work with GHES-hosted project data without treating the repository as a local-only folder. The limit is just as important as the launch: GHES access is not the same as on-premise model execution, and GitHub explicitly excludes cloud sessions for GHES. Start with app 1.2.0+, keep the cloud/model-provider requirement and enterprise policy in view, and verify the workflows your team actually uses.</p>
+    </section>
+
+    <section aria-labelledby="sources">
+      <h2 id="sources">Evidence &amp; Sources</h2>
+      <p class="source-detail">Source type describes provenance, not guaranteed truth. Availability checks do not verify a claim.</p>
+      <ol class="source-list">
+        <li id="source-1" data-source-type="official"><span class="evidence-label">Official</span><a href="https://github.blog/changelog/2026-11-13-github-enterprise-server-support-in-the-github-copilot-app/">GitHub Changelog — GitHub Enterprise Server support in the GitHub Copilot app</a><span class="source-detail">Published 2026-11-13. Supports GA status, app version 1.2.0+, GHES objects and cloud-session limitation.</span><time datetime="2026-11-14">Accessed 2026-11-14</time></li>
+        <li id="source-2" data-source-type="official"><span class="evidence-label">Official</span><a href="https://docs.github.com/en/enterprise-server@3.22/copilot/copilot-on-ghes/sign-in-on-copilot-app">GitHub Docs — Signing in to GitHub Enterprise Server in the GitHub Copilot app</a><span class="source-detail">GHES 3.22 documentation. Supports two-account setup, browser authorization and model-access prerequisite.</span><time datetime="2026-11-14">Accessed 2026-11-14</time></li>
+        <li id="source-3" data-source-type="official"><span class="evidence-label">Official</span><a href="https://docs.github.com/en/enterprise-server@3.22/copilot/copilot-on-ghes/about-copilot-on-ghes">GitHub Docs — About GitHub Copilot on GitHub Enterprise Server</a><span class="source-detail">GHES 3.22 documentation. Supports cloud licensing/policy boundary, BYOK exception and separate air-gapped Copilot CLI path.</span><time datetime="2026-11-14">Accessed 2026-11-14</time></li>
+        <li id="source-4" data-source-type="official"><span class="evidence-label">Official</span><a href="https://docs.github.com/en/copilot/get-started/quickstart-copilot-app">GitHub Docs — Getting started with the GitHub Copilot app</a><span class="source-detail">Current quickstart. Supports app account setup, adding GHES-hosted repositories and app policy requirement for Business/Enterprise.</span><time datetime="2026-11-14">Accessed 2026-11-14</time></li>
+        <li id="source-5" data-source-type="community"><span class="evidence-label">Community</span><a href="https://github.com/github/app/issues/1892">GitHub App issue #1892 — Support GitHub Enterprise Server (GHES)</a><span class="source-detail">Opened 2026-07-11; includes user request, Oct 9 maintainer note on the v1.1.28 opt-in preview and user confirmation. Anecdotal, not representative.</span><time datetime="2026-11-14">Accessed 2026-11-14</time></li>
+      </ol>
+    </section>
+    <!-- ARTICLE CONTENT END: keep the shared reactions block below. -->
+
+    <section class="article-engagement" aria-label="Article reactions">
+      <div class="engagement-copy"><span class="engagement-heading">Enjoyed this research?</span><span class="engagement-note">Leave a like — no account needed.</span></div>
+      <div class="engagement-actions">
+        <button type="button" class="article-like-button" data-like-button aria-label="Like this article" aria-pressed="false" disabled>
+          <svg class="article-like-heart" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z"/></svg>
+          <span data-like-count aria-live="polite">—</span><span>likes</span>
+        </button>
+        <span class="article-like-status" data-like-status role="status">Loading likes…</span>
+      </div>
+    </section>
+  </article>
+</main>
+</div>
+<footer class="footer"><div class="footer-inner"><span>© 2026 Dekrov</span><span class="footer-links"><a href="https://t.me/Dekrov_channel_en">Telegram / @Dekrov_channel_en ↗</a><a href="https://x.com/Dekrov_Dev">X / @Dekrov_Dev ↗</a><a href="https://github.com/DekrovDev">GitHub / DekrovDev ↗</a></span></div></footer>
+<script src="/article-likes.js?v=3" defer></script>
+<script src="/article.js" defer></script>
+<script src="/site.js"></script>
+</body>
+</html>

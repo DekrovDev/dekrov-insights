@@ -5,6 +5,13 @@
     "meta": "Overview"
   },
   {
+    "slug": "github-copilot-app-ghes-2026",
+    "path": "/copilot-ghes/",
+    "title": "GitHub Copilot App Adds GHES—But Cloud Sessions Stay Out",
+    "meta": "Developer Tools · Nov 14, 2026",
+    "summary": "Copilot app 1.2.0 adds GHES repositories, issues and pull requests—but cloud sessions remain unavailable and model access still needs a cloud account or provider."
+  },
+  {
     "slug": "gemini-4-hydrogen-copilot",
     "path": "/hydrogen-copilot/",
     "title": "Gemini 4 Hydrogen in GitHub Copilot: Access, Cost and What the Benchmarks Prove",
