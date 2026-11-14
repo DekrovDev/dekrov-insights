@@ -5,6 +5,13 @@
     "meta": "Overview"
   },
   {
+    "slug": "plurai-agent-simulation-evaluation-20261115",
+    "path": "/plurai-simulation/",
+    "title": "Plurai Simulation Builds Stateful Worlds to Test AI Agents",
+    "meta": "AI Agent Evaluation · Nov 15, 2026",
+    "summary": "A source-checked analysis of Plurai Simulation: its stateful mock world, local runner, backend data boundary, access claims and limits compared with ordinary tests and agent benchmarks."
+  },
+  {
     "slug": "vercel-agent-desktop-accessibility-20261114",
     "path": "/agent-desktop/",
     "title": "Vercel’s agent-desktop Gives Coding Agents Native GUI Access—with Clear Limits",
