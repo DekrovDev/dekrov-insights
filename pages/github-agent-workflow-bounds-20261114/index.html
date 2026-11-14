@@ -94,7 +94,7 @@ redirect_from:
             <tr><th scope="row">Retry boundary</th><td>Builder accepts at most two fix rounds; reviewer stops after round three.</td><td>That the change is correct or that a fixed number of attempts is enough.</td></tr>
             <tr><th scope="row">Review authority</th><td>PR review output is <code>COMMENT</code>; the agent can label a PR, not approve or merge it.</td><td>That a label is equivalent to maintainer approval.</td></tr>
             <tr><th scope="row">Security pass</th><td>A separate review axis runs when the diff touches listed trust boundaries.</td><td>That every vulnerability is detected or every risky file is classified perfectly.</td></tr>
-            <tr><th scope="row">Execution controls</th><td>Shared security settings keep the network closed except for declared defaults and turn threat detection on.</td><td>That downstream edits cannot weaken these settings or that all data stays local.</td></tr>
+            <tr><th scope="row">Execution controls</th><td>Shared security settings keep the network closed except for declared defaults and turn threat detection on. <a class="citation" href="#source-4" aria-label="Source 4">[4]</a></td><td>That downstream edits cannot weaken these settings or that all data stays local.</td></tr>
           </tbody>
         </table>
       </div>
@@ -110,7 +110,7 @@ redirect_from:
 
     <section aria-labelledby="visual-evidence">
       <h2 id="visual-evidence">Visual Evidence: Where the Loop Stops</h2>
-      <figure class="article-figure">
+      <figure class="article-figure" data-visual-kind="diagram" data-rights="Original work by Dekrov, based on the cited workflow configuration; no source image reproduced.">
         <figcaption>Sequence reconstructed from the featured workflow files; it describes configured handoffs, not a measured run.</figcaption>
         <div class="table-scroll" role="region" aria-label="Issue to pull request workflow sequence" tabindex="0">
           <table class="research-table">
@@ -123,6 +123,7 @@ redirect_from:
             </tbody>
           </table>
         </div>
+        <p><a class="citation" href="#source-2" aria-label="Source 2">[2]</a> <a href="https://github.com/svennijhuis/agentic-workflows/blob/69e80463902d2ad54e8a2ef3d4aa04572cfd5586/workflows/issue-builder.md">Open the underlying workflow definition</a></p>
       </figure>
       <p>This is the part to inspect before copying the example: workflow-level conditions decide whether a new agent job runs, while labels and comments make the handoff visible. The code does not say that all projects should use three rounds; it demonstrates how to choose and enforce an explicit limit.</p>
     </section>
