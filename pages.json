@@ -5,6 +5,13 @@
     "meta": "Overview"
   },
   {
+    "slug": "vscode-1146-agent-comparison-2026",
+    "path": "/vscode-agents/",
+    "title": "VS Code 1.146 Adds Agent Inbox and Multi-Model Comparison",
+    "meta": "AI Coding Tools · Nov 14, 2026",
+    "summary": "VS Code 1.146 expands agent session triage and model comparisons, while deprecating the Local harness ahead of its February 2027 removal."
+  },
+  {
     "slug": "github-copilot-app-ghes-2026",
     "path": "/copilot-ghes/",
     "title": "GitHub Copilot App Adds GHES—But Cloud Sessions Stay Out",

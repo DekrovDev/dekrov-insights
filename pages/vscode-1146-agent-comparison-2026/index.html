@@ -1,0 +1,189 @@
+---
+layout: null
+permalink: /vscode-agents/
+redirect_from:
+  - /pages/vscode-1146-agent-comparison-2026/
+  - /pages/vscode-1146-agent-comparison-2026/index.html
+---
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#ffffff">
+<meta name="description" content="VS Code 1.146 expands agent session triage and model comparisons, while deprecating the Local harness ahead of its February 2027 removal.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="VS Code 1.146 Adds Agent Inbox and Multi-Model Comparison">
+<meta property="og:description" content="VS Code 1.146 expands agent session triage and model comparisons, while deprecating the Local harness ahead of its February 2027 removal.">
+<meta property="og:url" content="https://insights.dekrov.com/vscode-agents/">
+<link rel="canonical" href="https://insights.dekrov.com/vscode-agents/">
+<meta name="twitter:card" content="summary">
+<title>VS Code 1.146 Adds Agent Inbox and Multi-Model Comparison — Dekrov Insights</title>
+<script src="/theme.js"></script>
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body data-page="vscode-1146-agent-comparison-2026" data-root="/">
+<header class="top">
+  <div class="header-inner">
+    <div class="brand-signature">
+      <a class="brand" href="/"><span class="brand-mark" aria-hidden="true">DK</span>Dekrov Insights</a>
+      <span class="brand-role">Research / AI &amp; Technology</span>
+    </div>
+    <div class="header-actions">
+      <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme"><span data-theme-label>Light</span></button>
+      <a class="nav" href="https://github.com/DekrovDev/dekrov-insights">GitHub ↗</a>
+    </div>
+  </div>
+</header>
+<div class="layout">
+<aside class="sidebar" aria-label="Page navigation">
+  <p class="side-heading">Index</p>
+  <nav class="side-nav" aria-label="Pages" data-site-nav></nav>
+</aside>
+<main class="main-content" id="main">
+  <article class="article-body research-article" data-article-version="2">
+    <!-- ARTICLE CONTENT START. Read ARTICLE_AUTHORING_GUIDE.md first.
+    Replace every the template placeholder; HTML-escape inserted text and attributes.
+    Keep explicit heading IDs: they also work without JavaScript.
+    Add optional sections only when there is substantive sourced material.
+    Use one idea per paragraph and descriptive h3 subsections in long sections.
+    Insert complete sibling paragraphs; never wrap supplied HTML in another p.
+    Typography and spacing come from styles.css, not inline styles or br spacers.
+    The article.js script adds a compact TOC and a prominent plain-English jump.
+    -->
+    <span class="tag">AI Coding Tools</span>
+    <h1>VS Code 1.146 Adds Agent Inbox and Multi-Model Comparison</h1>
+    <div class="article-meta">
+      <span>By Dekrov</span>
+      <span>Published <time datetime="2026-11-14">Nov 14, 2026</time></span>
+      <span>Updated <time datetime="2026-11-14">Nov 14, 2026</time></span>
+    </div>
+    <p class="intro">VS Code 1.146 adds an experimental agent Inbox, expands model comparison to include Copilot Fusion, and begins a three-month countdown to removing the Local harness. Here is what the new comparison flow can—and cannot—tell you.</p>
+    <!-- This link must remain accessible even when scripts are unavailable. -->
+    <p><a href="#explained-simply">Start with the plain-English explanation ↓</a></p>
+
+    <section aria-labelledby="overview">
+      <h2 id="overview">Overview</h2>
+      <p>Released on November 11, VS Code 1.146 brings agent-session triage and model comparison closer to everyday coding work. The comparison flow can run one prompt against two to ten available models, optionally use a judge, and synthesize a new result; the same release also marks the Local harness for removal in February 2027. [1][2]
+        <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p>
+    </section>
+
+    <section aria-labelledby="technical-deep-dive">
+      <h2 id="technical-deep-dive">Technical Deep Dive</h2>
+      <!-- Add/rename/remove h3 subsections to reflect the actual investigation. -->
+      <h3 id="mechanism">How it works</h3>
+      <p>VS Code 1.146 became Stable on November 11, 2026. In the Agents window, start a repository session, choose Compare Models, and add two to ten available models. For code work, attempts can use isolated worktrees; for chat-only questions, the judge and synthesizer can now run without a workspace. Fusion and its supported effort tiers can act as an attempt, judge or synthesizer. The separate agent-driven evaluation tools can discover models, launch comparisons and read their results, but they are Experimental, require `sessions.chat.compareAgents.tools.enabled`, and are off by default. [1][2]</p>
+      <aside class="evidence-note" data-evidence="official" aria-label="Evidence qualification">
+        <span class="evidence-label">Official statement</span>
+        <p>Microsoft documents the product behavior and labels the main comparison flow Preview; it labels agent-driven evaluations Experimental. The release provides no independent accuracy, coding-benchmark or productivity result, so availability should not be read as proof that one model wins.
+          <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p>
+      </aside>
+      <!-- Optional: timeline, evidence table, code, or inline figure from the guide.
+      Cite fixes by version/commit/PR. Separate shipped fixes from proposed workarounds.
+      For numbers: name the evaluator, date, method, environment and limitations.
+      -->
+    </section>
+
+    <section aria-labelledby="comparison-workflow">
+      <h2 id="comparison-workflow">What model comparison actually does</h2>
+      <p>In a repository session, the Agents window can run attempts in separate worktrees, letting you inspect each proposed code change without the attempts editing the same working tree. A judge can evaluate the results; a synthesizer can use the judge verdict and identified strengths to create a new session or implementation. Synthesis is an explicit action and does not merge changes into your branch. [2]</p>
+      <p>The comparison documentation allows two to ten models. Available choices depend on the configured harnesses, credentials and enterprise policy. The automatic <code>Auto</code> choice is not available in comparisons, though a supported model can be added more than once at different thinking-effort levels. [2]</p>
+      <div class="table-scroll" role="region" aria-label="VS Code 1.146 agent features and limits" tabindex="0">
+        <table class="research-table">
+          <caption>What the 1.146 changes mean in practice</caption>
+          <thead><tr><th scope="col">Change</th><th scope="col">Status</th><th scope="col">Practical boundary</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Compare Models</th><td>Preview</td><td>Two to ten available models; model access and setup vary. Compare in the Agents window, not editor Chat. <a class="citation" href="#source-2" aria-label="Source 2">[2]</a></td></tr>
+            <tr><th scope="row">Agent-run evaluations</th><td>Experimental</td><td>Off by default; requires Compare Models and a setting. Manual comparisons remain available if the tools are disabled. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></td></tr>
+            <tr><th scope="row">Inbox mode</th><td>Experimental</td><td>Off by default; groups sessions that need attention, are working, ready to merge, on hold or done. Snoozing does not archive a session. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></td></tr>
+            <tr><th scope="row">Local harness</th><td>Deprecated</td><td>Functionally frozen and scheduled for removal in February 2027; the Copilot harness is already the default for new sessions. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <h3 id="same-model-not-same-agent">A model comparison is not always a model-only comparison</h3>
+      <p>VS Code distinguishes the model from its harness. The harness prepares context, coordinates tools and approvals, and maintains the agent conversation; using the same model with a different harness can change how the task is carried out. That means cross-harness comparisons answer “which configured agent setup worked better here?” unless the other conditions are controlled. This is an inference from Microsoft's description of the harness boundary, not a benchmark result. <a class="citation" href="#source-3" aria-label="Source 3">[3]</a></p>
+      <h3 id="harness-migration">The Local harness deadline is a separate migration story</h3>
+      <p>New sessions have defaulted to the Copilot harness since VS Code 1.143. In 1.146, the Local harness is deprecated, receives no guaranteed new features, and is planned for removal in February 2027. Microsoft says the Copilot harness uses the Copilot SDK and Agent Host, and supports managed sandbox and permission policies that the Local harness cannot enforce. Existing customizations and integrations may differ, so the transition guide recommends reviewing and verifying the workflow before switching. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a><a class="citation" href="#source-3" aria-label="Source 3">[3]</a></p>
+    </section>
+
+    <section aria-labelledby="evidence-and-reactions">
+      <h2 id="evidence-and-reactions">Evidence, coverage and what remains untested</h2>
+      <p>The official release notes and documentation establish the controls, prerequisites and feature status. A Microsoft VS Code issue records the Fusion comparison request, its implementation and closure for milestone 1.146; that is a useful engineering trace, not evidence of user satisfaction. <a class="citation" href="#source-4" aria-label="Source 4">[4]</a></p>
+      <p>Independent coverage from Visual Studio Magazine summarized the Inbox, chat windows and comparison changes, but did not publish a head-to-head model evaluation. No independent benchmark or sufficiently detailed user-run comparison was found for this release at review time. Consequently, there are no supported claims here about which model is fastest, cheapest or most accurate in this workflow. <a class="citation" href="#source-5" aria-label="Source 5">[5]</a></p>
+      <aside class="evidence-note" data-evidence="official" aria-label="Evidence qualification">
+        <span class="evidence-label">Evidence limit</span>
+        <p>A judge score is one model's evaluation of other outputs, not a standardized external benchmark. For code, inspect the diffs and run the same acceptance tests before choosing a result. The official documentation also says each attempt, judge and synthesis is separate model work, but publishes no per-comparison price. <a class="citation" href="#source-2" aria-label="Source 2">[2]</a></p>
+      </aside>
+    </section>
+
+
+    <section class="plain-english" id="explained-simply" data-explained-simply aria-labelledby="simple-title">
+      <h2 id="simple-title">Explained Simply</h2>
+      <!-- Use short descriptive h3s when the simple explanation spans several topics. -->
+      <p>A coding agent is a model plus the software around it: the editor gives it files, tools, approvals and a place to run commands. VS Code 1.146 lets you send one task to several available models or agent setups and inspect their answers or code side by side. The feature lives in the Agents window, not the regular editor Chat view.</p>
+      <p>Think of the comparison flow as a small bake-off inside the editor: several cooks receive the same recipe and ingredients, then a reviewer checks the dishes. In a coding task, the “ingredients” are the repository, prompt, tools and permissions. If those differ between attempts, the result tells you about the whole setup, not just which model is smarter.</p>
+      <p>You can compare available models or harnesses in the Agents window and review separate attempts. The interface does not make the comparison a controlled benchmark: access, credentials, harnesses and enterprise policies affect which options appear, and each attempt, judge and synthesis is separate model work. It does not automatically merge the selected result. [2]</p>
+    </section>
+
+    <section aria-labelledby="conclusion">
+      <h2 id="conclusion">Conclusion</h2>
+      <p>The release makes multi-model work easier to organize and adds Fusion to the comparison path, but the feature remains Preview and the agent-driven evaluation tools are Experimental and off by default. No independent benchmark or published model score is included in the release notes. Try it on a small, repeatable repository task: hold the prompt and acceptance checks steady, inspect every diff, run the project tests, and treat the judge as a reviewer rather than ground truth. Teams still using the Local harness should inventory customizations and permissions before migrating ahead of February 2027.</p>
+    </section>
+
+    <section aria-labelledby="sources">
+      <h2 id="sources">Evidence &amp; Sources</h2>
+      <p class="source-detail">Source type describes provenance, not guaranteed truth. Availability checks do not verify a claim.</p>
+      <ol class="source-list">
+        <li id="source-1" data-source-type="official">
+          <span class="evidence-label">Official</span>
+          <a href="https://code.visualstudio.com/updates/v1_146">Visual Studio Code 1.146 — Visual Studio Code release notes</a>
+          <span class="source-detail">Published November 11, 2026. Supports the Stable release date, feature status, harness migration deadline and release-specific changes.</span>
+          <time datetime="2026-11-14">Accessed 2026-11-14</time>
+        </li>
+        <li id="source-2" data-source-type="official">
+          <span class="evidence-label">Official</span>
+          <a href="https://code.visualstudio.com/docs/agents/run/compare-models">Compare model results — Visual Studio Code documentation</a>
+          <span class="source-detail">Current documentation, accessed November 14, 2026. Supports prerequisites, two-to-ten model limit, worktree isolation, judge/synthesis behavior, usage caveat and no automatic merge.</span>
+          <time datetime="2026-11-14">Accessed 2026-11-14</time>
+        </li>
+        <li id="source-3" data-source-type="official">
+          <span class="evidence-label">Official</span>
+          <a href="https://code.visualstudio.com/docs/agents/run/move-to-copilot">Move from the Local to the Copilot harness — Visual Studio Code documentation</a>
+          <span class="source-detail">Current migration guide, accessed November 14, 2026. Supports the model/harness distinction, compatibility checks and migration advice.</span>
+          <time datetime="2026-11-14">Accessed 2026-11-14</time>
+        </li>
+        <li id="source-4" data-source-type="official">
+          <span class="evidence-label">Official engineering record</span>
+          <a href="https://github.com/microsoft/vscode/issues/346303">microsoft/vscode issue #346303 — Allow Copilot Fusion in Compare Models</a>
+          <span class="source-detail">Opened and closed November 5, 2026. Supports the requested scope, milestone and implementation trace; it does not measure quality or user sentiment.</span>
+          <time datetime="2026-11-14">Accessed 2026-11-14</time>
+        </li>
+        <li id="source-5" data-source-type="independent">
+          <span class="evidence-label">Independent coverage</span>
+          <a href="https://visualstudiomagazine.com/articles/2026/11/12/vs-code-1-146-adds-ai-agent-inbox-model-comparisons-and-chat-windows.aspx">VS Code 1.146 Adds AI Agent Inbox, Model Comparisons and Chat Windows — Visual Studio Magazine</a>
+          <span class="source-detail">Published November 12, 2026. Secondary coverage of the release; it is not an independent benchmark.</span>
+          <time datetime="2026-11-14">Accessed 2026-11-14</time>
+        </li>
+      </ol>
+    </section>
+    <!-- ARTICLE CONTENT END: keep the shared reactions block below. -->
+
+    <section class="article-engagement" aria-label="Article reactions">
+      <div class="engagement-copy"><span class="engagement-heading">Enjoyed this research?</span><span class="engagement-note">Leave a like — no account needed.</span></div>
+      <div class="engagement-actions">
+        <button type="button" class="article-like-button" data-like-button aria-label="Like this article" aria-pressed="false" disabled>
+          <svg class="article-like-heart" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z"/></svg>
+          <span data-like-count aria-live="polite">—</span><span>likes</span>
+        </button>
+        <span class="article-like-status" data-like-status role="status">Loading likes…</span>
+      </div>
+    </section>
+  </article>
+</main>
+</div>
+<footer class="footer"><div class="footer-inner"><span>© 2026 Dekrov</span><span class="footer-links"><a href="https://t.me/Dekrov_channel_en">Telegram / @Dekrov_channel_en ↗</a><a href="https://x.com/Dekrov_Dev">X / @Dekrov_Dev ↗</a><a href="https://github.com/DekrovDev">GitHub / DekrovDev ↗</a></span></div></footer>
+<script src="/article-likes.js?v=3" defer></script>
+<script src="/article.js" defer></script>
+<script src="/site.js"></script>
+</body>
+</html>
