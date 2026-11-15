@@ -5,6 +5,13 @@
     "meta": "Overview"
   },
   {
+    "slug": "openclaw-persistent-agent-security-20261115",
+    "path": "/persistent-agents/",
+    "title": "OpenAI’s OpenClaw Security Stack: Five Boundaries for Persistent Agents—and Their Limits",
+    "meta": "Agent Security · Nov 15, 2026",
+    "summary": "A source-checked analysis of OpenAI’s persistent-agent security architecture: trusted control plane, Codex sandboxing, auto-review, agent identity, observability and the OCE preset’s enforcement gaps."
+  },
+  {
     "slug": "wfx-loot-github-ci-attack-20261115",
     "path": "/wfx-loot/",
     "title": "wfx-loot: How Hijacked GitHub Accounts Turned CI into a Credential-Theft Path",
