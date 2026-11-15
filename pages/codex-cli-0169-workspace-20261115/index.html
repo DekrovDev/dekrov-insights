@@ -1,0 +1,213 @@
+---
+layout: null
+permalink: /codex-cli-0169/
+redirect_from:
+  - /pages/codex-cli-0169-workspace-20261115/
+  - /pages/codex-cli-0169-workspace-20261115/index.html
+---
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#ffffff">
+<meta name="description" content="A source-checked analysis of Codex CLI 0.169.0: persistent side-chat tabs, task search, custom model providers, trust boundaries and operational limits.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Codex CLI 0.169.0 Turns the Terminal into a Multi-Chat Agent Workspace">
+<meta property="og:description" content="A source-checked analysis of Codex CLI 0.169.0: persistent side-chat tabs, task search, custom model providers, trust boundaries and operational limits.">
+<meta property="og:url" content="https://insights.dekrov.com/codex-cli-0169/">
+<link rel="canonical" href="https://insights.dekrov.com/codex-cli-0169/">
+<meta name="twitter:card" content="summary">
+<title>Codex CLI 0.169.0 Turns the Terminal into a Multi-Chat Agent Workspace — Dekrov Insights</title>
+<script src="/theme.js"></script>
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body data-page="codex-cli-0169-workspace-20261115" data-root="/">
+<header class="top">
+  <div class="header-inner">
+    <div class="brand-signature">
+      <a class="brand" href="/"><span class="brand-mark" aria-hidden="true">DK</span>Dekrov Insights</a>
+      <span class="brand-role">Research / AI &amp; Technology</span>
+    </div>
+    <div class="header-actions">
+      <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme"><span data-theme-label>Light</span></button>
+      <a class="nav" href="https://github.com/DekrovDev/dekrov-insights">GitHub ↗</a>
+    </div>
+  </div>
+</header>
+<div class="layout">
+<aside class="sidebar" aria-label="Page navigation">
+  <p class="side-heading">Index</p>
+  <nav class="side-nav" aria-label="Pages" data-site-nav></nav>
+</aside>
+<main class="main-content" id="main">
+  <article class="article-body research-article" data-article-version="2">
+    <span class="tag">AI Coding Tools</span>
+    <h1>Codex CLI 0.169.0 Turns the Terminal into a Multi-Chat Agent Workspace</h1>
+    <div class="article-meta">
+      <span>By Dekrov</span>
+      <span>Published <time datetime="2026-11-15">Nov 15, 2026</time></span>
+      <span>Updated <time datetime="2026-11-15">Nov 15, 2026</time></span>
+    </div>
+    <p class="intro">OpenAI’s November 13 release is less about a new model and more about the agent workspace around it. Codex CLI 0.169.0 adds multiple persistent side-chat tabs, task-history search, terminal-managed custom providers, collapsible turn detail, local diagnostic exports and a stricter trust rule for non-interactive runs. The release is substantial for daily workflow, but it publishes no speed, quality or reliability benchmark.</p>
+    <p><a href="#explained-simply">Start with the plain-English explanation ↓</a></p>
+
+    <section aria-labelledby="overview">
+      <h2 id="overview">Overview</h2>
+      <p>Codex CLI 0.169.0 was published as a stable release on November 13, 2026. Its headline change is an opt-in terminal workspace where several side conversations can remain open as tabs, be selected with keyboard or mouse, and be reopened after restarting Codex. The same release adds search across older tasks by name, prompt preview or working directory.
+        <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p>
+      <p>This changes the shape of terminal work. A developer can keep the main implementation thread focused while opening separate conversations for investigation, review or documentation, then recover those branches later. It does not mean the model became more capable, and OpenAI supplied no comparative task benchmark for the release.</p>
+      <aside class="evidence-note" data-evidence="official" aria-label="Evidence qualification">
+        <span class="evidence-label">Official release evidence</span>
+        <p>The release note and linked implementation pull requests establish what shipped. They do not measure whether multiple chats improve completion rate, code quality or token efficiency.
+          <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p>
+      </aside>
+    </section>
+
+    <section aria-labelledby="technical-deep-dive">
+      <h2 id="technical-deep-dive">Technical Deep Dive</h2>
+
+      <h3 id="side-chat-workspace">Side chats become a persistent workspace</h3>
+      <p>The implementation arrived in several layers: sidebar support for multiple side chats, persistence and close controls for local workspace chats, then keyboard and mouse navigation between tabs. OpenAI’s release note says saved local side chats can be reopened after restart, so these are no longer merely disposable tangents inside one live terminal session.
+        <a class="citation" href="#source-2" aria-label="Source 2">[2]</a>
+        <a class="citation" href="#source-3" aria-label="Source 3">[3]</a>
+        <a class="citation" href="#source-4" aria-label="Source 4">[4]</a></p>
+      <p>An earlier community feature request described the practical problem: one side chat was insufficient when several tangents needed isolated context, while separate terminal instances lost their relationship to the parent work. That request was closed as “not planned” in May, but the core multi-chat idea later shipped in 0.169.0. This is historical community context, not evidence about production reliability.
+        <a class="citation" href="#source-8" aria-label="Source 8">[8]</a></p>
+
+      <h3 id="task-search-transcript">Task search and quieter transcripts</h3>
+      <p>The agent command center can now search older tasks using a task name, prompt preview or working directory. A separate <strong>Collapse turn details</strong> setting groups completed activity beneath each prompt while preserving visible answers and searchable tool output. These changes target retrieval and readability rather than inference quality.
+        <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p>
+
+      <h3 id="custom-providers">Custom providers move into the terminal UI</h3>
+      <p>Version 0.169.0 can add or edit a custom model provider from the terminal. When custom-gateway onboarding is enabled, a provider can be created during sign-in; supported gateways can use device-code authentication for SSH or browserless environments. The app-server documentation exposes provider listing and configuration methods, including provider IDs, base URLs and provider-specific settings.
+        <a class="citation" href="#source-5" aria-label="Source 5">[5]</a>
+        <a class="citation" href="#source-6" aria-label="Source 6">[6]</a></p>
+      <p>This is an integration feature, not a promise that every OpenAI-compatible endpoint will behave identically. Model availability, authentication, tool support, context limits, billing and data handling still belong to the selected provider. A custom gateway also changes the trust boundary: prompts and code may travel through infrastructure other than OpenAI’s default endpoint.</p>
+
+      <h3 id="trust-boundary">The non-interactive trust boundary tightens</h3>
+      <p>The most important safety fix is easy to miss. In untrusted directories, <code>codex exec</code> now keeps project configuration and project MCP servers disabled even when <code>--sandbox workspace-write</code> is used. The operator must explicitly use <code>--trust</code> with <code>codex exec</code> or <code>codex review</code> to save trust for that project.
+        <a class="citation" href="#source-7" aria-label="Source 7">[7]</a></p>
+      <p>The distinction matters because filesystem write permission and configuration trust are different decisions. A writable sandbox should not silently authorize repository-supplied instructions or MCP endpoints. The new behavior makes that separation explicit for non-interactive automation.</p>
+
+      <h3 id="operational-fixes">Operational fixes around long sessions</h3>
+      <p>The release can save a diagnostic ZIP locally with <code>Ctrl+S</code> even when uploads are disabled. It also fixes terminal sessions waiting indefinitely for MCP servers missing from a shared app-server report, prevents delayed aborts from interrupting a later turn, repairs quoted <code>cmd.exe</code> handling and an unreadable-parent PowerShell case on Windows, and updates bundled SQLite to 3.54 for write-ahead-log fixes.
+        <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p>
+      <p>Plugin marketplace upgrades can reuse Git objects already present on disk, reducing repeated downloads. These changes improve failure recovery and local workflow friction, but the release note provides no quantitative latency, memory or stability measurements.</p>
+    </section>
+
+    <section aria-labelledby="evidence-analysis">
+      <h2 id="evidence-analysis">What the Evidence Supports</h2>
+      <div class="table-scroll" role="region" aria-label="Codex CLI 0.169 evidence matrix" tabindex="0">
+        <table class="research-table">
+          <caption>Claims, supporting evidence and limits</caption>
+          <thead><tr><th scope="col">Claim</th><th scope="col">Evidence</th><th scope="col">Limit</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Multiple side-chat tabs shipped</th><td>Stable release note and three implementation PRs <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></td><td>No independent usability test</td></tr>
+            <tr><th scope="row">Custom providers can be managed in-terminal</th><td>Release note and app-server provider contract <a class="citation" href="#source-5" aria-label="Source 5">[5]</a></td><td>Gateway compatibility varies</td></tr>
+            <tr><th scope="row">Untrusted project config stays disabled in exec</th><td>Release note and trust PR <a class="citation" href="#source-7" aria-label="Source 7">[7]</a></td><td>Users can still explicitly grant trust</td></tr>
+            <tr><th scope="row">The model is faster or better</th><td>No evidence in the release</td><td>0.169.0 is primarily a harness and UX update</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section aria-labelledby="practical-guide">
+      <h2 id="practical-guide">Practical Upgrade Guide</h2>
+      <p>Install or update the CLI, then verify the actual version rather than assuming a global package updated itself:</p>
+      <pre tabindex="0" aria-label="Codex CLI update commands"><code>npm install -g @openai/codex@0.169.0
+codex --version</code></pre>
+      <p>After upgrading, test the opt-in terminal workspace with a disposable repository before moving an important active session. For a custom provider, verify the endpoint owner, authentication method, model catalog, retention policy and billing before sending private source code. In CI or scripted work, treat <code>--trust</code> as a deliberate security grant rather than a convenience flag.</p>
+    </section>
+
+    <section class="plain-english" id="explained-simply" data-explained-simply aria-labelledby="simple-title">
+      <h2 id="simple-title">Explained Simply</h2>
+      <h3 id="simple-desk">A desk with several labeled notebooks</h3>
+      <p>Think of the old terminal session as one notebook on a desk. If you paused coding to investigate an error, compare two approaches and draft documentation, all three detours could crowd the same notebook. Side chats are separate notebooks connected to the same job. Version 0.169.0 lets several of them stay open as tabs and restores saved local ones after a restart.</p>
+      <p>The task search is the filing cabinet: it can find older work by its name, part of the prompt or the folder where it ran. Collapsed turn details hide the long trail of tool calls until you need it, while keeping the final answer and searchable output available.</p>
+      <h3 id="simple-provider">Choosing a different engine</h3>
+      <p>A custom provider is like connecting the workspace to a different engine. Codex can now help configure that connection inside the terminal, including browserless device-code sign-in for supported gateways. The interface is easier, but the operator still has to check who runs that engine, what models and tools it supports, where data goes and what it costs.</p>
+      <h3 id="simple-trust">Writing files is not the same as trusting a project</h3>
+      <p>The security fix separates two permissions. Allowing a sandbox to write in a folder does not automatically mean Codex should trust configuration or MCP servers supplied by that folder. In untrusted directories those project settings remain off until the operator explicitly grants trust. That is safer for downloaded or unfamiliar repositories, but the protection can still be overridden intentionally.</p>
+      <p>The practical result is a better-organized terminal agent, not a smarter model. Upgrade if persistent parallel investigations, searchable task history, custom gateways or the trust fix matter to your workflow. Do not cite 0.169.0 as evidence of higher coding accuracy: no such benchmark was published.</p>
+    </section>
+
+    <section aria-labelledby="conclusion">
+      <h2 id="conclusion">Conclusion</h2>
+      <p>Codex CLI 0.169.0 is a meaningful workspace release. Persistent multi-chat navigation reduces context mixing, task search improves recovery of old work, provider configuration becomes more accessible, and non-interactive execution gets a clearer trust boundary. The strongest evidence is the stable release note, implementation PRs and app-server contract. What remains unknown is equally important: OpenAI published no independent usability study, coding benchmark or reliability delta for these changes. Evaluate the workflow features directly, keep custom-provider data boundaries explicit, and grant project trust only when the repository has been reviewed.</p>
+    </section>
+
+    <section aria-labelledby="sources">
+      <h2 id="sources">Evidence &amp; Sources</h2>
+      <p class="source-detail">Source type describes provenance, not guaranteed truth. Availability checks do not verify a claim.</p>
+      <ol class="source-list">
+        <li id="source-1" data-source-type="official">
+          <span class="evidence-label">Official</span>
+          <a href="https://github.com/openai/codex/releases/tag/rust-v0.169.0">OpenAI Codex — release 0.169.0</a>
+          <span class="source-detail">Published 2026-11-13. Primary release notes for features, fixes, documentation and chores.</span>
+          <time datetime="2026-11-15">Accessed 2026-11-15</time>
+        </li>
+        <li id="source-2" data-source-type="official">
+          <span class="evidence-label">Official</span>
+          <a href="https://github.com/openai/codex/pull/59784">OpenAI Codex PR #59784 — multiple side chats in the TUI sidebar</a>
+          <span class="source-detail">Implementation record for multi-side-chat sidebar support.</span>
+          <time datetime="2026-11-15">Accessed 2026-11-15</time>
+        </li>
+        <li id="source-3" data-source-type="official">
+          <span class="evidence-label">Official</span>
+          <a href="https://github.com/openai/codex/pull/60152">OpenAI Codex PR #60152 — persist local workspace side chats</a>
+          <span class="source-detail">Implementation record for persistence and tab close controls.</span>
+          <time datetime="2026-11-15">Accessed 2026-11-15</time>
+        </li>
+        <li id="source-4" data-source-type="official">
+          <span class="evidence-label">Official</span>
+          <a href="https://github.com/openai/codex/pull/60181">OpenAI Codex PR #60181 — sidebar tab navigation</a>
+          <span class="source-detail">Implementation record for keyboard and mouse navigation.</span>
+          <time datetime="2026-11-15">Accessed 2026-11-15</time>
+        </li>
+        <li id="source-5" data-source-type="official">
+          <span class="evidence-label">Official</span>
+          <a href="https://github.com/openai/codex/pull/59779">OpenAI Codex PR #59779 — provider configuration editing in the TUI</a>
+          <span class="source-detail">Implementation record for terminal provider management.</span>
+          <time datetime="2026-11-15">Accessed 2026-11-15</time>
+        </li>
+        <li id="source-6" data-source-type="official">
+          <span class="evidence-label">Official</span>
+          <a href="https://github.com/openai/codex/blob/main/codex-rs/app-server/README.md#model-provider-configuration">OpenAI Codex app-server — model provider configuration</a>
+          <span class="source-detail">Current API contract for listing, creating and editing providers.</span>
+          <time datetime="2026-11-15">Accessed 2026-11-15</time>
+        </li>
+        <li id="source-7" data-source-type="official">
+          <span class="evidence-label">Official</span>
+          <a href="https://github.com/openai/codex/pull/60041">OpenAI Codex PR #60041 — explicit project trust in non-interactive runs</a>
+          <span class="source-detail">Implementation record for the untrusted-directory behavior.</span>
+          <time datetime="2026-11-15">Accessed 2026-11-15</time>
+        </li>
+        <li id="source-8" data-source-type="community">
+          <span class="evidence-label">Community</span>
+          <a href="https://github.com/openai/codex/issues/22307">OpenAI Codex issue #22307 — request for multiple concurrent side chats</a>
+          <span class="source-detail">Opened 2026-05-12. Documents one user’s workflow problem and proposed behavior; not an evaluation.</span>
+          <time datetime="2026-11-15">Accessed 2026-11-15</time>
+        </li>
+      </ol>
+    </section>
+
+    <section class="article-engagement" aria-label="Article reactions">
+      <div class="engagement-copy"><span class="engagement-heading">Enjoyed this research?</span><span class="engagement-note">Leave a like — no account needed.</span></div>
+      <div class="engagement-actions">
+        <button type="button" class="article-like-button" data-like-button aria-label="Like this article" aria-pressed="false" disabled>
+          <svg class="article-like-heart" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z"/></svg>
+          <span data-like-count aria-live="polite">—</span><span>likes</span>
+        </button>
+        <span class="article-like-status" data-like-status role="status">Loading likes…</span>
+      </div>
+    </section>
+  </article>
+</main>
+</div>
+<footer class="footer"><div class="footer-inner"><span>© 2026 Dekrov</span><span class="footer-links"><a href="https://t.me/Dekrov_channel_en">Telegram / @Dekrov_channel_en ↗</a><a href="https://x.com/Dekrov_Dev">X / @Dekrov_Dev ↗</a><a href="https://github.com/DekrovDev">GitHub / DekrovDev ↗</a></span></div></footer>
+<script src="/article-likes.js?v=3" defer></script>
+<script src="/article.js" defer></script>
+<script src="/site.js"></script>
+</body>
+</html>
