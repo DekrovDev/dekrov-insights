@@ -5,6 +5,13 @@
     "meta": "Overview"
   },
   {
+    "slug": "github-ai-scan-api-controls-20261115",
+    "path": "/ai-scan-api/",
+    "title": "GitHub AI Scan Gains REST Controls for Repository-Level Rollouts",
+    "meta": "GitHub Security · Nov 15, 2026",
+    "summary": "GitHub’s November 13 public preview adds REST controls for enabling AI Scan across repositories, with policy, billing and coverage limits to understand."
+  },
+  {
     "slug": "qwen-code-harness-preview-20261115",
     "path": "/qwen-code-preview/",
     "title": "Qwen Code 1.0 Preview Brings Qoder’s Agent Harness to an Open-Source CLI",
