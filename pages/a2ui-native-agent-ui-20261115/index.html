@@ -1,0 +1,198 @@
+---
+layout: null
+permalink: /a2ui/
+redirect_from:
+  - /pages/a2ui-native-agent-ui-20261115/
+  - /pages/a2ui-native-agent-ui-20261115/index.html
+---
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#ffffff">
+<meta name="description" content="Google’s A2UI 1.0 stabilizes a JSON protocol for agents to describe interactive UI that host apps render with their own components. Here is how the protocol, catalogs, function boundaries and MCP Apps fit together—and what remains unproven.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="A2UI 1.0: An Open Protocol for Agent-Built Native UI">
+<meta property="og:description" content="Google’s A2UI 1.0 stabilizes a JSON protocol for agents to describe interactive UI that host apps render with their own components. Here is how the protocol, catalogs, function boundaries and MCP Apps fit together—and what remains unproven.">
+<meta property="og:url" content="https://insights.dekrov.com/a2ui/">
+<link rel="canonical" href="https://insights.dekrov.com/a2ui/">
+<meta name="twitter:card" content="summary">
+<title>A2UI 1.0: An Open Protocol for Agent-Built Native UI — Dekrov Insights</title>
+<script src="/theme.js"></script>
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body data-page="a2ui-native-agent-ui-20261115" data-root="/">
+<header class="top">
+  <div class="header-inner">
+    <div class="brand-signature">
+      <a class="brand" href="/"><span class="brand-mark" aria-hidden="true">DK</span>Dekrov Insights</a>
+      <span class="brand-role">Research / AI &amp; Technology</span>
+    </div>
+    <div class="header-actions">
+      <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme"><span data-theme-label>Light</span></button>
+      <a class="nav" href="https://github.com/DekrovDev/dekrov-insights">GitHub ↗</a>
+    </div>
+  </div>
+</header>
+<div class="layout">
+<aside class="sidebar" aria-label="Page navigation">
+  <p class="side-heading">Index</p>
+  <nav class="side-nav" aria-label="Pages" data-site-nav></nav>
+</aside>
+<main class="main-content" id="main">
+  <article class="article-body research-article" data-article-version="2">
+    <!-- ARTICLE CONTENT START. Read ARTICLE_AUTHORING_GUIDE.md first.
+    Replace every template placeholder; HTML-escape inserted text and attributes.
+    Keep explicit heading IDs: they also work without JavaScript.
+    Add optional sections only when there is substantive sourced material.
+    Use one idea per paragraph and descriptive h3 subsections in long sections.
+    Insert complete sibling paragraphs; never wrap supplied HTML in another p.
+    Typography and spacing come from styles.css, not inline styles or br spacers.
+    The article.js script adds a compact TOC and a prominent plain-English jump.
+    -->
+    <span class="tag">AI Protocols · Generative UI</span>
+    <h1>A2UI 1.0: An Open Protocol for Agent-Built Native UI</h1>
+    <div class="article-meta">
+      <span>By Dekrov</span>
+      <span>Published <time datetime="2026-11-15">Nov 15, 2026</time></span>
+      <span>Updated <time datetime="2026-11-15">Nov 15, 2026</time></span>
+    </div>
+    <p class="intro">A2UI 1.0 turns an agent’s proposed interface into a structured message stream that a host app maps onto its own native components. The release adds two-way function messages and accessibility metadata, but apps still own rendering, catalogs and execution policy.</p>
+    <!-- This link must remain accessible even when scripts are unavailable. -->
+    <p><a href="#explained-simply">Start with the plain-English explanation ↓</a></p>
+
+    <section aria-labelledby="overview">
+      <h2 id="overview">Overview</h2>
+      <p>Google announced A2UI 1.0 on Nov 11, 2026 as the first stable release of its open protocol for generative UI. Instead of returning a screenshot, raw HTML or a wall of prose, an agent can send a structured description of an interactive surface; the client application then renders that description through components it has registered. The host keeps control of its visual system and user-facing implementation. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p>
+    </section>
+
+    <section aria-labelledby="technical-deep-dive">
+      <h2 id="technical-deep-dive">Technical Deep Dive</h2>
+      <!-- Add/rename/remove h3 subsections to reflect the actual investigation. -->
+      <h3 id="mechanism">How it works</h3>
+      <p>A2UI is a JSON message protocol and component catalog contract, not a remote web page. The agent can create a surface, stream component definitions, update a separate data model and later delete the surface. Components refer to data through bindings such as <code>@path</code>; the renderer resolves those values and maps the named component to a local implementation. Keeping UI structure and application data separate lets a client update values without asking the agent to resend an entire screen. <a class="citation" href="#source-2" aria-label="Source 2">[2]</a>
+</p>
+<h3 id="catalogs">Catalogs decide what can render</h3>
+<p>A catalog is a versioned agreement about the component names, properties, allowed nesting and available functions that an agent may use. The app must register matching widgets for that catalog ID. The optional basic catalog lists 18 general-purpose components and 14 functions; teams can restyle it, extend it or replace it with a domain-specific catalog. This means “native UI” is produced by the application’s renderer, not by the agent inventing arbitrary platform widgets. <a class="citation" href="#source-3" aria-label="Source 3">[3]</a>
+</p>
+<h3 id="function-calls">Version 1.0 adds two-way function calls</h3>
+<p>In 1.0, renderer-to-agent calls can request server-side work, while agent-to-renderer calls can invoke explicitly exposed client-side functions. Each direction has a request/response message and call identifier. Catalog settings such as <code>allowedCallers</code> and <code>requiresUserActivation</code> constrain who may invoke a function and whether a direct user action is required. For example, the documentation requires the browser-opening <code>openUrl</code> function to be renderer-only and user-activated. The renderer is responsible for enforcing those rules; a catalog declaration by itself is not a complete security review. <a class="citation" href="#source-4" aria-label="Source 4">[4]</a>
+</p>
+<h3 id="platform-support">What shipped—and the Android caveat</h3>
+<p>Google’s launch post lists web renderers for React, Angular and Lit, Flutter across mobile, web and desktop, and SwiftUI for iOS. Jetpack Compose for Android is still listed at v0.9.1, with its 1.0 support described as forthcoming. The post also introduces TypeScript and Dart agent SDKs alongside Python, and says web and Flutter renderers can run inside MCP Apps. These are the project’s release claims; the launch post does not provide a like-for-like independent performance evaluation. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a>
+</p>
+<h3 id="license-cost">License and operating cost</h3>
+<p>The public <code>a2ui-project/a2ui</code> repository contains an Apache License 2.0 license file. That is useful for evaluating the repository’s code, but developers should still check the license of each dependency and any separately published component package. The protocol itself does not include model inference, hosting, agent orchestration or a ready-made product UI: those costs and implementation obligations belong to the application team. <a class="citation" href="#source-5" aria-label="Source 5">[5]</a>
+</p>
+      <aside class="evidence-note" data-evidence="official" aria-label="Evidence qualification">
+        <span class="evidence-label">Official statement</span>
+        <p>Google describes A2UI as fast and reliable and says the SDKs can reduce latency, but the launch material supplies no reproducible latency numbers, task benchmark, cost comparison or independent deployment results. Treat those as project claims rather than measured guarantees. The verifiable change is protocol scope: a stable 1.0 message format, bidirectional function RPC, accessibility/metadata support and renderer/agent SDK updates. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a>
+          <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p>
+      </aside>
+      <!-- Optional: timeline, evidence table, code, or inline figure from the guide.
+      Cite fixes by version/commit/PR. Separate shipped fixes from proposed workarounds.
+      For numbers: name the evaluator, date, method, environment and limitations.
+      -->
+    </section>
+
+    <!-- A2UI/MCP relationship and implementation limits are based on the official protocol docs. -->
+    <section aria-labelledby="mcp-relationship">
+      <h2 id="mcp-relationship">A2UI and MCP Apps solve different layers</h2>
+      <p>MCP Apps provide a way for an MCP server to expose an interactive app that an MCP host can display. A2UI can supply the structured UI messages rendered inside such an app. Google says its web and Flutter renderers work in MCP Apps and points to Alation as an example; that is an implementation example reported by Google, not an independent comparison of the two standards. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p>
+      <div class="table-scroll" role="region" aria-label="A2UI and MCP Apps responsibility comparison" tabindex="0">
+        <table class="research-table">
+          <caption>Which layer does what?</caption>
+          <thead><tr><th scope="col">Layer</th><th scope="col">Primary job</th><th scope="col">What the app team supplies</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">A2UI</th><td>Describe a UI surface, its components, data bindings and function calls as protocol messages.</td><td>A compatible renderer, component catalog and policy for allowed functions.</td></tr>
+            <tr><th scope="row">MCP Apps</th><td>Let an MCP server expose an interactive app to a supporting host.</td><td>An MCP server/app integration and a host that supports MCP Apps.</td></tr>
+            <tr><th scope="row">Application</th><td>Own the product’s design, data access and side effects.</td><td>Authentication, authorization, validation, error handling and product-specific UI.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>For teams already shipping multiple clients, a shared message format may reduce duplicated agent-to-UI glue. It does not make every client compatible automatically: catalogs and renderer implementations must agree on component versions, and the client still decides what data and actions are safe to expose. The official catalog guide recommends versioning catalogs because mismatches can change what renders. <a class="citation" href="#source-3" aria-label="Source 3">[3]</a></p>
+    </section>
+    <section aria-labelledby="fit-and-limits">
+      <h2 id="fit-and-limits">Where it fits—and where it does not</h2>
+      <h3 id="good-fit">A plausible fit</h3>
+      <p>A2UI is most relevant when an agent needs to return a form, comparison, planner or other interactive result across apps whose teams control the client renderer. A product can use a small allow-listed catalog so the model composes within the product’s own components instead of selecting arbitrary markup. A stable shared protocol can also make agent output portable across clients that implement the same catalog.</p>
+      <h3 id="implementation-work">The work that remains</h3>
+      <p>Teams still need to implement and test renderers, align catalogs across versions, connect the agent SDK, handle function responses and errors, and design authorization around data and side effects. A protocol cannot prove that a generated screen is correct, accessible in every custom renderer or safe for a particular business workflow. Google’s launch says accessibility and metadata are supported; that support is not a substitute for checking each renderer and application’s actual behavior. <a class="citation" href="#source-2" aria-label="Source 2">[2]</a></p>
+      <p>For a one-client app with a fixed set of screens, ordinary application UI may remain simpler. For a system that expects an agent to deliver a self-contained webpage into any host, A2UI is also the wrong mental model: it describes a bounded surface in terms of registered components rather than shipping arbitrary HTML and JavaScript.</p>
+    </section>
+    <!-- Put the complete numbered bibliography at the END, below Conclusion. -->
+
+    <section class="plain-english" id="explained-simply" data-explained-simply aria-labelledby="simple-title">
+      <h2 id="simple-title">Explained Simply</h2>
+      <!-- Use short descriptive h3s when the simple explanation spans several topics. -->
+      <h3 id="simple-format">A shared format for an app screen</h3>
+      <p>Think of an AI agent as a travel assistant that can either describe a trip in a paragraph or hand the app a plan for a screen: dates, choices, buttons and the data each part shows. A2UI is the shared format for that screen plan. It tells the app what components to place and how their values connect, while the app draws them using its own interface code. <a class="citation" href="#source-2" aria-label="Source 2">[2]</a></p>
+      <h3 id="simple-menu">A catalog is a menu</h3>
+      <p>The component catalog is like a restaurant menu. The agent can ask for items that the app has put on the menu—say a card, choice picker or date field—but it cannot make the client render a component that the client has not registered. That can help the product keep its own look and limit the building blocks an agent can use. <a class="citation" href="#source-3" aria-label="Source 3">[3]</a></p>
+      <h3 id="simple-action">Actions still need app rules</h3>
+      <p>A button may also need a real action. Version 1.0 lets the screen and agent request functions from each other, but the app’s renderer must decide which functions exist and enforce the catalog’s caller and user-gesture rules. A2UI gives teams a way to describe that interaction; it does not supply their authentication, business permissions or safety testing. <a class="citation" href="#source-4" aria-label="Source 4">[4]</a></p>
+    </section>
+
+    <section aria-labelledby="conclusion">
+      <h2 id="conclusion">Conclusion</h2>
+      <p>A2UI 1.0 is a meaningful step toward portable agent-generated interfaces: it stabilizes a declarative protocol, adds two-way function messages, and broadens the renderer and agent SDK ecosystem. Its practical value depends on the quality and coverage of each client’s renderer/catalog, and its function policies must be enforced in application code. Google’s announcement is the primary evidence for what shipped; the sources reviewed here do not establish independent speed, reliability, cost or coding benchmarks. If evaluating it, prototype one real workflow across the clients you support, pin a catalog version, exercise both function directions and user-activation rules, and test accessibility and failure handling in each renderer before treating the output as production-ready.</p>
+    </section>
+
+    <section aria-labelledby="sources">
+      <h2 id="sources">Evidence &amp; Sources</h2>
+      <p class="source-detail">Source type describes provenance, not guaranteed truth. Availability checks do not verify a claim.</p>
+      <ol class="source-list">
+        <li id="source-1" data-source-type="official">
+          <span class="evidence-label">Official</span>
+          <a href="https://developers.googleblog.com/a2ui-10-build-delightful-fast-reliable-agentic-experiences/">A2UI 1.0: Build delightful, fast, reliable, agentic experiences — Google Developers Blog</a>
+          <span class="source-detail">Published Nov 11, 2026. Official launch scope, announced SDK/renderers, MCP Apps compatibility and version caveats.</span>
+          <time datetime="2026-11-15">Accessed 2026-11-15</time>
+        </li>
+        <li id="source-2" data-source-type="official">
+          <span class="evidence-label">Official</span>
+          <a href="https://a2ui.org/specification/v1.0-a2ui/">A2UI v1.0 Protocol Specification — A2UI</a>
+          <span class="source-detail">Current v1.0 specification; message envelopes, bindings and protocol structure. Supports how renderers consume structured messages.</span>
+          <time datetime="2026-11-15">Accessed 2026-11-15</time>
+        </li>
+        <li id="source-3" data-source-type="official">
+          <span class="evidence-label">Official</span>
+          <a href="https://a2ui.org/concepts/catalogs/">Catalogs and Components — A2UI</a>
+          <span class="source-detail">Catalog contract, basic catalog contents and versioning considerations.</span>
+          <time datetime="2026-11-15">Accessed 2026-11-15</time>
+        </li>
+        <li id="source-4" data-source-type="official">
+          <span class="evidence-label">Official</span>
+          <a href="https://a2ui.org/concepts/actions-and-functions/">Actions, Events and Functions — A2UI</a>
+          <span class="source-detail">Function execution locations, caller controls and user-activation requirements in v1.0.</span>
+          <time datetime="2026-11-15">Accessed 2026-11-15</time>
+        </li>
+        <li id="source-5" data-source-type="official">
+          <span class="evidence-label">Official</span>
+          <a href="https://github.com/a2ui-project/a2ui/blob/main/LICENSE">A2UI repository license — a2ui-project</a>
+          <span class="source-detail">Public repository license file, which contains Apache License 2.0; checked on 2026-11-15. Recheck separately published packages and dependencies.</span>
+          <time datetime="2026-11-15">Accessed 2026-11-15</time>
+        </li>
+      </ol>
+    </section>
+    <!-- ARTICLE CONTENT END: keep the shared reactions block below. -->
+
+    <section class="article-engagement" aria-label="Article reactions">
+      <div class="engagement-copy"><span class="engagement-heading">Enjoyed this research?</span><span class="engagement-note">Leave a like — no account needed.</span></div>
+      <div class="engagement-actions">
+        <button type="button" class="article-like-button" data-like-button aria-label="Like this article" aria-pressed="false" disabled>
+          <svg class="article-like-heart" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z"/></svg>
+          <span data-like-count aria-live="polite">—</span><span>likes</span>
+        </button>
+        <span class="article-like-status" data-like-status role="status">Loading likes…</span>
+      </div>
+    </section>
+  </article>
+</main>
+</div>
+<footer class="footer"><div class="footer-inner"><span>© 2026 Dekrov</span><span class="footer-links"><a href="https://t.me/Dekrov_channel_en">Telegram / @Dekrov_channel_en ↗</a><a href="https://x.com/Dekrov_Dev">X / @Dekrov_Dev ↗</a><a href="https://github.com/DekrovDev">GitHub / DekrovDev ↗</a></span></div></footer>
+<script src="/article-likes.js?v=3" defer></script>
+<script src="/article.js" defer></script>
+<script src="/site.js"></script>
+</body>
+</html>
