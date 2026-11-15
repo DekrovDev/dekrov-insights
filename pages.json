@@ -5,6 +5,13 @@
     "meta": "Overview"
   },
   {
+    "slug": "certeu-vigilo-ai-pentest-harness-20261115",
+    "path": "/vigilo/",
+    "title": "CERT-EU’s Vigilo Turns AI Agents into a Security Testing Pipeline",
+    "meta": "AI Security · Nov 15, 2026",
+    "summary": "A source-checked investigation of Vigilo’s agent workflow, white-box and grey-box modes, ENISA evidence, license, project maturity and operational safety boundary."
+  },
+  {
     "slug": "a2ui-native-agent-ui-20261115",
     "path": "/a2ui/",
     "title": "A2UI 1.0: An Open Protocol for Agent-Built Native UI",
