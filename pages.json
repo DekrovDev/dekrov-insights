@@ -5,6 +5,13 @@
     "meta": "Overview"
   },
   {
+    "slug": "qwen-code-managed-agent-0274-20261116",
+    "path": "/qwen-managed-agent/",
+    "title": "Qwen Code 0.27.4 Gives Managed Agents Local Files—and Tightens Auto Mode",
+    "meta": "AI Agent Security · Nov 16, 2026",
+    "summary": "How Qwen Code 0.27.4 relays granted local directories into managed sessions, authenticates its web terminal and separates relevance from authorization."
+  },
+  {
     "slug": "zed-agent-compaction-20261115",
     "path": "/zed-agent-compaction/",
     "title": "Zed 1.28.1 Fixes Three Long-Session Agent Failure Modes",
