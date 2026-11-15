@@ -5,6 +5,13 @@
     "meta": "Overview"
   },
   {
+    "slug": "codex-cli-0169-workspace-20261115",
+    "path": "/codex-cli-0169/",
+    "title": "Codex CLI 0.169.0 Turns the Terminal into a Multi-Chat Agent Workspace",
+    "meta": "AI Coding Tools · Nov 15, 2026",
+    "summary": "A source-checked analysis of Codex CLI 0.169.0: persistent side-chat tabs, task search, custom model providers, trust boundaries and operational limits."
+  },
+  {
     "slug": "certeu-vigilo-ai-pentest-harness-20261115",
     "path": "/vigilo/",
     "title": "CERT-EU’s Vigilo Turns AI Agents into a Security Testing Pipeline",
