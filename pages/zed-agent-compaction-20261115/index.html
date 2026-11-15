@@ -1,0 +1,216 @@
+---
+layout: null
+permalink: /zed-agent-compaction/
+redirect_from:
+  - /pages/zed-agent-compaction-20261115/
+  - /pages/zed-agent-compaction-20261115/index.html
+---
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#ffffff">
+<meta name="description" content="How Zed 1.28.1 changes agent context compaction, prompt-cache reuse, ACP compatibility and MCP startup—and where the fixes still stop.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Zed 1.28.1 Fixes Three Long-Session Agent Failure Modes">
+<meta property="og:description" content="How Zed 1.28.1 changes agent context compaction, prompt-cache reuse, ACP compatibility and MCP startup—and where the fixes still stop.">
+<meta property="og:url" content="https://insights.dekrov.com/zed-agent-compaction/">
+<link rel="canonical" href="https://insights.dekrov.com/zed-agent-compaction/">
+<meta name="twitter:card" content="summary">
+<title>Zed 1.28.1 Fixes Three Long-Session Agent Failure Modes — Dekrov Insights</title>
+<script src="/theme.js"></script>
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body data-page="zed-agent-compaction-20261115" data-root="/">
+<header class="top">
+  <div class="header-inner">
+    <div class="brand-signature">
+      <a class="brand" href="/"><span class="brand-mark" aria-hidden="true">DK</span>Dekrov Insights</a>
+      <span class="brand-role">Research / AI &amp; Technology</span>
+    </div>
+    <div class="header-actions">
+      <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme"><span data-theme-label>Light</span></button>
+      <a class="nav" href="https://github.com/DekrovDev/dekrov-insights">GitHub ↗</a>
+    </div>
+  </div>
+</header>
+<div class="layout">
+<aside class="sidebar" aria-label="Page navigation">
+  <p class="side-heading">Index</p>
+  <nav class="side-nav" aria-label="Pages" data-site-nav></nav>
+</aside>
+<main class="main-content" id="main">
+  <article class="article-body research-article" data-article-version="2">
+    <span class="tag">AI Coding Reliability</span>
+    <h1>Zed 1.28.1 Fixes Three Long-Session Agent Failure Modes</h1>
+    <div class="article-meta">
+      <span>By Dekrov</span>
+      <span>Published <time datetime="2026-11-15">November 15, 2026</time></span>
+      <span>Updated <time datetime="2026-11-15">November 15, 2026</time></span>
+    </div>
+    <p class="intro">Zed 1.28.1 addresses three failures that become visible in serious agent workflows: compaction could lose prompt-cache savings, a long turn could compact only once and then overflow, and an external ACP agent could start before its configured MCP servers were available. The release also moves Zed to ACP SDK 5.0.0, but several background-work UI pieces remain unfinished.</p>
+    <p><a href="#explained-simply">Start with the plain-English explanation ↓</a></p>
+
+    <section aria-labelledby="overview">
+      <h2 id="overview">Overview</h2>
+      <p>Zed released version 1.28.1 on November 11, 2026. Its AI-related changes include repeated auto-compaction during long turns, prompt-cache reuse during compaction for supported providers, better Agent Client Protocol compatibility and a fix for external agents that sometimes started without user-configured MCP servers.
+        <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p>
+      <p>These are not new-model features. They change the harness around a model: how Zed keeps a thread inside its context limit, how it avoids resending an uncached prefix, and how it initializes tools for Codex, Claude, OpenCode and other external agents connected through ACP.</p>
+      <aside class="evidence-note" data-evidence="official" aria-label="Evidence qualification">
+        <span class="evidence-label">Project evidence</span>
+        <p>The release notes and merged pull requests establish intended behavior, code changes and project tests. They are not independent measurements of cost, latency or reliability across every provider and workflow.
+          <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p>
+      </aside>
+    </section>
+
+    <section aria-labelledby="technical-deep-dive">
+      <h2 id="technical-deep-dive">Technical Deep Dive</h2>
+
+      <h3 id="compaction-basics">Why agent threads need compaction</h3>
+      <p>A model has a finite context window. Zed tracks messages, tool calls and results inside an agent thread; as the retained history approaches the model limit, Zed can replace older material with a shorter summary. That process is <dfn>compaction</dfn>: it trades exact old detail for enough compressed context to continue working.</p>
+      <p>Before 1.28.1, one long agent turn—one user prompt followed by many tool calls—could trigger automatic compaction only once. If the same turn grew past the threshold again, Zed did not compact a second time and the request could eventually fail as too long. The merged fix lets the same turn compact whenever the threshold is hit and makes the next prompt try compaction after a context-length error.
+        <a class="citation" href="#source-4" aria-label="Source 4">[4]</a></p>
+
+      <h3 id="cache-prefix">Why compaction could discard prompt-cache savings</h3>
+      <p>Prompt caching works best when a request keeps an identical prefix. Zed’s previous compaction request disabled tools by removing their definitions. That changed the request prefix, so providers could treat the whole context as new input rather than cached input.
+        <a class="citation" href="#source-2" aria-label="Source 2">[2]</a></p>
+      <p>The new strategy keeps the tool definitions in place and sends <code>tool_choice: none</code> when the selected provider and model support that behavior without invalidating the cache. The change is capability-gated because accepting <code>tool_choice: none</code> does not by itself prove that a provider preserves the cached prefix.
+        <a class="citation" href="#source-2" aria-label="Source 2">[2]</a></p>
+      <p>A follow-up enabled this strategy for ChatGPT subscription models. In the pull request’s single GPT-6.1 Sol test, manual <code>/compact</code> changed from zero cached input tokens to 16,128 cached tokens out of 16,361 input tokens. That is a project test of one model and request, not a general cost benchmark.
+        <a class="citation" href="#source-3" aria-label="Source 3">[3]</a></p>
+
+      <div class="table-scroll" role="region" aria-label="Zed compaction behavior by provider capability" tabindex="0">
+        <table class="research-table">
+          <caption>What Zed 1.28.1 changes—and where the strategy applies</caption>
+          <thead><tr><th scope="col">Case</th><th scope="col">1.28.1 behavior</th><th scope="col">Boundary</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Long agent turn</th><td>Auto-compaction can run more than once in the same turn.</td><td>A single huge tool result can still jump past the limit before the next check. <a class="citation" href="#source-4" aria-label="Source 4">[4]</a></td></tr>
+            <tr><th scope="row">ChatGPT subscription models</th><td>Preserves the tool-definition prefix and disables tools with <code>tool_choice: none</code>.</td><td>The published 16,128/16,361 cache observation used GPT-6.1 Sol only. <a class="citation" href="#source-3" aria-label="Source 3">[3]</a></td></tr>
+            <tr><th scope="row">Other supported providers</th><td>The release notes name OpenAI and xAI among providers receiving the cache fix.</td><td>Actual caching still depends on provider and model behavior. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></td></tr>
+            <tr><th scope="row">Anthropic</th><td>The project PR says the same strategy could not be applied.</td><td>Its API path could not disable tools while keeping definitions unchanged in this implementation. <a class="citation" href="#source-2" aria-label="Source 2">[2]</a></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 id="remaining-compaction-limits">Compaction still has hard edges</h3>
+      <p>The repeated-compaction patch explicitly leaves two cases unresolved. Manual <code>/compact</code> can still fail after a conversation is already beyond the model limit because the summary request itself sends the full history. A single oversized tool output can also cross the limit because Zed checks before each request, not while one result is arriving.
+        <a class="citation" href="#source-4" aria-label="Source 4">[4]</a></p>
+
+      <h3 id="mcp-startup-race">The external-agent MCP startup race</h3>
+      <p>Zed supports native Zed Agent threads, external agents through ACP and terminal threads. External agents can include Codex, Claude, OpenCode and other ACP-compatible processes; they bring their own authentication and configuration while Zed supplies the host interface.
+        <a class="citation" href="#source-7" aria-label="Source 7">[7]</a></p>
+      <p>A startup race could create an ACP thread before the project’s first worktree finished loading. Zed then resolved MCP settings only through visible worktrees, found none and sent <code>mcpServers: []</code> in <code>session/new</code>. Even after the project loaded, the already-created agent session never received those tools.
+        <a class="citation" href="#source-5" aria-label="Source 5">[5]</a></p>
+      <p>The fix falls back to user-level context-server settings when no visible worktree exists. The pull request adds a no-worktree test and reports all 22 context-server integration tests passing. Behavior with one or more loaded worktrees is unchanged.
+        <a class="citation" href="#source-5" aria-label="Source 5">[5]</a></p>
+    </section>
+
+    <section aria-labelledby="acp-update">
+      <h2 id="acp-update">ACP 5.0.0 Compatibility</h2>
+      <p>Zed 1.28.1 upgrades its Agent Client Protocol dependency from SDK 3.6.0/schema 1.13.0 to SDK 5.0.0/schema 1.15.1. The port changes how missing sessions are reported, how plan updates replace old plans, how unknown diff formats fall back to structured changes and how cancellation interacts with pending permission requests.
+        <a class="citation" href="#source-6" aria-label="Source 6">[6]</a></p>
+      <p>On ACP v2, cancelling a session no longer makes the client locally answer every pending permission request as cancelled. Background work may survive a session cancel, so the agent is expected to cancel the relevant request explicitly. ACP v1 keeps the older behavior.
+        <a class="citation" href="#source-6" aria-label="Source 6">[6]</a></p>
+      <p>The upgrade is not a complete implementation of every new ACP surface. The pull request lists background-work UI, paused-state display, cancel buttons for tools and terminals, subagent working-directory fields and several unstable methods as follow-up work. Until the UI is added, a paused background task may still appear in progress.
+        <a class="citation" href="#source-6" aria-label="Source 6">[6]</a></p>
+    </section>
+
+    <section aria-labelledby="evidence-analysis">
+      <h2 id="evidence-analysis">Evidence Analysis</h2>
+      <h3 id="confirmed">What the sources establish</h3>
+      <p>The stable release page confirms that these fixes shipped in 1.28.1. The merged pull requests explain the mechanisms, code paths, included tests and known exclusions. The cache-preservation PR gives one concrete token observation for GPT-6.1 Sol.
+        <a class="citation" href="#source-1" aria-label="Source 1">[1]</a>
+        <a class="citation" href="#source-3" aria-label="Source 3">[3]</a></p>
+      <h3 id="not-established">What they do not establish</h3>
+      <p>There is no independent benchmark here comparing latency, token bills or failure rates before and after the release. The sources do not show that every long thread was affected, that every provider now caches compaction requests, or that the ACP update eliminates all external-agent incompatibilities.</p>
+      <aside class="evidence-note" data-evidence="official" aria-label="Evidence qualification">
+        <span class="evidence-label">Maintainer test</span>
+        <p>The 16,128 cached tokens out of 16,361 input tokens are useful mechanism evidence, but they are a single maintainer-reported run with GPT-6.1 Sol. Treat the number as a reproduced project example, not a universal savings percentage.
+          <a class="citation" href="#source-3" aria-label="Source 3">[3]</a></p>
+      </aside>
+    </section>
+
+    <section aria-labelledby="practical-impact">
+      <h2 id="practical-impact">Practical Impact</h2>
+      <ol>
+        <li><strong>Update to Zed 1.28.1 or later</strong> if you keep long agent turns, use ChatGPT subscription models or run external ACP agents with MCP tools.</li>
+        <li><strong>Do not assume compaction makes context unbounded.</strong> Large single tool outputs and already-over-limit manual compaction remain failure cases.</li>
+        <li><strong>Check MCP tools after external-agent startup.</strong> The race is fixed, but confirming the expected tool list is still a useful integration check.</li>
+        <li><strong>Measure cache usage per provider.</strong> The same request shape can produce different caching behavior, and Anthropic is explicitly outside this implementation path.</li>
+        <li><strong>Expect partial ACP 5 UI coverage.</strong> Protocol compatibility improved before every background-work control reached the interface.</li>
+      </ol>
+    </section>
+
+    <section class="plain-english" id="explained-simply" data-explained-simply aria-labelledby="simple-title">
+      <h2 id="simple-title">Explained Simply</h2>
+      <h3 id="simple-notebook">The notebook problem</h3>
+      <p>Imagine an agent keeps a notebook of everything you said and every tool result. When the notebook is almost full, Zed writes a shorter summary and starts a cleaner notebook. That is compaction.</p>
+      <p>Before this release, Zed might summarize once during a very long task and then refuse to summarize again until the turn ended. If the agent kept using tools, the notebook could still overflow. Version 1.28.1 lets the same long turn summarize again when needed.</p>
+      <h3 id="simple-cache">Why the summary could cost more than expected</h3>
+      <p>Providers can reuse an unchanged beginning of a prompt from cache. Zed used to remove tool definitions while requesting a summary, changing that beginning and potentially losing the cache. For compatible models, it now keeps the definitions identical and says not to call them.</p>
+      <h3 id="simple-tools">Why an external agent could miss its tools</h3>
+      <p>If Zed launched an external agent before the project folder finished loading, it could send an empty MCP-server list even though the user had configured servers globally. The release now falls back to those user settings until a worktree exists.</p>
+      <p>The result is a more reliable long-session harness, not infinite context or guaranteed savings. Very large outputs, unsupported providers and unfinished ACP background controls still matter.</p>
+    </section>
+
+    <section aria-labelledby="conclusion">
+      <h2 id="conclusion">Conclusion</h2>
+      <p>Zed 1.28.1 is a maintenance release with unusually practical consequences for agent-heavy development. It repeats compaction inside long turns, preserves prompt-cache prefixes where the provider contract permits it, prevents a worktree-loading race from stripping MCP tools and aligns external agents with ACP SDK 5.</p>
+      <p>The strongest improvement is architectural: the harness now distinguishes model limits, cache capabilities and protocol lifecycle more carefully. The remaining limits are equally important—Anthropic is outside the cache strategy, oversized tool results can still overflow context, and the ACP background-work UI is incomplete.</p>
+    </section>
+
+    <section aria-labelledby="sources">
+      <h2 id="sources">Evidence &amp; Sources</h2>
+      <p class="source-detail">Source type describes provenance, not guaranteed truth. Availability checks do not verify a claim.</p>
+      <ol class="source-list">
+        <li id="source-1" data-source-type="official"><span class="evidence-label">Official</span>
+          <a href="https://zed.dev/releases/stable/1.28.1">Zed — Stable release 1.28.1</a>
+          <span class="source-detail">Released November 11, 2026. Supports: shipped AI, ACP, compaction and MCP fixes.</span>
+          <time datetime="2026-11-15">Accessed 2026-11-15</time></li>
+        <li id="source-2" data-source-type="official"><span class="evidence-label">Official</span>
+          <a href="https://github.com/zed-industries/zed/pull/64938">Zed PR #64938 — Preserve request prefix during compaction</a>
+          <span class="source-detail">Merged project change. Supports: cache-miss mechanism, capability-gated strategy and Anthropic exclusion.</span>
+          <time datetime="2026-11-15">Accessed 2026-11-15</time></li>
+        <li id="source-3" data-source-type="official"><span class="evidence-label">Official</span>
+          <a href="https://github.com/zed-industries/zed/pull/66527">Zed PR #66527 — Preserve cached prefix for ChatGPT subscription models</a>
+          <span class="source-detail">Merged project change. Supports: ChatGPT implementation and the single GPT-6.1 Sol cache observation.</span>
+          <time datetime="2026-11-15">Accessed 2026-11-15</time></li>
+        <li id="source-4" data-source-type="official"><span class="evidence-label">Official</span>
+          <a href="https://github.com/zed-industries/zed/pull/66215">Zed PR #66215 — Repeat auto-compaction during long turns</a>
+          <span class="source-detail">Merged project change. Supports: old one-compaction limit, new behavior and unresolved overflow cases.</span>
+          <time datetime="2026-11-15">Accessed 2026-11-15</time></li>
+        <li id="source-5" data-source-type="official"><span class="evidence-label">Official</span>
+          <a href="https://github.com/zed-industries/zed/pull/64612">Zed PR #64612 — Include user MCP servers before the first worktree loads</a>
+          <span class="source-detail">Merged project change. Supports: startup race, empty MCP list, fallback behavior and tests.</span>
+          <time datetime="2026-11-15">Accessed 2026-11-15</time></li>
+        <li id="source-6" data-source-type="official"><span class="evidence-label">Official</span>
+          <a href="https://github.com/zed-industries/zed/pull/66425">Zed PR #66425 — Update agent-client-protocol to 5.0.0</a>
+          <span class="source-detail">Merged project change. Supports: SDK/schema versions, protocol behavior and listed follow-ups.</span>
+          <time datetime="2026-11-15">Accessed 2026-11-15</time></li>
+        <li id="source-7" data-source-type="official"><span class="evidence-label">Official</span>
+          <a href="https://zed.dev/docs/ai/agents">Zed documentation — Agents</a>
+          <span class="source-detail">Current documentation. Supports: native, ACP external-agent and terminal-thread distinctions.</span>
+          <time datetime="2026-11-15">Accessed 2026-11-15</time></li>
+      </ol>
+    </section>
+
+    <section class="article-engagement" aria-label="Article reactions">
+      <div class="engagement-copy"><span class="engagement-heading">Enjoyed this research?</span><span class="engagement-note">Leave a like — no account needed.</span></div>
+      <div class="engagement-actions">
+        <button type="button" class="article-like-button" data-like-button aria-label="Like this article" aria-pressed="false" disabled>
+          <svg class="article-like-heart" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z"/></svg>
+          <span data-like-count aria-live="polite">—</span><span>likes</span>
+        </button>
+        <span class="article-like-status" data-like-status role="status">Loading likes…</span>
+      </div>
+    </section>
+  </article>
+</main>
+</div>
+<footer class="footer"><div class="footer-inner"><span>© 2026 Dekrov</span><span class="footer-links"><a href="https://t.me/Dekrov_channel_en">Telegram / @Dekrov_channel_en ↗</a><a href="https://x.com/Dekrov_Dev">X / @Dekrov_Dev ↗</a><a href="https://github.com/DekrovDev">GitHub / DekrovDev ↗</a></span></div></footer>
+<script src="/article-likes.js?v=3" defer></script>
+<script src="/article.js" defer></script>
+<script src="/site.js"></script>
+</body>
+</html>
