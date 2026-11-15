@@ -5,6 +5,13 @@
     "meta": "Overview"
   },
   {
+    "slug": "wfx-loot-github-ci-attack-20261115",
+    "path": "/wfx-loot/",
+    "title": "wfx-loot: How Hijacked GitHub Accounts Turned CI into a Credential-Theft Path",
+    "meta": "Supply Chain Security · Nov 15, 2026",
+    "summary": "A source-checked investigation of the wfx-loot campaign: hijacked GitHub accounts, secret-stealing CI changes, conflicting scope estimates and a practical response checklist."
+  },
+  {
     "slug": "codex-cli-0169-workspace-20261115",
     "path": "/codex-cli-0169/",
     "title": "Codex CLI 0.169.0 Turns the Terminal into a Multi-Chat Agent Workspace",
