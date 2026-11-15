@@ -5,6 +5,13 @@
     "meta": "Overview"
   },
   {
+    "slug": "agent-skills-portability-20261115",
+    "path": "/agent-skills/",
+    "title": "Agent Skills Are Portable—Execution Isn’t",
+    "meta": "Agent Standards · Nov 15, 2026",
+    "summary": "A source-checked comparison of what Agent Skills actually carry between Codex, GitHub Copilot, VS Code and OpenCode—and what still depends on the host."
+  },
+  {
     "slug": "openclaw-persistent-agent-security-20261115",
     "path": "/persistent-agents/",
     "title": "OpenAI’s OpenClaw Security Stack: Five Boundaries for Persistent Agents—and Their Limits",
