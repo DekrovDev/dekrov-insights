@@ -1,0 +1,162 @@
+---
+layout: null
+permalink: /agent-skills/
+redirect_from:
+  - /pages/agent-skills-portability-20261115/
+  - /pages/agent-skills-portability-20261115/index.html
+---
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#ffffff">
+<meta name="description" content="A source-checked comparison of what Agent Skills actually carry between Codex, GitHub Copilot, VS Code and OpenCode—and what still depends on the host.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Agent Skills Are Portable—Execution Isn’t">
+<meta property="og:description" content="A source-checked comparison of what Agent Skills actually carry between Codex, GitHub Copilot, VS Code and OpenCode—and what still depends on the host.">
+<meta property="og:url" content="https://insights.dekrov.com/agent-skills/">
+<link rel="canonical" href="https://insights.dekrov.com/agent-skills/">
+<meta name="twitter:card" content="summary">
+<title>Agent Skills Are Portable—Execution Isn’t — Dekrov Insights</title>
+<script src="/theme.js"></script>
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body data-page="agent-skills-portability-20261115" data-root="/">
+<header class="top">
+  <div class="header-inner">
+    <div class="brand-signature">
+      <a class="brand" href="/"><span class="brand-mark" aria-hidden="true">DK</span>Dekrov Insights</a>
+      <span class="brand-role">Research / AI &amp; Technology</span>
+    </div>
+    <div class="header-actions">
+      <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme"><span data-theme-label>Light</span></button>
+      <a class="nav" href="https://github.com/DekrovDev/dekrov-insights">GitHub ↗</a>
+    </div>
+  </div>
+</header>
+<div class="layout">
+<aside class="sidebar" aria-label="Page navigation">
+  <p class="side-heading">Index</p>
+  <nav class="side-nav" aria-label="Pages" data-site-nav></nav>
+</aside>
+<main class="main-content" id="main">
+  <article class="article-body research-article" data-article-version="2">
+    <span class="tag">Agent Standards</span>
+    <h1>Agent Skills Are Portable—Execution Isn’t</h1>
+    <div class="article-meta">
+      <span>By Dekrov</span>
+      <span>Published <time datetime="2026-11-15">November 15, 2026</time></span>
+      <span>Updated <time datetime="2026-11-15">November 15, 2026</time></span>
+    </div>
+    <p class="intro">GitHub’s new practical guide frames Agent Skills as reusable workflows that can move between agents. The file format is genuinely portable; the execution environment is not. This investigation separates the shared standard from the host-specific paths, permissions, tools and security boundaries in Codex, GitHub Copilot, VS Code and OpenCode.</p>
+    <p><a href="#explained-simply">Start with the plain-English explanation ↓</a></p>
+
+    <section aria-labelledby="overview">
+      <h2 id="overview">Overview</h2>
+      <p>On November 12, 2026, GitHub published a practical guide to Agent Skills: versioned directories centered on a <code>SKILL.md</code> file that package repeatable instructions, scripts and resources. GitHub also states the critical limit directly: the destination environment must still provide the tools, credentials and permissions required to execute the workflow.
+        <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p>
+      <p>The open specification makes the instruction package portable. It does not promise identical activation, tool names, confirmation prompts, filesystem access, network policy or results across hosts. “Build once” is therefore a useful authoring goal—not proof of behaviorally identical execution.</p>
+    </section>
+
+    <section aria-labelledby="technical-deep-dive">
+      <h2 id="technical-deep-dive">Technical Deep Dive</h2>
+
+      <h3 id="portable-core">The portable core</h3>
+      <p>A conforming skill is a directory containing <code>SKILL.md</code>. Its YAML frontmatter requires a lowercase, hyphenated <code>name</code> and a non-empty <code>description</code>; optional fields include <code>license</code>, <code>compatibility</code>, <code>metadata</code> and experimental <code>allowed-tools</code>. The directory may also contain executable scripts, references and assets.
+        <a class="citation" href="#source-2" aria-label="Source 2">[2]</a></p>
+      <p>The design uses progressive disclosure. A host can load only names and descriptions during discovery, read the full instructions when a skill activates, and open supporting files only when needed. The specification recommends keeping <code>SKILL.md</code> under 500 lines and references one level deep to control context cost.
+        <a class="citation" href="#source-2" aria-label="Source 2">[2]</a></p>
+      <aside class="evidence-note" data-evidence="official" aria-label="Evidence qualification">
+        <span class="evidence-label">Official specification</span>
+        <p>The format repository is public. Its code is Apache-2.0 and its documentation is CC-BY-4.0. The repository describes Agent Skills as an open format originally developed by Anthropic and now governed through the Agentic AI Foundation.
+          <a class="citation" href="#source-3" aria-label="Source 3">[3]</a></p>
+      </aside>
+
+      <h3 id="host-differences">What changes by host</h3>
+      <div class="table-wrap" role="region" aria-label="Agent Skills host comparison" tabindex="0">
+        <table>
+          <thead><tr><th>Host</th><th>Discovery and loading</th><th>Important host-specific behavior</th></tr></thead>
+          <tbody>
+            <tr><td>VS Code / Copilot</td><td>Project and personal files, customization marketplaces, extensions and experimental MCP-provided skills</td><td>Supported locations and optional features vary by agent; MCP-origin skills require explicit trust</td></tr>
+            <tr><td>Copilot CLI</td><td><code>.github/skills</code>, <code>.claude/skills</code>, <code>.agents/skills</code>; personal <code>~/.copilot/skills</code> or <code>~/.agents/skills</code></td><td>May prompt before unapproved tools; <code>allowed-tools</code> can remove that confirmation</td></tr>
+            <tr><td>OpenCode</td><td><code>.opencode/skills</code> plus Claude and Agents compatibility paths; optional local or HTTP catalogs</td><td>Its own precedence, cache/version and allow/ask/deny permission rules apply</td></tr>
+            <tr><td>ChatGPT / Codex</td><td>Skills package instructions, scripts, templates and references; plugins can pair them with MCP</td><td>MCP supplies authenticated data and actions; the skill supplies the reusable workflow around those tools</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>VS Code explicitly says portability is subject to each agent’s supported locations and features. Its current documentation covers Copilot in VS Code, Copilot CLI, the Copilot app and an experimental Codex integration.
+        <a class="citation" href="#source-4" aria-label="Source 4">[4]</a></p>
+      <p>OpenCode searches several compatibility paths but adds its own catalogs, duplicate-ID precedence and permissions. It advertises descriptions to the model and loads full instructions with its <code>skill</code> tool, rather than injecting every skill into every prompt.
+        <a class="citation" href="#source-5" aria-label="Source 5">[5]</a></p>
+      <p>Copilot CLI recognizes overlapping project paths, but its execution control is distinct: a missing tool approval can trigger a prompt, while pre-approving <code>shell</code> or <code>bash</code> can remove the confirmation step. GitHub warns users to do that only after reviewing the skill and its scripts.
+        <a class="citation" href="#source-6" aria-label="Source 6">[6]</a></p>
+      <p>OpenAI draws a similarly important boundary: an MCP server provides live data, authentication, authorization and actions, while a skill describes when and how to combine those capabilities. Copying the skill does not copy the MCP connection or its access.
+        <a class="citation" href="#source-7" aria-label="Source 7">[7]</a></p>
+
+      <h3 id="security">The portability security trap</h3>
+      <p>A skill is not merely a prompt file. It can bundle executable code, templates and references. That makes installation closer to adding a small dependency than pasting harmless instructions. A malicious or compromised skill can request dangerous tools, hide behavior in scripts, or exploit broad host permissions.</p>
+      <ol>
+        <li>Review <code>SKILL.md</code> and every referenced script before installation.</li>
+        <li>Pin a release or commit instead of following an unreviewed moving branch.</li>
+        <li>Validate the package with the reference validator where possible.</li>
+        <li>Keep shell, network, secret and write permissions narrow.</li>
+        <li>Test activation and output in every intended host; do not assume cross-host equivalence.</li>
+      </ol>
+      <p>OpenAI’s API documentation makes the same trust point explicit: skills should be treated as untrusted input until their contents and behavior have been validated.
+        <a class="citation" href="#source-8" aria-label="Source 8">[8]</a></p>
+    </section>
+
+    <section aria-labelledby="evidence-limits">
+      <h2 id="evidence-limits">What the Evidence Does—and Does Not—Prove</h2>
+      <p>The official sources agree on the directory format, progressive loading and broad portability goal. They also document concrete differences in search paths, catalogs, permissions and integrations. That is strong evidence for syntactic portability.</p>
+      <p>There is no independent benchmark here showing that one skill produces equivalent decisions, tool calls or outputs across Codex, Copilot, VS Code and OpenCode. Model choice, system instructions, available tools and security policy can all change the result. Claims of “run anywhere” should therefore be read as compatibility with the package format, not deterministic behavioral parity.</p>
+    </section>
+
+    <section class="plain-english" id="explained-simply" data-explained-simply aria-labelledby="simple-title">
+      <h2 id="simple-title">Explained Simply</h2>
+      <h3 id="recipe">A reusable recipe, not a complete kitchen</h3>
+      <p>An Agent Skill is a folder containing a recipe for an AI agent. The recipe says when to use it, what steps to follow and may include scripts or templates.</p>
+      <p>You can move that recipe between compatible agents. But the new kitchen still needs the right appliances, ingredients and keys: tools, credentials, network access and permissions. A database skill cannot access a database unless the host already has authorized database tools.</p>
+      <p>So reuse the workflow, but verify the environment. Read any bundled scripts, restrict permissions, pin the version and test the skill in each target tool before trusting it in production.</p>
+    </section>
+
+    <section aria-labelledby="conclusion">
+      <h2 id="conclusion">Conclusion</h2>
+      <p>Agent Skills solve a real portability problem: teams can version reusable agent knowledge as ordinary directories instead of rewriting prompts for every session. The standard is small, inspectable and already supported by multiple coding-agent environments. Its limit is equally important: the portable unit is the workflow package, not the surrounding execution authority. Treat skills as dependencies, keep credentials and project configuration outside them, and test every host-specific boundary before claiming one workflow truly runs everywhere.</p>
+    </section>
+
+    <section aria-labelledby="sources">
+      <h2 id="sources">Evidence &amp; Sources</h2>
+      <p class="source-detail">Source type describes provenance, not guaranteed truth. Availability checks do not verify a claim.</p>
+      <ol class="source-list">
+        <li id="source-1" data-source-type="official"><span class="evidence-label">Official</span> <a href="https://github.blog/ai-and-ml/github-copilot/build-once-run-on-any-agent-a-practical-guide-to-agent-skills/">Build once, run on any agent: A practical guide to agent skills — GitHub Blog</a> <span class="source-detail">November 12, 2026; workflow model, portability boundary and application-vs-skill guidance.</span> <time datetime="2026-11-15">Accessed 2026-11-15</time></li>
+        <li id="source-2" data-source-type="official"><span class="evidence-label">Official</span> <a href="https://github.com/agentskills/agentskills/blob/83021e2be457a9b6679148719c1f6074f0ad975e/docs/specification.mdx">Agent Skills specification — exact repository revision</a> <span class="source-detail">Commit 83021e2; directory format, frontmatter constraints, progressive disclosure and validation.</span> <time datetime="2026-11-15">Accessed 2026-11-15</time></li>
+        <li id="source-3" data-source-type="official"><span class="evidence-label">Official</span> <a href="https://github.com/agentskills/agentskills/blob/83021e2be457a9b6679148719c1f6074f0ad975e/README.md">Agent Skills repository README — exact revision</a> <span class="source-detail">Commit 83021e2; origin, governance and licensing.</span> <time datetime="2026-11-15">Accessed 2026-11-15</time></li>
+        <li id="source-4" data-source-type="official"><span class="evidence-label">Official</span> <a href="https://code.visualstudio.com/docs/agent-customization/agent-skills">Use Agent Skills in VS Code — Microsoft</a> <span class="source-detail">Current documentation; supported agents, sources and feature variation.</span> <time datetime="2026-11-15">Accessed 2026-11-15</time></li>
+        <li id="source-5" data-source-type="official"><span class="evidence-label">Official</span> <a href="https://opencode.ai/docs/skills">Skills — OpenCode</a> <span class="source-detail">Current documentation; discovery paths, catalogs, precedence, loading and permissions.</span> <time datetime="2026-11-15">Accessed 2026-11-15</time></li>
+        <li id="source-6" data-source-type="official"><span class="evidence-label">Official</span> <a href="https://docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/add-skills">Adding agent skills for GitHub Copilot CLI — GitHub Docs</a> <span class="source-detail">Current documentation; supported paths, scripts and tool-approval behavior.</span> <time datetime="2026-11-15">Accessed 2026-11-15</time></li>
+        <li id="source-7" data-source-type="official"><span class="evidence-label">Official</span> <a href="https://developers.openai.com/plugins/concepts/skills">Skills — OpenAI Developers</a> <span class="source-detail">Current documentation; skill/MCP responsibility boundary for ChatGPT and Codex.</span> <time datetime="2026-11-15">Accessed 2026-11-15</time></li>
+        <li id="source-8" data-source-type="official"><span class="evidence-label">Official</span> <a href="https://developers.openai.com/api/docs/guides/tools-skills">Skills tool — OpenAI API</a> <span class="source-detail">Current documentation; validation and untrusted-input security guidance.</span> <time datetime="2026-11-15">Accessed 2026-11-15</time></li>
+      </ol>
+    </section>
+
+    <section class="article-engagement" aria-label="Article reactions">
+      <div class="engagement-copy"><span class="engagement-heading">Enjoyed this research?</span><span class="engagement-note">Leave a like — no account needed.</span></div>
+      <div class="engagement-actions">
+        <button type="button" class="article-like-button" data-like-button aria-label="Like this article" aria-pressed="false" disabled>
+          <svg class="article-like-heart" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z"/></svg>
+          <span data-like-count aria-live="polite">—</span><span>likes</span>
+        </button>
+        <span class="article-like-status" data-like-status role="status">Loading likes…</span>
+      </div>
+    </section>
+  </article>
+</main>
+</div>
+<footer class="footer"><div class="footer-inner"><span>© 2026 Dekrov</span><span class="footer-links"><a href="https://t.me/Dekrov_channel_en">Telegram / @Dekrov_channel_en ↗</a><a href="https://x.com/Dekrov_Dev">X / @Dekrov_Dev ↗</a><a href="https://github.com/DekrovDev">GitHub / DekrovDev ↗</a></span></div></footer>
+<script src="/article-likes.js?v=3" defer></script>
+<script src="/article.js" defer></script>
+<script src="/site.js"></script>
+</body>
+</html>
