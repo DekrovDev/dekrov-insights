@@ -5,6 +5,13 @@
     "meta": "Overview"
   },
   {
+    "slug": "a2ui-native-agent-ui-20261115",
+    "path": "/a2ui/",
+    "title": "A2UI 1.0: An Open Protocol for Agent-Built Native UI",
+    "meta": "AI Protocols · Nov 15, 2026",
+    "summary": "A source-checked analysis of A2UI 1.0, its JSON message protocol, component catalogs, two-way functions, renderer limits and relationship to MCP Apps."
+  },
+  {
     "slug": "github-ai-scan-api-controls-20261115",
     "path": "/ai-scan-api/",
     "title": "GitHub AI Scan Gains REST Controls for Repository-Level Rollouts",
