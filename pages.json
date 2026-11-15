@@ -5,6 +5,13 @@
     "meta": "Overview"
   },
   {
+    "slug": "qwen-code-harness-preview-20261115",
+    "path": "/qwen-code-preview/",
+    "title": "Qwen Code 1.0 Preview Brings Qoder’s Agent Harness to an Open-Source CLI",
+    "meta": "AI Coding Agents · Nov 15, 2026",
+    "summary": "A source-checked analysis of Qwen Code 1.0 Preview: Qoder’s agent capabilities, provider access, native installers, early fixes, Apache-2.0 code and the limits of preview-era evidence."
+  },
+  {
     "slug": "plurai-agent-simulation-evaluation-20261115",
     "path": "/plurai-simulation/",
     "title": "Plurai Simulation Builds Stateful Worlds to Test AI Agents",
