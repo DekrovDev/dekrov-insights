@@ -1,0 +1,138 @@
+---
+layout: null
+permalink: /pull-request-target/
+redirect_from:
+  - /pages/github-pull-request-target-default-block-20261115/
+  - /pages/github-pull-request-target-default-block-20261115/index.html
+---
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#ffffff">
+<meta name="description" content="GitHub will block pull_request_target by default in public repositories on December 2. Here is the exact scope, Pwn Request mechanism, November 16 brownout and migration audit.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GitHub Will Block pull_request_target by Default on December 2">
+<meta property="og:description" content="GitHub will block pull_request_target by default in public repositories on December 2. Here is the exact scope, Pwn Request mechanism, November 16 brownout and migration audit.">
+<meta property="og:url" content="https://insights.dekrov.com/pull-request-target/">
+<link rel="canonical" href="https://insights.dekrov.com/pull-request-target/">
+<meta name="twitter:card" content="summary">
+<title>GitHub Will Block pull_request_target by Default on December 2 — Dekrov Insights</title>
+<script src="/theme.js"></script>
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body data-page="github-pull-request-target-default-block-20261115" data-root="/">
+<header class="top"><div class="header-inner"><div class="brand-signature"><a class="brand" href="/"><span class="brand-mark" aria-hidden="true">DK</span>Dekrov Insights</a><span class="brand-role">Research / AI &amp; Technology</span></div><div class="header-actions"><button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme"><span data-theme-label>Light</span></button><a class="nav" href="https://github.com/DekrovDev/dekrov-insights">GitHub ↗</a></div></div></header>
+<div class="layout">
+<aside class="sidebar" aria-label="Page navigation"><p class="side-heading">Index</p><nav class="side-nav" aria-label="Pages" data-site-nav></nav></aside>
+<main class="main-content" id="main">
+<article class="article-body research-article" data-article-version="2">
+<span class="tag">GitHub Actions Security</span>
+<h1>GitHub Will Block <code>pull_request_target</code> by Default on December 2</h1>
+<div class="article-meta"><span>By Dekrov</span><span>Published <time datetime="2026-11-15">November 15, 2026</time></span><span>Updated <time datetime="2026-11-15">November 15, 2026</time></span></div>
+<p class="intro">GitHub is moving a long-documented Pwn Request risk from guidance into platform policy. Public repositories without an applicable custom Actions event policy will have <code>pull_request_target</code> blocked by default on December 2, 2026. A final two-hour brownout on November 16 offers a live warning—but the protection has important scope and bypass limits.</p>
+<p><a href="#explained-simply">Start with the plain-English explanation ↓</a></p>
+
+<section aria-labelledby="overview">
+<h2 id="overview">Overview</h2>
+<p>GitHub announced that, beginning December 2, 2026, its default workflow execution policy will block <code>pull_request_target</code> in affected public repositories unless an applicable Actions event policy explicitly permits it. The second scheduled brownout runs on November 16 from 16:00 to 18:00 UTC—17:00 to 19:00 in Rome—when covered workflow attempts will fail with an annotation instead of executing.
+<a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p>
+<p>The change applies to public repositories on GitHub Free, Team and Enterprise Cloud. It does not apply to private or internal repositories or GitHub Enterprise Server. It also does not replace a matching event policy that administrators have already configured.</p>
+<aside class="evidence-note" data-evidence="official" aria-label="Evidence qualification"><span class="evidence-label">Official rollout</span><p>Until enforcement, the default policy normally stays in evaluate mode: runs continue, while policy insights show what would later be blocked. During the brownout, the default is temporarily enforced. After the window it returns to evaluation until December 2.
+<a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p></aside>
+</section>
+
+<section aria-labelledby="technical-deep-dive">
+<h2 id="technical-deep-dive">Technical Deep Dive</h2>
+
+<h3 id="two-events">Why the two PR events have different trust</h3>
+<div class="table-wrap" role="region" aria-label="GitHub pull request event comparison" tabindex="0">
+<table><thead><tr><th>Property</th><th><code>pull_request</code> from a fork</th><th><code>pull_request_target</code></th></tr></thead>
+<tbody>
+<tr><td>Workflow definition</td><td>PR merge commit</td><td>Base repository’s default branch</td></tr>
+<tr><td>Default checkout</td><td>PR merge commit</td><td>Base branch</td></tr>
+<tr><td>Token and secrets</td><td>Read-only token; repository secrets withheld</td><td>Elevated base-repository trust; secrets may be available</td></tr>
+<tr><td>Safe default use</td><td>Build and test untrusted changes with fork restrictions</td><td>Metadata actions such as labeling, triage and authenticated comments</td></tr>
+<tr><td>Critical failure</td><td>Usually lacks privileged credentials</td><td>Explicitly checking out and executing attacker-controlled PR code</td></tr>
+</tbody></table>
+</div>
+<p>GitHub’s current security guide explains the trust model: <code>pull_request_target</code> is safe only while the workflow and checkout stay on trusted base-branch code. The Pwn Request flaw appears when a privileged job switches to the fork’s head commit and then executes it.
+<a class="citation" href="#source-2" aria-label="Source 2">[2]</a></p>
+
+<h3 id="attack-chain">The Pwn Request attack chain</h3>
+<ol>
+<li>An attacker opens a fork pull request and changes executable project content: tests, build scripts, package manifests or install hooks.</li>
+<li>A base-branch workflow starts through <code>pull_request_target</code>, receiving the privileged token and any configured secrets.</li>
+<li>The workflow explicitly checks out the PR head, fetches it manually, downloads an attacker-controlled artifact, or otherwise places untrusted content in the job.</li>
+<li>A seemingly normal command—<code>npm install</code>, tests, a compiler, a Makefile or a third-party action—executes attacker-controlled behavior.</li>
+<li>The payload can exfiltrate secrets, poison releases, alter repository content or abuse the privileged token.</li>
+</ol>
+<p>GitHub Security Lab documented this pattern from real workflow vulnerabilities in 2021. The warning remains current: explicit checkout plus execution of an untrusted PR under <code>pull_request_target</code> can compromise the repository.
+<a class="citation" href="#source-3" aria-label="Source 3">[3]</a></p>
+
+<h3 id="policy-scope">What the new policy actually blocks</h3>
+<p>Workflow execution protections form an allowlist layered at enterprise, organization and repository levels. Event rules can permit or reject triggers including <code>push</code>, <code>pull_request</code>, <code>pull_request_target</code> and <code>workflow_dispatch</code>; actor rules can separately control who may trigger targeted workflows.
+<a class="citation" href="#source-4" aria-label="Source 4">[4]</a></p>
+<p>The default December rule is not a code rewrite and not a universal kill switch. If a public repository already has an applicable event policy, that configured policy governs it. Private and internal repositories remain outside the default. A repository administrator can explicitly allow the event—ideally only for named workflow files—so unsafe logic can still exist after the rollout.</p>
+
+<h3 id="migration">A practical migration audit</h3>
+<ol>
+<li><strong>Inventory the trigger.</strong> Search <code>.github/workflows</code> for <code>pull_request_target</code>, then inspect policy insights for would-be-blocked runs.</li>
+<li><strong>Prefer <code>pull_request</code>.</strong> If the job only builds, lints or tests fork code and needs no secrets, use the lower-trust event.</li>
+<li><strong>Separate trust zones.</strong> Run untrusted compilation in an unprivileged workflow. If a privileged follow-up is unavoidable, pass narrowly defined data—not executable files—and validate every artifact boundary.</li>
+<li><strong>Reduce authority.</strong> Set minimal <code>permissions:</code>, expose only necessary secrets and avoid persistent self-hosted runners with internal network reach.</li>
+<li><strong>Audit hidden execution.</strong> Treat package installation, tests, build configuration, generators and downloaded artifacts as code execution.</li>
+<li><strong>Keep cache read-only.</strong> GitHub now restricts default-branch cache writes for this trigger; opting back into write-capable cache mode reintroduces cache-poisoning risk.</li>
+<li><strong>Allow only the narrow exception.</strong> If the trigger is genuinely necessary, target the specific workflow in an applicable Actions event policy instead of broadly allowing the event.</li>
+</ol>
+<p>GitHub’s administration guide recommends layered, clearly scoped policies rather than one broad rule. Administrators can evaluate a protection before enforcement, inspect matches in Insights, then narrow the targeted repositories, workflows, actors and events.
+<a class="citation" href="#source-5" aria-label="Source 5">[5]</a></p>
+
+<h3 id="agentic-workflows">Agentic Workflows adds another guard</h3>
+<p>GitHub Agentic Workflows v1.2.0 separately changed its compiler so fork use with <code>pull_request_target</code> requires explicit opt-in. The release also hardened ZIP extraction and run-step expression sanitization.
+<a class="citation" href="#source-6" aria-label="Source 6">[6]</a></p>
+<p>Current Agentic Workflows documentation defaults the trigger to same-repository pull requests. Exact fork or trusted-owner patterns can be admitted; a wildcard <code>"*"</code> is rejected in strict mode unless <code>features.dangerously-allow-pull-request-target-forks-all: true</code> is set. Even then, the warning remains. Actor authorization and checkout restrictions still apply independently.
+<a class="citation" href="#source-7" aria-label="Source 7">[7]</a></p>
+</section>
+
+<section aria-labelledby="limits">
+<h2 id="limits">What the Default Does Not Prove</h2>
+<p>A blocked trigger prevents one class of privileged execution; it does not certify the remaining Actions configuration. Command injection through issue titles or branch names, mutable third-party actions, overbroad tokens, unsafe <code>workflow_run</code> artifact handling and persistent self-hosted runners require separate controls.</p>
+<p>GitHub also documents an explicit <code>allow-unsafe-pr-checkout: true</code> escape hatch for <code>actions/checkout</code>. Custom Git commands and third-party checkout logic are outside that single protection. Neither a policy exception nor a checkout flag makes fork code trustworthy.
+<a class="citation" href="#source-2" aria-label="Source 2">[2]</a></p>
+</section>
+
+<section class="plain-english" id="explained-simply" data-explained-simply aria-labelledby="simple-title">
+<h2 id="simple-title">Explained Simply</h2>
+<h3 id="door-analogy">The visitor and the master key</h3>
+<p>A normal fork pull request is like letting a visitor demonstrate their machine in an empty room. GitHub withholds the building’s master keys.</p>
+<p><code>pull_request_target</code> is different: it lets trusted automation use the base repository’s keys so it can label, comment or manage the pull request. The danger begins if that trusted automation brings the visitor’s machine into the privileged room and switches it on.</p>
+<p>GitHub will now lock that privileged door by default for affected public repositories. Maintainers can still unlock it, so the real fix is to remove unnecessary uses, keep untrusted builds separate and grant the smallest possible permissions.</p>
+</section>
+
+<section aria-labelledby="conclusion">
+<h2 id="conclusion">Conclusion</h2>
+<p>The November 16 brownout is the last live rehearsal before GitHub’s December 2 enforcement. Public-repository maintainers should use it to find affected runs, but a failed run is only the signal. The durable remediation is architectural: use <code>pull_request</code> for untrusted code, reserve <code>pull_request_target</code> for trusted metadata operations, separate privileged follow-up work, and scope any policy exception to the smallest workflow possible.</p>
+</section>
+
+<section aria-labelledby="sources">
+<h2 id="sources">Evidence &amp; Sources</h2>
+<p class="source-detail">Source type describes provenance, not guaranteed truth. Availability checks do not verify a claim.</p>
+<ol class="source-list">
+<li id="source-1" data-source-type="official"><span class="evidence-label">Official</span> <a href="https://github.blog/changelog/2026-11-02-pull_request_target-blocked-by-default-december-2/">pull_request_target blocked by default December 2 — GitHub Changelog</a> <span class="source-detail">November 2, 2026; enforcement scope, brownouts, dates and exclusions.</span> <time datetime="2026-11-15">Accessed 2026-11-15</time></li>
+<li id="source-2" data-source-type="official"><span class="evidence-label">Official</span> <a href="https://docs.github.com/en/actions/reference/security/securely-using-pull_request_target">Securely using pull_request_target — GitHub Docs</a> <span class="source-detail">Current trust model, default policy, migration guidance, cache controls and opt-outs.</span> <time datetime="2026-11-15">Accessed 2026-11-15</time></li>
+<li id="source-3" data-source-type="official"><span class="evidence-label">Official research</span> <a href="https://securitylab.github.com/resources/github-actions-preventing-pwn-requests/">Preventing Pwn Requests — GitHub Security Lab</a> <span class="source-detail">August 3, 2021; technical attack pattern and safer workflow separation.</span> <time datetime="2026-11-15">Accessed 2026-11-15</time></li>
+<li id="source-4" data-source-type="official"><span class="evidence-label">Official</span> <a href="https://docs.github.com/en/actions/concepts/about-actions-policies">About Actions policies — GitHub Docs</a> <span class="source-detail">Current policy hierarchy, actor/event rules and enforcement behavior.</span> <time datetime="2026-11-15">Accessed 2026-11-15</time></li>
+<li id="source-5" data-source-type="official"><span class="evidence-label">Official</span> <a href="https://docs.github.com/en/actions/how-tos/administer/control-workflow-execution">Governing execution of GitHub Actions workflows — GitHub Docs</a> <span class="source-detail">Current evaluation, Insights and layered-policy administration guidance.</span> <time datetime="2026-11-15">Accessed 2026-11-15</time></li>
+<li id="source-6" data-source-type="official"><span class="evidence-label">Official release</span> <a href="https://github.com/github/gh-aw/releases/tag/v1.2.0">GitHub Agentic Workflows v1.2.0</a> <span class="source-detail">November 4, 2026; explicit fork opt-in and related hardening changes.</span> <time datetime="2026-11-15">Accessed 2026-11-15</time></li>
+<li id="source-7" data-source-type="official"><span class="evidence-label">Official</span> <a href="https://github.github.com/gh-aw/reference/triggers/">Agentic Workflows trigger reference — GitHub</a> <span class="source-detail">Current fork filters, wildcard opt-in and independent enforcement boundaries.</span> <time datetime="2026-11-15">Accessed 2026-11-15</time></li>
+</ol>
+</section>
+
+<section class="article-engagement" aria-label="Article reactions"><div class="engagement-copy"><span class="engagement-heading">Enjoyed this research?</span><span class="engagement-note">Leave a like — no account needed.</span></div><div class="engagement-actions"><button type="button" class="article-like-button" data-like-button aria-label="Like this article" aria-pressed="false" disabled><svg class="article-like-heart" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z"/></svg><span data-like-count aria-live="polite">—</span><span>likes</span></button><span class="article-like-status" data-like-status role="status">Loading likes…</span></div></section>
+</article>
+</main></div>
+<footer class="footer"><div class="footer-inner"><span>© 2026 Dekrov</span><span class="footer-links"><a href="https://t.me/Dekrov_channel_en">Telegram / @Dekrov_channel_en ↗</a><a href="https://x.com/Dekrov_Dev">X / @Dekrov_Dev ↗</a><a href="https://github.com/DekrovDev">GitHub / DekrovDev ↗</a></span></div></footer>
+<script src="/article-likes.js?v=3" defer></script><script src="/article.js" defer></script><script src="/site.js"></script>
+</body></html>
