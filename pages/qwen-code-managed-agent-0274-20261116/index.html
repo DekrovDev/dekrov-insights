@@ -1,0 +1,214 @@
+---
+layout: null
+permalink: /qwen-managed-agent/
+redirect_from:
+  - /pages/qwen-code-managed-agent-0274-20261116/
+  - /pages/qwen-code-managed-agent-0274-20261116/index.html
+---
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#ffffff">
+<meta name="description" content="How Qwen Code 0.27.4 relays granted local directories into managed sessions, authenticates its web terminal, and changes Auto Mode’s definition of user authorization.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Qwen Code 0.27.4 Gives Managed Agents Local Files—and Tightens Auto Mode">
+<meta property="og:description" content="How Qwen Code 0.27.4 relays granted local directories into managed sessions, authenticates its web terminal, and changes Auto Mode’s definition of user authorization.">
+<meta property="og:url" content="https://insights.dekrov.com/qwen-managed-agent/">
+<link rel="canonical" href="https://insights.dekrov.com/qwen-managed-agent/">
+<meta name="twitter:card" content="summary">
+<title>Qwen Code 0.27.4 Gives Managed Agents Local Files—and Tightens Auto Mode — Dekrov Insights</title>
+<script src="/theme.js"></script>
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body data-page="qwen-code-managed-agent-0274-20261116" data-root="/">
+<header class="top">
+  <div class="header-inner">
+    <div class="brand-signature">
+      <a class="brand" href="/"><span class="brand-mark" aria-hidden="true">DK</span>Dekrov Insights</a>
+      <span class="brand-role">Research / AI &amp; Technology</span>
+    </div>
+    <div class="header-actions">
+      <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme"><span data-theme-label>Light</span></button>
+      <a class="nav" href="https://github.com/DekrovDev/dekrov-insights">GitHub ↗</a>
+    </div>
+  </div>
+</header>
+<div class="layout">
+<aside class="sidebar" aria-label="Page navigation">
+  <p class="side-heading">Index</p>
+  <nav class="side-nav" aria-label="Pages" data-site-nav></nav>
+</aside>
+<main class="main-content" id="main">
+  <article class="article-body research-article" data-article-version="2">
+    <!-- ARTICLE CONTENT START. Read ARTICLE_AUTHORING_GUIDE.md first.
+    Replace every template placeholder; HTML-escape inserted text and attributes.
+    Keep explicit heading IDs: they also work without JavaScript.
+    Add optional sections only when there is substantive sourced material.
+    Use one idea per paragraph and descriptive h3 subsections in long sections.
+    Insert complete sibling paragraphs; never wrap supplied HTML in another p.
+    Typography and spacing come from styles.css, not inline styles or br spacers.
+    The article.js script adds a compact TOC and a prominent plain-English jump.
+    -->
+    <span class="tag">AI Agent Security</span>
+    <h1>Qwen Code 0.27.4 Gives Managed Agents Local Files—and Tightens Auto Mode</h1>
+    <div class="article-meta">
+      <span>By Dekrov</span>
+      <span>Published <time datetime="2026-11-16">November 16, 2026</time></span>
+      <span>Updated <time datetime="2026-11-16">November 16, 2026</time></span>
+    </div>
+    <p class="intro">Qwen Code 0.27.4 expands what a managed coding-agent session can reach: a browser can grant local directories through an MCP relay, and an operator can open an interactive terminal into the managed runtime. The same release narrows unattended authority by teaching Auto Mode that relevance to a task is not the same as permission to perform a destructive action.</p>
+    <p><a href="#explained-simply">Start with the plain-English explanation ↓</a></p>
+
+    <section aria-labelledby="overview">
+      <h2 id="overview">Overview</h2>
+      <p>Qwen Code released version 0.27.4 on November 15, 2026. The release combines two directions that should be evaluated together: more reach for managed agents and stricter checks around what an agent may do without asking. Managed sessions can use explicitly granted client directories and an interactive Managed Web Terminal; Auto Mode now judges explicit authorization rather than merely whether an action appears relevant to the user’s goal. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p>
+      <p>This is primarily a harness and control-plane release, not a new Qwen model. The important questions are transport, persistence, admission, approval and blast radius: how browser-side files reach a hosted session, which terminal user may attach, what data is durable, and when an automated permission classifier must block.</p>
+      <aside class="evidence-note" data-evidence="official" aria-label="Evidence qualification">
+        <span class="evidence-label">Project evidence</span>
+        <p>The release notes and merged pull requests establish the project’s design, implementation and test claims. No independent security audit or production-scale reliability study was found for these new surfaces. The permission numbers below are maintainer-reported evaluation results, not an external benchmark. <a class="citation" href="#source-2" aria-label="Source 2">[2]</a> <a class="citation" href="#source-3" aria-label="Source 3">[3]</a></p>
+      </aside>
+    </section>
+
+    <section aria-labelledby="technical-deep-dive">
+      <h2 id="technical-deep-dive">Technical Deep Dive</h2>
+
+      <h3 id="client-files">How a managed session reaches local files</h3>
+      <p>Before 0.27.4, Qwen Code’s local daemon could expose client files through a reverse tool channel, but the managed control plane did not provide that WebSocket path. The new design registers a browser-selected directory grant over HTTP, sends JSON-RPC requests to the browser through a Server-Sent Events downlink, and posts tool responses back. Inside the hosted harness, an internal Streamable HTTP MCP endpoint exposes those browser-side tools to the agent. <a class="citation" href="#source-2" aria-label="Source 2">[2]</a></p>
+      <p>The directory registration is intended to be ephemeral. The project says it creates no journal row, persists neither credentials nor the directory path, and holds file content only in a bounded time-to-live queue while requests settle. That does not mean every byte is non-durable: once returned to the agent as a normal tool result, file content follows the session’s ordinary durable tool-result policy and may be journalled there. <a class="citation" href="#source-2" aria-label="Source 2">[2]</a></p>
+      <p>The surface is deployment-gated and off by default. It also requires a per-session capability, so the Web Shell entry is not shown unless the deployment advertises support. The PR’s test plan covers queue expiry, depth, generation fencing, digest-only credential persistence, retry behavior, concurrent registration and admission gates; these are project tests, not a third-party penetration test. <a class="citation" href="#source-2" aria-label="Source 2">[2]</a></p>
+
+      <h3 id="managed-terminal">How the Managed Web Terminal is admitted</h3>
+      <p>The terminal takes a different route. Browser terminal I/O travels over a WebSocket through the Java control plane to a runtime worker’s pseudo-terminal. Because browsers cannot attach the deployment’s normal authentication headers to the WebSocket upgrade, an authenticated Web Shell request first mints a short-lived, single-use ticket. The upgrade presents that ticket as a bearer subprotocol, and the control plane consumes it. <a class="citation" href="#source-4" aria-label="Source 4">[4]</a></p>
+      <p>While a terminal is attached, a durable two-row hold prevents the managed runtime from being retired underneath it. The hold settles only after exit is proven; an uncertain stop keeps the hold instead of pretending the terminal ended cleanly. The project says keystroke-volume terminal I/O is relayed live and is not journalled, exported or retained. <a class="citation" href="#source-4" aria-label="Source 4">[4]</a></p>
+      <p>This surface is also opt-in, off by default and requires the <code>OPERATOR</code> role on the bound workspace. The pull request reports 18 worker-terminal tests and 14 control-route conformance tests, including running, released, failed and unknown states. Those tests support the intended lifecycle behavior; they do not prove the absence of vulnerabilities in deployment, reverse proxies or browser clients. <a class="citation" href="#source-4" aria-label="Source 4">[4]</a></p>
+
+      <h3 id="authorization">Auto Mode now asks a different question</h3>
+      <p>The permission change is conceptually smaller but security-relevant. The old classifier could treat an action as authorized when it fit the user’s request. The new prompt asks whether the user explicitly authorized the pending action. Its rules state that relevance is not authorization, broad requests do not automatically permit destructive or bulk forms, questions are not instructions, consent must cover the blast radius, and one approval does not establish a reusable pattern. <a class="citation" href="#source-3" aria-label="Source 3">[3]</a></p>
+      <p>The change targets cases such as an agent deleting an unmerged branch after being asked to “clean up” or force-pushing after the user merely asked whether force-push was safe. Routine recoverable work—reading, building, testing and editing inside the working directory—remains outside that explicit-consent requirement unless another policy blocks it. <a class="citation" href="#source-3" aria-label="Source 3">[3]</a></p>
+
+      <div class="table-wrap" role="region" aria-label="Qwen Code 0.27.4 control boundaries" tabindex="0">
+        <table>
+          <caption>What expands, what gates it, and what remains durable</caption>
+          <thead><tr><th>Surface</th><th>New capability</th><th>Primary gate</th><th>Durability boundary</th></tr></thead>
+          <tbody>
+            <tr><td>Client files</td><td>Read/write tools for a browser-granted directory through an MCP relay.</td><td>Deployment flag, session capability and normal tool approval.</td><td>Grant metadata and relay queue are ephemeral; returned tool results follow normal session journalling. <a class="citation" href="#source-2" aria-label="Source 2">[2]</a></td></tr>
+            <tr><td>Managed terminal</td><td>Interactive PTY access from the Web Shell.</td><td>Short-lived single-use ticket, capability flag and workspace <code>OPERATOR</code> role.</td><td>Terminal I/O is described as non-journalled; runtime hold state is durable. <a class="citation" href="#source-4" aria-label="Source 4">[4]</a></td></tr>
+            <tr><td>Auto Mode</td><td>Automated approval classification with a stricter authorization test.</td><td>Explicit consent for destructive, history-rewriting, soft-blocked or bulk actions.</td><td>The classifier decision remains model-mediated; project evaluations measure errors, not a formal guarantee. <a class="citation" href="#source-3" aria-label="Source 3">[3]</a></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section aria-labelledby="evidence-analysis">
+      <h2 id="evidence-analysis">Evidence Analysis</h2>
+
+      <h3 id="permission-results">What the permission evaluation found</h3>
+      <p>The permission PR reports a same-case, same-model comparison between the prior prompt and the revised prompt. Across 61 English and Chinese intent cases expected to block, wrongly allowed results fell from 30% to 2% for <code>deepseek-v4-pro</code> and from 61% to 8% for <code>qwen3.7-max</code>. Fifteen explicit-consent cases and ten polite-request cases stayed at 0% wrongly blocked for both models. <a class="citation" href="#source-3" aria-label="Source 3">[3]</a></p>
+      <p>On 600 real agent commands expected to be allowed, the reported block rate stayed at 1.5% for <code>deepseek-v4-pro</code> and moved from 1.3% to 2.8% for <code>qwen3.7-max</code>. The direction is encouraging for the selected test set, but the results come from the implementing project, cover two models and one classifier prompt, and do not establish production rates across other models, languages or attack strategies. <a class="citation" href="#source-3" aria-label="Source 3">[3]</a></p>
+
+      <h3 id="boundaries">What remains outside the evidence</h3>
+      <ul>
+        <li>No independent audit currently verifies the MCP relay, single-use terminal ticket or proxy deployment assumptions.</li>
+        <li>“No credentials or paths persisted” does not mean file content can never become durable; content returned as a tool result follows the normal session record policy.</li>
+        <li>A model-based permission classifier can reduce observed errors without becoming a hard authorization proof.</li>
+        <li>Both managed file access and the terminal are off by default, so availability depends on deployment flags, session capabilities and role configuration.</li>
+        <li>The release lists no known breaking changes, but that is a project statement rather than a compatibility guarantee for every extension or ACP integration. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></li>
+      </ul>
+    </section>
+
+    <section aria-labelledby="release-context">
+      <h2 id="release-context">Release Context</h2>
+      <p>Qwen Code also published a separate 1.0 Preview on November 11 that combines Qoder and Qwen Code agent capabilities and warns that interfaces, configuration and behavior may change. Version 0.27.4 is therefore best read as a concrete release on the established 0.x line, not evidence that every managed capability is already part of a stable 1.0 contract. <a class="citation" href="#source-5" aria-label="Source 5">[5]</a></p>
+      <p>The broader 0.27.4 release additionally adds managed channel delivery, memory-import APIs, fixed-interval managed loops, shared experimental agent-loop work and multiple dependency security updates. This article focuses on the access and authorization boundary because those changes alter what an agent can touch and how unattended intent is judged. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p>
+    </section>
+
+    <section aria-labelledby="practical-impact">
+      <h2 id="practical-impact">Practical Impact</h2>
+      <ol>
+        <li><strong>Treat a granted directory as real authority.</strong> Grant the narrowest workspace needed and verify the agent’s visible tool list before allowing writes.</li>
+        <li><strong>Do not confuse ephemeral transport with ephemeral results.</strong> A relay may avoid persisting its queue while the session still records file content returned by a tool.</li>
+        <li><strong>Keep the terminal role narrow.</strong> The <code>OPERATOR</code> requirement and one-time ticket are meaningful only if workspace roles and reverse-proxy boundaries are configured correctly.</li>
+        <li><strong>Test Auto Mode with your own destructive cases.</strong> The reported prompt improvement is model- and dataset-specific; organization policy should still hard-block actions that cannot safely depend on classification.</li>
+        <li><strong>Review deployment flags after upgrading.</strong> File relay and terminal capability are described as opt-in and off by default, so an upgrade alone may not expose them.</li>
+      </ol>
+    </section>
+
+    <section class="plain-english" id="explained-simply" data-explained-simply aria-labelledby="simple-title">
+      <h2 id="simple-title">Explained Simply</h2>
+
+      <h3 id="simple-files">A temporary bridge to your folder</h3>
+      <p>Imagine the coding agent runs in a remote workshop. Before this release, it could not reach a folder on your laptop. You can now open a temporary bridge to one folder you choose. The browser carries file-tool requests across that bridge, and the agent sees them like MCP tools.</p>
+      <p>The bridge registration and queue are designed to disappear, but anything the agent reads and returns as a tool result can still become part of the normal session history. Temporary transport is not the same thing as zero retained content.</p>
+
+      <h3 id="simple-terminal">A guarded terminal door</h3>
+      <p>The managed terminal is a live door into the remote workshop. To open it, the browser obtains a short-lived ticket that should work once, and the user needs the correct workspace role. The raw keystrokes are not supposed to be stored, while a durable hold keeps the workshop alive until the terminal’s exit is proven.</p>
+
+      <h3 id="simple-consent">“Related” no longer means “allowed”</h3>
+      <p>If you ask an agent to tidy a branch, deleting unmerged work may be related to that goal—but you did not necessarily authorize deletion. Auto Mode now tries to separate those two questions. The project’s test results improved sharply, but a model judging consent is still a probabilistic safety layer, not the same as a hard technical permission.</p>
+    </section>
+
+    <section aria-labelledby="conclusion">
+      <h2 id="conclusion">Conclusion</h2>
+      <p>Qwen Code 0.27.4 makes managed agents more useful by connecting explicitly granted client directories and exposing an interactive runtime terminal. Its architecture also draws concrete boundaries: ephemeral relay state, normal journalling for returned tool results, one-time terminal admission, durable runtime holds and role-gated access.</p>
+      <p>The permission fix is the other half of the release. More capable agents need a stricter definition of consent, and the new prompt measurably reduced wrong approvals in the project’s evaluation. The remaining caution is equally clear: these are maintainer tests and design claims, not an independent audit, and model-mediated authorization should not replace hard controls for irreversible operations.</p>
+    </section>
+
+    <section aria-labelledby="sources">
+      <h2 id="sources">Evidence &amp; Sources</h2>
+      <p class="source-detail">Source type describes provenance, not guaranteed truth. Availability checks do not verify a claim.</p>
+      <ol class="source-list">
+        <li id="source-1" data-source-type="official">
+          <span class="evidence-label">Official</span>
+          <a href="https://github.com/QwenLM/qwen-code/releases/tag/v0.27.4">Qwen Code — Release v0.27.4</a>
+          <span class="source-detail">Published November 15, 2026. Supports: shipped feature list, gates, broader release scope and no-known-breaking-change statement.</span>
+          <time datetime="2026-11-16">Accessed 2026-11-16</time>
+        </li>
+        <li id="source-2" data-source-type="official">
+          <span class="evidence-label">Official</span>
+          <a href="https://github.com/QwenLM/qwen-code/pull/16844">Qwen Code PR #16844 — Register client filesystems into managed sessions</a>
+          <span class="source-detail">Merged November 13, 2026. Supports: HTTP/SSE MCP relay, persistence boundaries, gates and project test plan.</span>
+          <time datetime="2026-11-16">Accessed 2026-11-16</time>
+        </li>
+        <li id="source-3" data-source-type="official">
+          <span class="evidence-label">Official</span>
+          <a href="https://github.com/QwenLM/qwen-code/pull/16858">Qwen Code PR #16858 — Judge user authorization in the AUTO classifier</a>
+          <span class="source-detail">Merged November 13, 2026. Supports: authorization rules, motivating cases and maintainer evaluation results.</span>
+          <time datetime="2026-11-16">Accessed 2026-11-16</time>
+        </li>
+        <li id="source-4" data-source-type="official">
+          <span class="evidence-label">Official</span>
+          <a href="https://github.com/QwenLM/qwen-code/pull/16866">Qwen Code PR #16866 — Add the Managed Web Terminal</a>
+          <span class="source-detail">Merged November 13, 2026. Supports: WebSocket ticket admission, PTY relay, runtime hold, roles and project tests.</span>
+          <time datetime="2026-11-16">Accessed 2026-11-16</time>
+        </li>
+        <li id="source-5" data-source-type="official">
+          <span class="evidence-label">Official</span>
+          <a href="https://github.com/QwenLM/qwen-code/releases/tag/v1.0.0-preview">Qwen Code — v1.0.0 Preview release</a>
+          <span class="source-detail">Published November 11, 2026. Supports: separate Preview channel and stability warning.</span>
+          <time datetime="2026-11-16">Accessed 2026-11-16</time>
+        </li>
+      </ol>
+    </section>
+    <!-- ARTICLE CONTENT END: keep the shared reactions block below. -->
+
+    <section class="article-engagement" aria-label="Article reactions">
+      <div class="engagement-copy"><span class="engagement-heading">Enjoyed this research?</span><span class="engagement-note">Leave a like — no account needed.</span></div>
+      <div class="engagement-actions">
+        <button type="button" class="article-like-button" data-like-button aria-label="Like this article" aria-pressed="false" disabled>
+          <svg class="article-like-heart" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z"/></svg>
+          <span data-like-count aria-live="polite">—</span><span>likes</span>
+        </button>
+        <span class="article-like-status" data-like-status role="status">Loading likes…</span>
+      </div>
+    </section>
+  </article>
+</main>
+</div>
+<footer class="footer"><div class="footer-inner"><span>© 2026 Dekrov</span><span class="footer-links"><a href="https://t.me/Dekrov_channel_en">Telegram / @Dekrov_channel_en ↗</a><a href="https://x.com/Dekrov_Dev">X / @Dekrov_Dev ↗</a><a href="https://github.com/DekrovDev">GitHub / DekrovDev ↗</a></span></div></footer>
+<script src="/article-likes.js?v=3" defer></script>
+<script src="/article.js" defer></script>
+<script src="/site.js"></script>
+</body>
+</html>
