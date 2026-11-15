@@ -1,0 +1,230 @@
+---
+layout: null
+permalink: /persistent-agents/
+redirect_from:
+  - /pages/openclaw-persistent-agent-security-20261115/
+  - /pages/openclaw-persistent-agent-security-20261115/index.html
+---
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#ffffff">
+<meta name="description" content="A source-checked analysis of OpenAI’s persistent-agent security architecture, its concrete controls and the limits that operators still have to verify.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OpenAI’s OpenClaw Security Stack: Five Boundaries for Persistent Agents—and Their Limits">
+<meta property="og:description" content="A source-checked analysis of OpenAI’s persistent-agent security architecture, its concrete controls and the limits that operators still have to verify.">
+<meta property="og:url" content="https://insights.dekrov.com/persistent-agents/">
+<link rel="canonical" href="https://insights.dekrov.com/persistent-agents/">
+<meta name="twitter:card" content="summary">
+<title>OpenAI’s OpenClaw Security Stack: Five Boundaries for Persistent Agents—and Their Limits — Dekrov Insights</title>
+<script src="/theme.js"></script>
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body data-page="openclaw-persistent-agent-security-20261115" data-root="/">
+<header class="top">
+  <div class="header-inner">
+    <div class="brand-signature">
+      <a class="brand" href="/"><span class="brand-mark" aria-hidden="true">DK</span>Dekrov Insights</a>
+      <span class="brand-role">Research / AI &amp; Technology</span>
+    </div>
+    <div class="header-actions">
+      <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme"><span data-theme-label>Light</span></button>
+      <a class="nav" href="https://github.com/DekrovDev/dekrov-insights">GitHub ↗</a>
+    </div>
+  </div>
+</header>
+<div class="layout">
+<aside class="sidebar" aria-label="Page navigation">
+  <p class="side-heading">Index</p>
+  <nav class="side-nav" aria-label="Pages" data-site-nav></nav>
+</aside>
+<main class="main-content" id="main">
+  <article class="article-body research-article" data-article-version="2">
+    <span class="tag">Agent Security</span>
+    <h1>OpenAI’s OpenClaw Security Stack: Five Boundaries for Persistent Agents—and Their Limits</h1>
+    <div class="article-meta">
+      <span>By Dekrov</span>
+      <span>Published <time datetime="2026-11-15">November 15, 2026</time></span>
+      <span>Updated <time datetime="2026-11-15">November 15, 2026</time></span>
+    </div>
+    <p class="intro">OpenAI has described how it runs hundreds of persistent OpenClaw agents: keep the control plane deterministic, treat the agent and its generated code as untrusted, enforce sandbox limits, review actions with a second model, separate agent identity from human identity and retain a complete audit trail. The design is concrete, but it is not a proof that every OpenClaw or OCE deployment inherits the same protection.</p>
+    <p><a href="#explained-simply">Start with the plain-English explanation ↓</a></p>
+
+    <section aria-labelledby="overview">
+      <h2 id="overview">Overview</h2>
+      <p>On November 12, 2026, OpenAI published the security architecture behind its internal OpenClaw pilot. The company says more than 500 agents now run proactively in the background, opening pull requests from feedback and continuously running data experiments. That scale and the reported productivity gain are vendor statements; the post does not provide an independent study, incident rate, false-approval rate or before-and-after benchmark.
+        <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p>
+      <p>The important disclosure is the threat model. A persistent agent can rewrite configuration, generate code and act without a human initiating every step. OpenAI therefore treats the agent runtime as potentially misaligned even when no external attacker is present. The system is designed around five separate control layers rather than trust in the model alone.</p>
+      <aside class="evidence-note" data-evidence="official" aria-label="Evidence qualification">
+        <span class="evidence-label">Official disclosure</span>
+        <p>This article analyzes OpenAI’s own deployment description and the current open-source OpenClaw and OpenClaw Enterprise documentation. It does not claim that the controls have been independently audited or that the same configuration is active in every installation.
+          <a class="citation" href="#source-1" aria-label="Source 1">[1]</a>
+          <a class="citation" href="#source-4" aria-label="Source 4">[4]</a></p>
+      </aside>
+    </section>
+
+    <section aria-labelledby="technical-deep-dive">
+      <h2 id="technical-deep-dive">Technical Deep Dive</h2>
+
+      <h3 id="threat-model">The threat model changes when an agent never clocks out</h3>
+      <p>Conventional automation is expected to execute predefined code. A persistent coding agent is different: it can interpret new input, create new code, invoke tools and change how it approaches a long-running goal. That makes the model, its workspace and the code it writes part of the untrusted execution surface. The defensive question is no longer only “can an attacker reach the service?” but also “what can a well-intentioned agent do after a wrong inference, poisoned input or unsafe tool choice?”</p>
+
+      <h3 id="trusted-split">1. Separate the trusted control plane from the untrusted harness</h3>
+      <p>OpenAI uses OpenClaw’s remote-harness design to run the Gateway—the component that configures and manages the agent—separately from the agent harness. In OpenAI’s deployment they are placed in different containers and clusters. The Gateway remains deterministic infrastructure; the harness, model turns and generated code are sandboxed as untrusted workload.
+        <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p>
+      <p>This split matters because a policy stored inside the same environment as the agent is easier to weaken accidentally or deliberately. A separate control plane can remain the authority for identity, network policy and lifecycle decisions even when the agent changes files inside its own workspace.</p>
+
+      <h3 id="hard-boundaries">2. Enforce hard boundaries for network, files, processes and secrets</h3>
+      <p>The disclosed Codex configuration removes unrestricted <code>danger-full-access</code>, allows only read-only or workspace-write modes, routes network traffic through a managed proxy and prevents user configuration from expanding the domain allowlist. It permits writes only in agent workspaces, denies SSH credential paths, disables applications by default and excludes GitHub tokens from command environments.
+        <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p>
+      <div class="table-scroll" role="region" aria-label="Persistent agent control layers" tabindex="0">
+        <table class="research-table">
+          <thead>
+            <tr><th scope="col">Boundary</th><th scope="col">What it restricts</th><th scope="col">Residual risk</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Network</td><td>Only administrator-approved destinations; selected metadata, paste and callback endpoints are denied.</td><td>An allowed destination can still receive unsafe data; model and control traffic may use a separate path.</td></tr>
+            <tr><td>Workspace</td><td>Writes stay in the agent’s working directory; sensitive paths such as SSH credentials are denied.</td><td>Accessible files can still contain credentials or malicious instructions.</td></tr>
+            <tr><td>Process</td><td>Codex’s Linux sandbox isolates the agent’s process tree.</td><td>Runtime and seccomp support must actually be present and correctly configured.</td></tr>
+            <tr><td>Secrets</td><td>A credential broker keeps raw secrets outside the model-visible environment.</td><td>Brokered actions still need narrow scopes, revocation and audit.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>OpenClaw’s own exec documentation reinforces the risk: the exec tool can create, edit or delete anything permitted by the selected host or sandbox. Disabling separate file-edit tools does not make shell execution read-only.
+        <a class="citation" href="#source-2" aria-label="Source 2">[2]</a></p>
+
+      <h3 id="auto-review">3. Put a second model between intent and execution</h3>
+      <p>OpenAI says every action in its deployment is subject to auto-review. A reviewer model returns allow, deny or ask, allowing routine low-risk work while escalating ambiguous or high-value decisions to a human. OpenClaw’s current documentation describes reviewer allowances as single-use and says timeouts, invalid verdicts or reviewer failures fall back to human approval.
+        <a class="citation" href="#source-2" aria-label="Source 2">[2]</a>
+        <a class="citation" href="#source-5" aria-label="Source 5">[5]</a></p>
+      <p>Auto-review reduces approval fatigue, but it is not a deterministic security boundary. Two models can share blind spots, and an apparently safe command can have dangerous context. The hard sandbox and credential boundaries must remain effective even when the reviewer allows a bad action.</p>
+
+      <h3 id="identity">4. Give the agent its own identity</h3>
+      <p>Each OpenAI-hosted agent is associated with a separate ChatGPT Service Account rather than borrowing the operator’s identity. This makes agent activity distinguishable from human activity, allows individual inference access to be disabled and supports service-specific credentials linked to the agent. OpenAI points to emerging WAG and XAA drafts as possible standards for workload authorization and delegated user authority; both remain Internet-Drafts rather than finalized standards.
+        <a class="citation" href="#source-1" aria-label="Source 1">[1]</a>
+        <a class="citation" href="#source-6" aria-label="Source 6">[6]</a>
+        <a class="citation" href="#source-7" aria-label="Source 7">[7]</a></p>
+
+      <h3 id="observability">5. Record the whole lifecycle</h3>
+      <p>OpenAI logs every control-plane configuration change and every agent turn. Because prompts and turns can contain sensitive information, access is limited to a small security group. This creates the evidence needed to reconstruct a misaligned action, but it also creates a high-value data store that needs retention limits, access control and monitoring of its own.
+        <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p>
+
+      <h3 id="oce-reality">What OpenClaw Enterprise actually provides</h3>
+      <p>OpenClaw Enterprise is an MIT-licensed, vendor-neutral control plane for deploying and managing agents. Its repository describes local k3d, Kubernetes and Amazon EKS installation paths and substantial operational prerequisites, including container tooling, Kubernetes utilities, Go, Node.js and package-management dependencies. OpenAI calls the project a pilot and targets a 1.0 release by the end of 2026.
+        <a class="citation" href="#source-3" aria-label="Source 3">[3]</a>
+        <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p>
+      <p>The bundled Standard Codex preset is a useful starting point, not an administrator-enforced ceiling. Its own documentation warns that it does not guarantee Pod-wide network isolation; Kubernetes currently adds broad public TCP/443 egress for model transport, installed plugins may ignore fields, presets are editable copies, and runtime or per-session overrides can change the effective policy. Operators are told to verify the rendered runtime configuration and test both allowed and blocked destinations before use.
+        <a class="citation" href="#source-4" aria-label="Source 4">[4]</a></p>
+
+      <div class="table-scroll" role="region" aria-label="Claim and evidence limits" tabindex="0">
+        <table class="research-table">
+          <thead>
+            <tr><th scope="col">Claim</th><th scope="col">Evidence available</th><th scope="col">What remains unknown</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>OpenAI runs more than 500 persistent agents</td><td>OpenAI engineering disclosure.</td><td>No independent count or workload-level utilization dataset.</td></tr>
+            <tr><td>The architecture applies five defensive layers</td><td>Published configuration and linked project documentation.</td><td>No public penetration-test results or measured bypass rate.</td></tr>
+            <tr><td>Auto-review reduces human approval load</td><td>Documented design and production-use statement.</td><td>No public false-allow, false-deny or escalation metrics.</td></tr>
+            <tr><td>OCE can reproduce many safeguards</td><td>Open-source control plane and Standard Codex preset.</td><td>Effective enforcement depends on runtime, network and administrator configuration.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 id="deployment-checklist">A practical deployment test</h3>
+      <ol>
+        <li>Place policy, identity and lifecycle control outside the agent runtime.</li>
+        <li>Start with no unrestricted shell, no broad filesystem access and no open network.</li>
+        <li>Broker credentials by operation; do not expose reusable secrets to the model or command environment.</li>
+        <li>Test an allowed hostname, a blocked hostname, direct IP access and proxy bypass from the actual sandbox. A timeout is not proof of enforcement.</li>
+        <li>Force reviewer failure and timeout paths; verify they escalate rather than silently allow.</li>
+        <li>Give every agent a revocable identity and retain the initiating human or automation context.</li>
+        <li>Protect prompt and turn logs as sensitive production data, then rehearse revocation and incident reconstruction.</li>
+      </ol>
+    </section>
+
+    <section class="plain-english" id="explained-simply" data-explained-simply aria-labelledby="simple-title">
+      <h2 id="simple-title">Explained Simply</h2>
+      <h3 id="simple-analogy">Think of a tireless contractor inside a locked workshop</h3>
+      <p>A normal chatbot waits for the next question. A persistent agent is closer to a contractor who keeps working overnight, reads new requests, writes code and uses tools without someone standing beside it. Even a helpful contractor can misunderstand an instruction or pick up a malicious note left on the desk.</p>
+      <p>OpenAI’s design keeps the building manager outside the workshop. The manager controls the keys, network doors and identity badges. The contractor gets one workspace, a short list of reachable services and brokered access to specific actions rather than a ring containing every secret key.</p>
+      <h3 id="simple-review">The second guard is helpful, but the locks still matter</h3>
+      <p>A second AI checks proposed actions and sends uncertain ones to a human. That can reduce endless approval prompts, but the checker can make mistakes too. The locks—the sandbox, network allowlist, credential broker and separate identity—must stop damage even when both agents agree on a bad step.</p>
+      <h3 id="simple-next-step">What an operator should do</h3>
+      <p>Do not install a preset and assume the system is secure. Verify the policy inside the running environment, deliberately test blocked access, keep secrets out of the workspace and make sure every agent can be individually disabled. OpenAI’s published architecture is a useful blueprint; it is not a certification for OpenClaw, OCE or any third-party deployment.</p>
+    </section>
+
+    <section aria-labelledby="conclusion">
+      <h2 id="conclusion">Conclusion</h2>
+      <p>The strongest part of OpenAI’s disclosure is the ordering: deterministic boundaries first, model-based review second. Control-plane separation, a deny-by-default sandbox, brokered credentials, distinct agent identities and complete audit logs form a defensible architecture for 24/7 coding agents. The weak point is portability. The Standard Codex preset explicitly cannot guarantee every network boundary, and no public independent evaluation quantifies misalignment, reviewer errors or sandbox bypasses. Teams should treat the design as an inspectable starting point and require runtime evidence before granting a persistent agent meaningful authority.</p>
+    </section>
+
+    <section aria-labelledby="sources">
+      <h2 id="sources">Evidence &amp; Sources</h2>
+      <p class="source-detail">Source type describes provenance, not guaranteed truth. Availability checks do not verify a claim.</p>
+      <ol class="source-list">
+        <li id="source-1" data-source-type="official">
+          <span class="evidence-label">Official</span>
+          <a href="https://developers.openai.com/blog/securing-persistent-agents-like-openclaw-at-openai">OpenAI Developers — Securing persistent agents like OpenClaw at OpenAI</a>
+          <span class="source-detail">Published 2026-11-12. Supports the internal architecture, configuration excerpts, 500-agent claim, identity and observability design, and OCE pilot status.</span>
+          <time datetime="2026-11-15">Accessed 2026-11-15</time>
+        </li>
+        <li id="source-2" data-source-type="official">
+          <span class="evidence-label">Official</span>
+          <a href="https://github.com/openclaw/openclaw/blob/7d7d86bb79ca24bfaf9343290cb22f80d705ab20/docs/tools/exec.md">OpenClaw — Exec tool and auto-review documentation at commit 7d7d86b</a>
+          <span class="source-detail">Repository snapshot from 2026-11-15. Supports exec mutability, reviewer verdicts, failure fallback and runtime behavior.</span>
+          <time datetime="2026-11-15">Accessed 2026-11-15</time>
+        </li>
+        <li id="source-3" data-source-type="official">
+          <span class="evidence-label">Official</span>
+          <a href="https://github.com/openclaw/openclaw-enterprise/blob/ffb50696efc1651acdacd8216a10d20f3ad4910e/README.md">OpenClaw Enterprise — README at commit ffb5069</a>
+          <span class="source-detail">Repository snapshot from 2026-11-15. Supports platform scope, installation paths, prerequisites and MIT license declaration.</span>
+          <time datetime="2026-11-15">Accessed 2026-11-15</time>
+        </li>
+        <li id="source-4" data-source-type="official">
+          <span class="evidence-label">Official</span>
+          <a href="https://github.com/openclaw/openclaw-enterprise/blob/ffb50696efc1651acdacd8216a10d20f3ad4910e/docs/guides/topics/standard-codex-preset.md">OpenClaw Enterprise — Standard Codex preset and enforcement boundary</a>
+          <span class="source-detail">Repository snapshot from 2026-11-15. Supports preset defaults, test procedure and explicit limitations around Pod-wide egress and runtime enforcement.</span>
+          <time datetime="2026-11-15">Accessed 2026-11-15</time>
+        </li>
+        <li id="source-5" data-source-type="official">
+          <span class="evidence-label">Official</span>
+          <a href="https://alignment.openai.com/auto-review/">OpenAI Alignment — Auto-review</a>
+          <span class="source-detail">OpenAI technical description linked by the deployment post. Supports the model-based reviewer concept; it does not provide OpenClaw-specific error rates.</span>
+          <time datetime="2026-11-15">Accessed 2026-11-15</time>
+        </li>
+        <li id="source-6" data-source-type="official">
+          <span class="evidence-label">Official</span>
+          <a href="https://datatracker.ietf.org/doc/draft-carleton-workload-authz-grant/">IETF Datatracker — Workload Authorization Grant draft</a>
+          <span class="source-detail">Current Internet-Draft record accessed 2026-11-15. Supports the emerging workload-authorization reference; not a finalized standard.</span>
+          <time datetime="2026-11-15">Accessed 2026-11-15</time>
+        </li>
+        <li id="source-7" data-source-type="official">
+          <span class="evidence-label">Official</span>
+          <a href="https://datatracker.ietf.org/doc/draft-ietf-oauth-identity-assertion-authz-grant/">IETF Datatracker — Identity Assertion Authorization Grant draft</a>
+          <span class="source-detail">Current Internet-Draft record accessed 2026-11-15. Supports the emerging delegated-identity reference; not a finalized standard.</span>
+          <time datetime="2026-11-15">Accessed 2026-11-15</time>
+        </li>
+      </ol>
+    </section>
+
+    <section class="article-engagement" aria-label="Article reactions">
+      <div class="engagement-copy"><span class="engagement-heading">Enjoyed this research?</span><span class="engagement-note">Leave a like — no account needed.</span></div>
+      <div class="engagement-actions">
+        <button type="button" class="article-like-button" data-like-button aria-label="Like this article" aria-pressed="false" disabled>
+          <svg class="article-like-heart" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z"/></svg>
+          <span data-like-count aria-live="polite">—</span><span>likes</span>
+        </button>
+        <span class="article-like-status" data-like-status role="status">Loading likes…</span>
+      </div>
+    </section>
+  </article>
+</main>
+</div>
+<footer class="footer"><div class="footer-inner"><span>© 2026 Dekrov</span><span class="footer-links"><a href="https://t.me/Dekrov_channel_en">Telegram / @Dekrov_channel_en ↗</a><a href="https://x.com/Dekrov_Dev">X / @Dekrov_Dev ↗</a><a href="https://github.com/DekrovDev">GitHub / DekrovDev ↗</a></span></div></footer>
+<script src="/article-likes.js?v=3" defer></script>
+<script src="/article.js" defer></script>
+<script src="/site.js"></script>
+</body>
+</html>
