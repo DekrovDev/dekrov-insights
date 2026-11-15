@@ -5,6 +5,13 @@
     "meta": "Overview"
   },
   {
+    "slug": "zed-agent-compaction-20261115",
+    "path": "/zed-agent-compaction/",
+    "title": "Zed 1.28.1 Fixes Three Long-Session Agent Failure Modes",
+    "meta": "AI Coding Reliability · Nov 15, 2026",
+    "summary": "How Zed 1.28.1 changes repeated compaction, prompt-cache reuse, ACP compatibility and external-agent MCP startup—with the remaining limits."
+  },
+  {
     "slug": "claude-code-mcp-oauth-redirect-20261115",
     "path": "/claude-oauth-redirect/",
     "title": "Claude Code’s MCP OAuth Redirect Bug",
