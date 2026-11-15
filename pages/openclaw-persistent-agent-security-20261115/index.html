@@ -98,14 +98,14 @@ redirect_from:
       <h3 id="auto-review">3. Put a second model between intent and execution</h3>
       <p>OpenAI says every action in its deployment is subject to auto-review. A reviewer model returns allow, deny or ask, allowing routine low-risk work while escalating ambiguous or high-value decisions to a human. OpenClaw’s current documentation describes reviewer allowances as single-use and says timeouts, invalid verdicts or reviewer failures fall back to human approval.
         <a class="citation" href="#source-2" aria-label="Source 2">[2]</a>
-        <a class="citation" href="#source-5" aria-label="Source 5">[6]</a></p>
+        <a class="citation" href="#source-5" aria-label="Source 5">[5]</a></p>
       <p>Auto-review reduces approval fatigue, but it is not a deterministic security boundary. Two models can share blind spots, and an apparently safe command can have dangerous context. The hard sandbox and credential boundaries must remain effective even when the reviewer allows a bad action.</p>
 
       <h3 id="identity">4. Give the agent its own identity</h3>
       <p>Each OpenAI-hosted agent is associated with a separate ChatGPT Service Account rather than borrowing the operator’s identity. This makes agent activity distinguishable from human activity, allows individual inference access to be disabled and supports service-specific credentials linked to the agent. OpenAI points to emerging WAG and XAA drafts as possible standards for workload authorization and delegated user authority; both remain Internet-Drafts rather than finalized standards.
         <a class="citation" href="#source-1" aria-label="Source 1">[1]</a>
-        <a class="citation" href="#source-6" aria-label="Source 6">[7]</a>
-        <a class="citation" href="#source-7" aria-label="Source 7">[8]</a></p>
+        <a class="citation" href="#source-6" aria-label="Source 6">[6]</a>
+        <a class="citation" href="#source-7" aria-label="Source 7">[7]</a></p>
 
       <h3 id="observability">5. Record the whole lifecycle</h3>
       <p>OpenAI logs every control-plane configuration change and every agent turn. Because prompts and turns can contain sensitive information, access is limited to a small security group. This creates the evidence needed to reconstruct a misaligned action, but it also creates a high-value data store that needs retention limits, access control and monitoring of its own.
