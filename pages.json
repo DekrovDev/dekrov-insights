@@ -5,6 +5,13 @@
     "meta": "Overview"
   },
   {
+    "slug": "github-pull-request-target-default-block-20261115",
+    "path": "/pull-request-target/",
+    "title": "GitHub Will Block pull_request_target by Default on December 2",
+    "meta": "GitHub Actions Security · Nov 15, 2026",
+    "summary": "GitHub’s December 2 default block, the November 16 brownout, the Pwn Request attack chain, policy scope and a practical migration audit."
+  },
+  {
     "slug": "agent-skills-portability-20261115",
     "path": "/agent-skills/",
     "title": "Agent Skills Are Portable—Execution Isn’t",
