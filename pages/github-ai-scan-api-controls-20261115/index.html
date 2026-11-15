@@ -1,0 +1,156 @@
+---
+layout: null
+permalink: /ai-scan-api/
+redirect_from:
+  - /pages/github-ai-scan-api-controls-20261115/
+  - /pages/github-ai-scan-api-controls-20261115/index.html
+---
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#ffffff">
+<meta name="description" content="GitHub’s November 13 public preview adds REST controls for enabling AI Scan across repositories, with policy, billing and coverage limits to understand.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GitHub AI Scan Gains REST Controls for Repository-Level Rollouts">
+<meta property="og:description" content="GitHub’s November 13 public preview adds REST controls for enabling AI Scan across repositories, with policy, billing and coverage limits to understand.">
+<meta property="og:url" content="https://insights.dekrov.com/ai-scan-api/">
+<link rel="canonical" href="https://insights.dekrov.com/ai-scan-api/">
+<meta name="twitter:card" content="summary">
+<title>GitHub AI Scan Gains REST Controls for Repository-Level Rollouts — Dekrov Insights</title>
+<script src="/theme.js"></script>
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body data-page="github-ai-scan-api-controls-20261115" data-root="/">
+<header class="top">
+  <div class="header-inner">
+    <div class="brand-signature">
+      <a class="brand" href="/"><span class="brand-mark" aria-hidden="true">DK</span>Dekrov Insights</a>
+      <span class="brand-role">Research / AI &amp; Technology</span>
+    </div>
+    <div class="header-actions">
+      <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme"><span data-theme-label>Light</span></button>
+      <a class="nav" href="https://github.com/DekrovDev/dekrov-insights">GitHub ↗</a>
+    </div>
+  </div>
+</header>
+<div class="layout">
+<aside class="sidebar" aria-label="Page navigation">
+  <p class="side-heading">Index</p>
+  <nav class="side-nav" aria-label="Pages" data-site-nav></nav>
+</aside>
+<main class="main-content" id="main">
+  <article class="article-body research-article" data-article-version="2">
+    <!-- ARTICLE CONTENT START. Read ARTICLE_AUTHORING_GUIDE.md first.
+    Replace every token; HTML-escape inserted text and attributes.
+    Keep explicit heading IDs: they also work without JavaScript.
+    Add optional sections only when there is substantive sourced material.
+    Use one idea per paragraph and descriptive h3 subsections in long sections.
+    Insert complete sibling paragraphs; never wrap supplied HTML in another p.
+    Typography and spacing come from styles.css, not inline styles or br spacers.
+    The article.js script adds a compact TOC and a prominent plain-English jump.
+    -->
+    <span class="tag">GitHub Security</span>
+    <h1>GitHub AI Scan Gains REST Controls for Repository-Level Rollouts</h1>
+    <div class="article-meta">
+      <span>By Dekrov</span>
+      <span>Published <time datetime="2026-11-15">Nov 15, 2026</time></span>
+      <span>Updated <time datetime="2026-11-15">Nov 15, 2026</time></span>
+    </div>
+    <p class="intro">GitHub has added a REST API setting for AI Scan on full repositories. Organizations can now manage rollout through scripts or infrastructure as code, but enabling the feature does not launch a scan, and the preview remains subject to enterprise policy and AI-credit costs.</p>
+    <!-- This link must remain accessible even when scripts are unavailable. -->
+    <p><a href="#explained-simply">Start with the plain-English explanation ↓</a></p>
+
+    <section aria-labelledby="overview">
+      <h2 id="overview">Overview</h2>
+      <p>On November 13, 2026, GitHub announced that its existing AI Scan enablement endpoints now accept a `repository_scan` setting. The change lets eligible organizations control the repository-backlog scan at organization and repository scope through REST, alongside the existing pull-request setting `pr_scan`. It turns a click-through security setting into something teams can version, audit and roll out consistently.
+        <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p>
+    </section>
+
+    <section aria-labelledby="technical-deep-dive">
+      <h2 id="technical-deep-dive">Technical Deep Dive</h2>
+      <!-- Add/rename/remove h3 subsections to reflect the actual investigation. -->
+      <h3 id="mechanism">How it works</h3>
+      <p>The public-preview API exposes `GET` and `PATCH /orgs/{org}/code-scanning/ai-scan` and `GET` and `PATCH /repos/{owner}/{repo}/code-scanning/ai-scan`. The new `repository_scan` value is `enabled` or `disabled`. An organization-level enablement flows to eligible repositories, whose administrators can opt out; if the organization disables it, a repository cannot enable it locally. Enterprise policy still takes precedence. A `422` policy or validation failure leaves both `repository_scan` and `pr_scan` unchanged when they were sent together. <a class="citation" href="#source-2" aria-label="Source 2">[2]</a></p>
+      <aside class="evidence-note" data-evidence="official" aria-label="Evidence qualification">
+        <span class="evidence-label">Official statement</span>
+        <p>GitHub’s release note and API reference establish that the setting can be managed through REST in public preview. They do not say that a request starts a scan or that scans are exhaustive. A scan is still run on demand by a user with write access, and each run consumes AI credits. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a><a class="citation" href="#source-3" aria-label="Source 3">[3]</a>
+          <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p>
+      </aside>
+      <!-- Optional: timeline, evidence table, code, or inline figure from the guide.
+      Cite fixes by version/commit/PR. Separate shipped fixes from proposed workarounds.
+      For numbers: name the evaluator, date, method, environment and limitations.
+      -->
+    </section>
+
+    <!-- Optional h2 sections: Evidence & Sources (analysis), Community Reactions,
+    Visual Evidence. Figures may appear directly beside relevant paragraphs.
+    Do not create empty sections or invent community reactions or experiments.
+    Put the complete numbered bibliography at the END, below Conclusion.
+    -->
+
+    <section class="plain-english" id="explained-simply" data-explained-simply aria-labelledby="simple-title">
+      <h2 id="simple-title">Explained Simply</h2>
+      <!-- Use short descriptive h3s when the simple explanation spans several topics. -->
+      <p>AI Scan is a GitHub code-security feature that uses an AI agent to look for vulnerabilities across a repository’s default branch. A REST API is a machine-readable way for scripts and tools to read or change a service setting. GitHub’s change adds a switch for repository-level scans to the API that already managed AI Scan for pull requests.</p>
+      <p>Think of an organization setting as a building’s main switch and each repository as a room. The organization can turn the feature on for eligible repositories, while a repository administrator may opt out. An enterprise policy can still keep the main switch locked. This makes a large rollout easier to repeat and review, but it does not make the scan automatic.</p>
+      <p>The scan itself is more like a focused inspection than a guarantee that every line was checked. GitHub says scans cover only the default branch, must be triggered manually, do not support self-hosted runners, and may miss vulnerabilities or produce inaccurate findings. Review alerts, keep CodeQL and ordinary tests in place, check AI-credit budgets, and verify your organization’s enterprise policy before automating enablement. <a class="citation" href="#source-3" aria-label="Source 3">[3]</a><a class="citation" href="#source-4" aria-label="Source 4">[4]</a></p>
+    </section>
+
+    <section aria-labelledby="conclusion">
+      <h2 id="conclusion">Conclusion</h2>
+      <p>The confirmed change is a public-preview control plane for enabling or disabling repository AI Scan at organization and repository level. It improves repeatability, not scan coverage or detection quality. Teams should treat it as configuration automation: check policy and eligibility, budget AI credits, stage the rollout, then trigger and review scans separately. GitHub has not published an independent evaluation of this API change or evidence that it improves vulnerability detection.</p>
+    </section>
+
+    <section aria-labelledby="sources">
+      <h2 id="sources">Evidence &amp; Sources</h2>
+      <p class="source-detail">Source type describes provenance, not guaranteed truth. Availability checks do not verify a claim.</p>
+      <ol class="source-list">
+        <li id="source-1" data-source-type="official">
+          <span class="evidence-label">Official</span>
+          <a href="https://github.blog/changelog/2026-11-13-manage-ai-scan-for-repositories-using-the-rest-api/">GitHub Changelog — Manage AI Scan for repositories using the REST API</a>
+          <span class="source-detail">Published 2026-11-13. Supports the public-preview announcement, endpoints, scope rules, and the fact that enablement does not start a scan.</span>
+          <time datetime="2026-11-15">Accessed 2026-11-15</time>
+        </li>
+        <li id="source-2" data-source-type="official">
+          <span class="evidence-label">Official</span>
+          <a href="https://docs.github.com/en/rest/code-scanning/code-scanning">GitHub Docs — REST API endpoints for code scanning</a>
+          <span class="source-detail">Current API reference. Supports request fields, permissions, inheritance, and response behavior.</span>
+          <time datetime="2026-11-15">Accessed 2026-11-15</time>
+        </li>
+        <li id="source-3" data-source-type="official">
+          <span class="evidence-label">Official</span>
+          <a href="https://docs.github.com/en/code-security/concepts/code-scanning/ai-scan-for-repositories">GitHub Docs — AI Scan for a repository’s backlog</a>
+          <span class="source-detail">Supports scan scope, manual invocation, credit use, eligibility and operational limitations.</span>
+          <time datetime="2026-11-15">Accessed 2026-11-15</time>
+        </li>
+        <li id="source-4" data-source-type="official">
+          <span class="evidence-label">Official</span>
+          <a href="https://docs.github.com/en/code-security/concepts/code-scanning/ai-scan">GitHub Docs — About AI Scan</a>
+          <span class="source-detail">Supports the distinction between enterprise policy, organization enablement and repository opt-out.</span>
+          <time datetime="2026-11-15">Accessed 2026-11-15</time>
+        </li>
+      </ol>
+    </section>
+    <!-- ARTICLE CONTENT END: keep the shared reactions block below. -->
+
+    <section class="article-engagement" aria-label="Article reactions">
+      <div class="engagement-copy"><span class="engagement-heading">Enjoyed this research?</span><span class="engagement-note">Leave a like — no account needed.</span></div>
+      <div class="engagement-actions">
+        <button type="button" class="article-like-button" data-like-button aria-label="Like this article" aria-pressed="false" disabled>
+          <svg class="article-like-heart" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z"/></svg>
+          <span data-like-count aria-live="polite">—</span><span>likes</span>
+        </button>
+        <span class="article-like-status" data-like-status role="status">Loading likes…</span>
+      </div>
+    </section>
+  </article>
+</main>
+</div>
+<footer class="footer"><div class="footer-inner"><span>© 2026 Dekrov</span><span class="footer-links"><a href="https://t.me/Dekrov_channel_en">Telegram / @Dekrov_channel_en ↗</a><a href="https://x.com/Dekrov_Dev">X / @Dekrov_Dev ↗</a><a href="https://github.com/DekrovDev">GitHub / DekrovDev ↗</a></span></div></footer>
+<script src="/article-likes.js?v=3" defer></script>
+<script src="/article.js" defer></script>
+<script src="/site.js"></script>
+</body>
+</html>
