@@ -1,0 +1,197 @@
+---
+layout: null
+permalink: /claude-oauth-redirect/
+redirect_from:
+  - /pages/claude-code-mcp-oauth-redirect-20261115/
+  - /pages/claude-code-mcp-oauth-redirect-20261115/index.html
+---
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#ffffff">
+<meta name="description" content="How Claude Code 2.1.319 forwarded OAuth secrets across hosts after a 307 redirect, what 2.1.321 changed, and what remains unknown.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Claude Code’s MCP OAuth Redirect Bug">
+<meta property="og:description" content="How Claude Code 2.1.319 forwarded OAuth secrets across hosts after a 307 redirect, what 2.1.321 changed, and what remains unknown.">
+<meta property="og:url" content="https://insights.dekrov.com/claude-oauth-redirect/">
+<link rel="canonical" href="https://insights.dekrov.com/claude-oauth-redirect/">
+<meta name="twitter:card" content="summary">
+<title>Claude Code’s MCP OAuth Redirect Bug — Dekrov Insights</title>
+<script src="/theme.js"></script>
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body data-page="claude-code-mcp-oauth-redirect-20261115" data-root="/">
+<header class="top">
+  <div class="header-inner">
+    <div class="brand-signature">
+      <a class="brand" href="/"><span class="brand-mark" aria-hidden="true">DK</span>Dekrov Insights</a>
+      <span class="brand-role">Research / AI &amp; Technology</span>
+    </div>
+    <div class="header-actions">
+      <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme"><span data-theme-label>Light</span></button>
+      <a class="nav" href="https://github.com/DekrovDev/dekrov-insights">GitHub ↗</a>
+    </div>
+  </div>
+</header>
+<div class="layout">
+<aside class="sidebar" aria-label="Page navigation">
+  <p class="side-heading">Index</p>
+  <nav class="side-nav" aria-label="Pages" data-site-nav></nav>
+</aside>
+<main class="main-content" id="main">
+  <article class="article-body research-article" data-article-version="2">
+    <span class="tag">MCP Security</span>
+    <h1>Claude Code’s MCP OAuth Redirect Bug</h1>
+    <div class="article-meta">
+      <span>By Dekrov</span>
+      <span>Published <time datetime="2026-11-15">November 15, 2026</time></span>
+      <span>Updated <time datetime="2026-11-15">November 15, 2026</time></span>
+    </div>
+    <p class="intro">Claude Code 2.1.321 closed a cross-host redirect flaw in its MCP OAuth flow. An independent loopback test found that 2.1.319 could preserve sensitive form data across a 307 redirect and deliver an authorization code, PKCE verifier and refresh token to a second host. The patch is real; the full affected-version range and any real-world exploitation remain unknown.</p>
+    <p><a href="#explained-simply">Start with the plain-English explanation ↓</a></p>
+
+    <section aria-labelledby="overview">
+      <h2 id="overview">Overview</h2>
+      <p>Anthropic released Claude Code 2.1.321 on November 9, 2026. Its release notes say the version fixed MCP OAuth requests that could send secrets “such as refresh tokens” to another host when a server redirected them.
+        <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p>
+      <p>That one-line note describes a credential-boundary failure, not merely an inconvenient redirect. A refresh token can often be exchanged for fresh access tokens until it expires or is revoked, so sending one to the wrong origin can outlive the original login request.</p>
+      <aside class="evidence-note" data-evidence="official" aria-label="Evidence qualification">
+        <span class="evidence-label">Official statement</span>
+        <p>Anthropic confirms the flaw class and the fixed release. The note does not name a CVE, assign severity, identify the first affected version, describe victims or claim observed exploitation.
+          <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p>
+      </aside>
+    </section>
+
+    <section aria-labelledby="technical-deep-dive">
+      <h2 id="technical-deep-dive">Technical Deep Dive</h2>
+      <h3 id="oauth-mcp-context">Where OAuth enters an MCP connection</h3>
+      <p>The Model Context Protocol lets a client connect to remote servers that expose tools and data. When a server requires OAuth, Claude Code acts as the client: it discovers authorization metadata, opens an authorization flow and later sends a token request to the advertised token endpoint.</p>
+      <p>OAuth separates several values with different jobs. An authorization code is short-lived and exchanged for tokens. The PKCE verifier proves that the client completing the exchange is the same client that started it. A refresh token can request new access tokens without asking the user to sign in again.</p>
+
+      <h3 id="redirect-chain">The reproduced redirect chain</h3>
+      <p>Gloss researcher Marco Kotrotsos tested Claude Code 2.1.319 against a fake MCP server on loopback. In 18 scripted runs, the token endpoint returned an HTTP 307 redirect to a second host. A 307 tells the client to repeat the request with the same method and content, which is useful for legitimate same-origin routing but dangerous when the destination origin changes.
+        <a class="citation" href="#source-2" aria-label="Source 2">[2]</a>
+        <a class="citation" href="#source-4" aria-label="Source 4">[4]</a></p>
+      <p>In that test, Claude Code followed the cross-host redirect. The second host received the authorization code and PKCE verifier during the initial token exchange, then the refresh token during a later refresh. The client stripped the <code>Authorization</code> header, but the secrets were in the form body, so removing the header did not protect them.
+        <a class="citation" href="#source-2" aria-label="Source 2">[2]</a></p>
+
+      <div class="table-scroll" role="region" aria-label="Observed behavior by Claude Code version" tabindex="0">
+        <table class="research-table">
+          <caption>Behavior reported by the independent loopback test</caption>
+          <thead><tr><th scope="col">Version or case</th><th scope="col">Observed result</th><th scope="col">Evidence limit</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Claude Code 2.1.319</th><td>Followed a cross-host 307 from the token endpoint and forwarded form-body secrets.</td><td>Reproduced against a controlled local server, not a production incident. <a class="citation" href="#source-2" aria-label="Source 2">[2]</a></td></tr>
+            <tr><th scope="row">Claude Code 2.1.321 and 2.1.322</th><td>Blocked the cross-host request and displayed both the original and redirected hosts.</td><td>Observed in the same test harness; Anthropic officially names 2.1.321 as the fixed release. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a> <a class="citation" href="#source-2" aria-label="Source 2">[2]</a></td></tr>
+            <tr><th scope="row">Same-host token redirect</th><td>Continued to work after the patch.</td><td>Shows the fix is origin-sensitive rather than a blanket redirect ban. <a class="citation" href="#source-2" aria-label="Source 2">[2]</a></td></tr>
+            <tr><th scope="row">Redirect on the MCP endpoint</th><td>Was still followed, but the bearer token was not forwarded.</td><td>A separate redirect path; this observation does not demonstrate the same credential leak. <a class="citation" href="#source-2" aria-label="Source 2">[2]</a></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 id="why-pkce-did-not-save-it">Why PKCE did not save this flow</h3>
+      <p>PKCE is designed to stop an intercepted authorization code from being redeemed by someone who lacks the verifier. Here, the client itself sent both the code and the verifier to the redirected host. A control cannot protect a secret after the trusted client forwards all of the ingredients across the boundary it was meant to enforce.</p>
+      <p>The MCP authorization security guidance separately warns about mix-up attacks and open redirection. It requires exact redirect-URI validation by authorization servers and validation of authorization responses by clients. Those requirements address related trust-confusion risks; they do not prove that every compliant MCP deployment was exploitable through this particular Claude Code behavior.
+        <a class="citation" href="#source-3" aria-label="Source 3">[3]</a></p>
+
+      <h3 id="patch-boundary">What the patch changed—and what it did not establish</h3>
+      <p>The independent retest reports that 2.1.321 and 2.1.322 refuse the cross-host token request and identify both hosts in the error, while legitimate same-host redirects still work. That is a narrower and more useful fix than disabling every redirect.
+        <a class="citation" href="#source-2" aria-label="Source 2">[2]</a></p>
+      <p>Neither the release note nor the reproduction establishes the first vulnerable version, the complete set of affected configurations, a CVSS score or exploitation in the wild. The defensible statement is therefore specific: 2.1.319 was reproduced as vulnerable in the published test, and 2.1.321 is the official fixed release.</p>
+    </section>
+
+    <section aria-labelledby="evidence-analysis">
+      <h2 id="evidence-analysis">Evidence Analysis</h2>
+      <h3 id="what-is-confirmed">What is confirmed</h3>
+      <p>The vendor confirms the vulnerability class and fix version. The independent test provides request-level behavior for 2.1.319, 2.1.321 and 2.1.322, including which secrets crossed hosts and which redirect cases still worked. The HTTP standard explains why a 307 normally preserves the request method and content.
+        <a class="citation" href="#source-1" aria-label="Source 1">[1]</a>
+        <a class="citation" href="#source-2" aria-label="Source 2">[2]</a>
+        <a class="citation" href="#source-4" aria-label="Source 4">[4]</a></p>
+      <h3 id="what-is-not-confirmed">What is not confirmed</h3>
+      <p>No cited source reports a victim, a malicious MCP server used in production, a stolen token being redeemed, a CVE or a vendor severity score. The test demonstrates a viable mechanism under controlled conditions; it is not evidence that the mechanism was exploited against users.</p>
+      <aside class="evidence-note" data-evidence="independent" aria-label="Evidence qualification">
+        <span class="evidence-label">Independent test</span>
+        <p>The 18 runs used a fake MCP server and two loopback hosts. That makes the redirect behavior reproducible without exposing real credentials, but it cannot estimate prevalence or incident count.
+          <a class="citation" href="#source-2" aria-label="Source 2">[2]</a></p>
+      </aside>
+    </section>
+
+    <section aria-labelledby="practical-response">
+      <h2 id="practical-response">Practical Response</h2>
+      <ol>
+        <li><strong>Update Claude Code to 2.1.321 or later.</strong> Prefer the current release rather than pinning to the minimum fixed build.</li>
+        <li><strong>Inventory remote MCP servers that use OAuth.</strong> Record the MCP host, authorization-server host and any expected same-origin redirect behavior.</li>
+        <li><strong>Investigate unexpected cross-host redirects.</strong> Review client, proxy and authorization-provider logs if available. A redirect alone is not proof that a token was used.</li>
+        <li><strong>Revoke the affected grant when exposure is plausible.</strong> Revocation or provider-side rotation is stronger than merely logging in again; provider behavior varies.</li>
+        <li><strong>Keep redirect policy origin-aware.</strong> Same-host infrastructure redirects may be legitimate, while a changed scheme, host or port deserves an explicit trust decision.</li>
+      </ol>
+    </section>
+
+    <section class="plain-english" id="explained-simply" data-explained-simply aria-labelledby="simple-title">
+      <h2 id="simple-title">Explained Simply</h2>
+      <h3 id="simple-analogy">A forwarding address for a sealed envelope</h3>
+      <p>Imagine Claude Code is carrying a sealed envelope to the login desk for an MCP tool. The desk replies, “Take the same envelope to this other address.” A normal redirect can be harmless when the other address belongs to the same building, but the old behavior did not stop when the destination belonged to a different host.</p>
+      <p>The envelope could contain an authorization code, a PKCE verifier and later a refresh token. The refresh token matters most because it may let its holder request new access tokens after the original access token expires.</p>
+      <h3 id="simple-fix">What changed</h3>
+      <p>Version 2.1.321 added the missing boundary check: a token request is not silently repeated to another host. Tests indicate that redirects within the same host still work, so normal routing does not have to be broken to prevent the leak.</p>
+      <h3 id="simple-next-step">What users should do</h3>
+      <p>Update Claude Code. If you connected to an OAuth-enabled MCP server through an older build and have evidence of an unexpected host redirect, revoke that authorization grant and review activity with the provider. There is no evidence in the cited material that every older login was compromised or that this was exploited in the wild.</p>
+    </section>
+
+    <section aria-labelledby="conclusion">
+      <h2 id="conclusion">Conclusion</h2>
+      <p>This was a real client-side trust-boundary bug with a narrow, testable fix. Anthropic’s release note confirms that 2.1.321 stopped MCP OAuth secrets from crossing to another host after a redirect, and an independent loopback harness shows how 2.1.319 could leak form-body credentials through a 307 while stripping only the header.</p>
+      <p>The responsible takeaway is precise rather than dramatic: update, examine unexpected redirect paths and revoke grants when exposure is plausible. Do not turn a reproduced mechanism into an unsupported claim of mass exploitation; the full affected range, severity rating and real-world incident count remain unknown.</p>
+    </section>
+
+    <section aria-labelledby="sources">
+      <h2 id="sources">Evidence &amp; Sources</h2>
+      <p class="source-detail">Source type describes provenance, not guaranteed truth. Availability checks do not verify a claim.</p>
+      <ol class="source-list">
+        <li id="source-1" data-source-type="official">
+          <span class="evidence-label">Official</span>
+          <a href="https://github.com/anthropics/claude-code/releases/tag/v2.1.321">Anthropic — Claude Code v2.1.321 release notes</a>
+          <span class="source-detail">Released November 9, 2026. Supports: official fix wording and fixed version; does not provide a CVE, severity, affected range or exploitation evidence.</span>
+          <time datetime="2026-11-15">Accessed 2026-11-15</time>
+        </li>
+        <li id="source-2" data-source-type="independent">
+          <span class="evidence-label">Independent</span>
+          <a href="https://gloss.run/post/claude-code-followed-mcp-redirects-with-your-refresh-token">Gloss — Claude Code Followed MCP Redirects With Your Refresh Token</a>
+          <span class="source-detail">Published November 12, 2026. Supports: 18-run loopback methodology and observed behavior in 2.1.319, 2.1.321 and 2.1.322.</span>
+          <time datetime="2026-11-15">Accessed 2026-11-15</time>
+        </li>
+        <li id="source-3" data-source-type="official">
+          <span class="evidence-label">Official</span>
+          <a href="https://github.com/modelcontextprotocol/modelcontextprotocol/blob/main/docs/specification/2026-07-28/basic/authorization/security-considerations.mdx">Model Context Protocol — Authorization security considerations</a>
+          <span class="source-detail">Specification dated July 28, 2026. Supports: MCP requirements concerning authorization validation, mix-up attacks and open redirection.</span>
+          <time datetime="2026-11-15">Accessed 2026-11-15</time>
+        </li>
+        <li id="source-4" data-source-type="official">
+          <span class="evidence-label">Official</span>
+          <a href="https://www.rfc-editor.org/rfc/rfc9110.html#name-307-temporary-redirect">RFC 9110 §15.4.8 — 307 Temporary Redirect</a>
+          <span class="source-detail">Internet standard. Supports: a 307 redirect preserves the request method and content when automatically followed.</span>
+          <time datetime="2026-11-15">Accessed 2026-11-15</time>
+        </li>
+      </ol>
+    </section>
+
+    <section class="article-engagement" aria-label="Article reactions">
+      <div class="engagement-copy"><span class="engagement-heading">Enjoyed this research?</span><span class="engagement-note">Leave a like — no account needed.</span></div>
+      <div class="engagement-actions">
+        <button type="button" class="article-like-button" data-like-button aria-label="Like this article" aria-pressed="false" disabled>
+          <svg class="article-like-heart" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z"/></svg>
+          <span data-like-count aria-live="polite">—</span><span>likes</span>
+        </button>
+        <span class="article-like-status" data-like-status role="status">Loading likes…</span>
+      </div>
+    </section>
+  </article>
+</main>
+</div>
+<footer class="footer"><div class="footer-inner"><span>© 2026 Dekrov</span><span class="footer-links"><a href="https://t.me/Dekrov_channel_en">Telegram / @Dekrov_channel_en ↗</a><a href="https://x.com/Dekrov_Dev">X / @Dekrov_Dev ↗</a><a href="https://github.com/DekrovDev">GitHub / DekrovDev ↗</a></span></div></footer>
+<script src="/article-likes.js?v=3" defer></script>
+<script src="/article.js" defer></script>
+<script src="/site.js"></script>
+</body>
+</html>
