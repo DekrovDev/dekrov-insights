@@ -5,6 +5,13 @@
     "meta": "Overview"
   },
   {
+    "slug": "claude-code-mcp-oauth-redirect-20261115",
+    "path": "/claude-oauth-redirect/",
+    "title": "Claude Code’s MCP OAuth Redirect Bug",
+    "meta": "MCP Security · Nov 15, 2026",
+    "summary": "How Claude Code 2.1.319 forwarded OAuth secrets across hosts after a 307 redirect, what 2.1.321 changed, and what remains unknown."
+  },
+  {
     "slug": "github-pull-request-target-default-block-20261115",
     "path": "/pull-request-target/",
     "title": "GitHub Will Block pull_request_target by Default on December 2",
