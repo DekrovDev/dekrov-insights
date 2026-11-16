@@ -5,6 +5,13 @@
     "meta": "Overview"
   },
   {
+    "slug": "fx-prompt-cache",
+    "path": "/fx-prompt-cache/",
+    "title": "Vercel fx 0.0.17 Makes More of the Prompt Cache",
+    "meta": "AI Coding Tools · Nov 16, 2026",
+    "summary": "Vercel reports smaller tool definitions and higher cache reuse in its coding agent. What the numbers mean for long sessions."
+  },
+  {
     "slug": "mistral-streaming",
     "path": "/mistral-streaming/",
     "title": "LangChain’s Mistral Update Changes Streaming and Gateway Routing",
