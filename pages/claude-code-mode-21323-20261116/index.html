@@ -1,0 +1,209 @@
+---
+layout: null
+permalink: /claude-code-mode/
+redirect_from:
+  - /pages/claude-code-mode-21323-20261116/
+  - /pages/claude-code-mode-21323-20261116/index.html
+---
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#ffffff">
+<meta name="description" content="Claude Code 2.1.323 introduces JavaScript-based Code Mode, version-gated plugins and a broad permission-hardening pass—along with important limits and early regression reports.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Claude Code 2.1.323 Batches Tool Calls—and Moves the Permission Boundary">
+<meta property="og:description" content="Claude Code 2.1.323 introduces JavaScript-based Code Mode, version-gated plugins and a broad permission-hardening pass—along with important limits and early regression reports.">
+<meta property="og:url" content="https://insights.dekrov.com/claude-code-mode/">
+<link rel="canonical" href="https://insights.dekrov.com/claude-code-mode/">
+<meta name="twitter:card" content="summary">
+<title>Claude Code 2.1.323 Batches Tool Calls—and Moves the Permission Boundary — Dekrov Insights</title>
+<script src="/theme.js"></script>
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body data-page="claude-code-mode-21323-20261116" data-root="/">
+<header class="top">
+  <div class="header-inner">
+    <div class="brand-signature">
+      <a class="brand" href="/"><span class="brand-mark" aria-hidden="true">DK</span>Dekrov Insights</a>
+      <span class="brand-role">Research / AI &amp; Technology</span>
+    </div>
+    <div class="header-actions">
+      <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme"><span data-theme-label>Light</span></button>
+      <a class="nav" href="https://github.com/DekrovDev/dekrov-insights">GitHub ↗</a>
+    </div>
+  </div>
+</header>
+<div class="layout">
+<aside class="sidebar" aria-label="Page navigation">
+  <p class="side-heading">Index</p>
+  <nav class="side-nav" aria-label="Pages" data-site-nav></nav>
+</aside>
+<main class="main-content" id="main">
+  <article class="article-body research-article" data-article-version="2">
+    <span class="tag">AI CODING AGENTS</span>
+    <h1>Claude Code 2.1.323 Batches Tool Calls—and Moves the Permission Boundary</h1>
+    <div class="article-meta">
+      <span>By Dekrov</span>
+      <span>Published <time datetime="2026-11-16">November 16, 2026</time></span>
+      <span>Updated <time datetime="2026-11-16">November 16, 2026</time></span>
+    </div>
+    <p class="intro">Claude Code 2.1.323 adds an experimental Code Mode in which Claude writes JavaScript that can coordinate several tool calls in one step. The release also makes plugin compatibility explicit and fixes multiple cases where permissions, sandboxing or identity boundaries could fail in surprising ways. The trade-off is important: faster orchestration concentrates more behavior into code that Auto Mode evaluates as a unit.</p>
+    <p><a href="#explained-simply">Start with the plain-English explanation ↓</a></p>
+
+    <section aria-labelledby="overview">
+      <h2 id="overview">Overview</h2>
+      <p>Anthropic released Claude Code 2.1.323 on November 12, 2026. Its headline feature is Code Mode, an opt-in experiment where Claude writes JavaScript to search, filter, edit and run tools instead of issuing every tool call separately. The same release adds Claude Code version ranges for plugins, TypeScript hook checks, long-hook heartbeats and a large set of permission and sandbox fixes.
+        <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p>
+      <p>This is a tool-execution and control-plane change, not a new Claude model. The practical question is not only whether several operations can be grouped, but where approval, visibility and policy enforcement now occur. Anthropic’s documentation says Auto Mode reviews the generated code rather than every individual tool call, while the conversation shows the resulting tool actions and keeps the JavaScript in the transcript viewer.
+        <a class="citation" href="#source-2" aria-label="Source 2">[2]</a></p>
+      <aside class="evidence-note" data-evidence="official" aria-label="Evidence qualification">
+        <span class="evidence-label">Evidence boundary</span>
+        <p>The feature mechanics and shipped fixes below come from Anthropic’s release notes and documentation. Two regression sections describe open GitHub issues with reproduction details; they are user reports, not proof that every installation or platform is affected.
+          <a class="citation" href="#source-3" aria-label="Source 3">[3]</a>
+          <a class="citation" href="#source-4" aria-label="Source 4">[4]</a></p>
+      </aside>
+    </section>
+
+    <section aria-labelledby="technical-deep-dive">
+      <h2 id="technical-deep-dive">Technical Deep Dive</h2>
+
+      <h3 id="code-mode-execution">One JavaScript program can coordinate several tools</h3>
+      <p>In a normal Claude Code turn, the model requests a tool, reads its result and decides what to call next. In Code Mode, the model can write a JavaScript fragment that runs independent calls in parallel, feeds one result into another operation and returns only the subset of output needed for the next reasoning step. Anthropic’s example searches for a retry policy, edits the selected file and runs a targeted test from one generated program.
+        <a class="citation" href="#source-2" aria-label="Source 2">[2]</a></p>
+      <p>The user still sees the tool calls and diffs. The generated JavaScript is hidden from the main conversation but can be inspected in the transcript viewer with <code>Ctrl+O</code>. Code Mode therefore reduces the model-facing round trips between related operations; it does not make the underlying tool effects invisible.
+        <a class="citation" href="#source-2" aria-label="Source 2">[2]</a></p>
+
+      <h3 id="permission-boundary">Auto Mode reviews the program, not every call</h3>
+      <p>The most consequential limitation is explicit in the documentation: Auto Mode’s classifier reviews the JavaScript program rather than each individual tool call. That can preserve a useful approval boundary if the program is understandable and its effects are bounded, but it also means a loop, dynamically selected path or dependent command may represent more authority than a single visible tool request.
+        <a class="citation" href="#source-2" aria-label="Source 2">[2]</a></p>
+      <p>Code Mode does not bypass hooks. Anthropic says <code>PreToolUse</code> hooks can refuse tool calls, and <code>UserPromptSubmit</code> hooks can block code output. The release also fixes several broader enforcement gaps: some permission checks missed parts of Bash commands or evaluated <code>rm</code> from the wrong folder; certain wildcard allow rules, wrappers and shell options could skip prompts; sandbox exclusions could let an unnamed command run outside the sandbox; and a failed sandbox setting in <code>claude -p</code> or the Agent SDK now stops startup instead of running Bash unsandboxed.
+        <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p>
+
+      <h3 id="availability-limits">The experiment is intentionally narrow</h3>
+      <p>Code Mode requires Claude Code 2.1.323 or later, the native build and an interactive terminal session. It is unavailable through <code>-p</code>, the Agent SDK, VS Code, Desktop and cloud sessions. It also does not support Remote Control, Claude in Chrome, computer use, background-session transfer or background forks. Generated code normally stops after ten minutes unless its work can run in the background.
+        <a class="citation" href="#source-2" aria-label="Source 2">[2]</a></p>
+      <p>Eligible accounts are Claude subscriptions or Console accounts using supported direct access. The documentation excludes gateways, Amazon Bedrock, Claude Platform on AWS, Google Cloud’s Agent Platform, Microsoft Foundry, HIPAA configurations and zero-data-retention organizations. Supported models are Opus 5.5, Sonnet 5.5, Haiku 5.5 and Fable 5.2. A repository cannot silently enable the feature because project settings are not allowed to activate its environment variable.
+        <a class="citation" href="#source-2" aria-label="Source 2">[2]</a></p>
+
+      <div class="table-scroll" role="region" aria-label="Code Mode boundary comparison" tabindex="0">
+        <table class="research-table">
+          <caption>What changes when Code Mode is enabled</caption>
+          <thead>
+            <tr><th>Boundary</th><th>Normal tool flow</th><th>Code Mode</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Orchestration</td><td>Model calls tools step by step.</td><td>Generated JavaScript can parallelize, chain and filter tool calls.</td></tr>
+            <tr><td>Main conversation</td><td>Individual tool requests and results are visible.</td><td>Tool actions remain visible; generated JavaScript is in the transcript viewer.</td></tr>
+            <tr><td>Auto Mode review</td><td>Classifier evaluates the pending action.</td><td>Classifier reviews the generated program rather than each call separately.<a class="citation" href="#source-2" aria-label="Source 2">[2]</a></td></tr>
+            <tr><td>Hooks</td><td>Tool hooks can inspect or block calls.</td><td><code>PreToolUse</code> still applies to calls; other hook limitations remain documented.</td></tr>
+            <tr><td>Surfaces</td><td>Varies across terminal, SDK, IDE and cloud.</td><td>Interactive native terminal only; no SDK, <code>-p</code>, IDE panel, Desktop or cloud.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section aria-labelledby="plugin-controls">
+      <h2 id="plugin-controls">Plugin Compatibility Becomes Enforceable</h2>
+      <h3 id="engine-ranges">Plugins can declare a Claude Code version range</h3>
+      <p>Version 2.1.323 adds <code>engines["claude-code"]</code> to <code>plugin.json</code>. A plugin outside its declared compatible range is not installed, updated or loaded; installation and update choose the newest plugin version that satisfies the range. This turns compatibility from a README promise into an enforceable installation decision.
+        <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p>
+      <p>The validator now type-checks TypeScript hook modules. Findings are warnings by default, while <code>claude plugin validate --strict</code> fails on them. It also reports the <code>$</code> nouns that a mod’s <code>engine.create</code> hook adds, withholds or replaces. Together, those checks make extension behavior easier to inspect before deployment, although they do not establish that a plugin is safe or semantically correct.
+        <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p>
+      <h3 id="operational-improvements">Long hooks and embedded sessions get clearer lifecycle signals</h3>
+      <p>The release adds a heartbeat every 30 seconds while hooks run for a long time in <code>claude -p</code> and SDK sessions. The purpose is to keep an embedding host from treating a live turn as hung. It also adds warnings when a plugin language server cannot start and names what operators should inspect.
+        <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p>
+    </section>
+
+    <section aria-labelledby="evidence-analysis">
+      <h2 id="evidence-analysis">Early Regression Signals</h2>
+      <h3 id="cold-start-report">One Windows report measures a slower first request</h3>
+      <p>An open issue reports that the first API request from each 2.1.323 process took roughly 5.5–7.5 seconds to receive its first byte, compared with about 0.6–1.5 seconds on 2.1.322 in the reporter’s Windows 10 environment. Later requests in the same process returned to roughly 0.5 seconds. The issue includes alternating-version measurements and debug timing, but the reporter had not reproduced it on another machine or network.
+        <a class="citation" href="#source-3" aria-label="Source 3">[3]</a></p>
+      <p>This is relevant to short-lived <code>claude -p</code> wrappers and routers with tight timeouts, but it should not be generalized into a confirmed cross-platform regression without additional reproduction or an Anthropic fix statement.</p>
+
+      <h3 id="statusline-report">Another report says per-subagent status customization disappeared</h3>
+      <p>A separate open issue says 2.1.323 removed the effect of <code>subagentStatusLine</code>, leaving custom per-agent context, cost, model, effort and cache indicators unavailable. The reporter compares behavior with 2.1.322 and points to the schema marking the setting deprecated. The issue asks Anthropic to restore the hook or ship an equivalent mod render site.
+        <a class="citation" href="#source-4" aria-label="Source 4">[4]</a></p>
+      <p>The release notes list the removal elsewhere in the full change set, so the configuration change is real; the claim that no adequate replacement exists and the operational severity are community assessments. Teams that depend on custom subagent telemetry should test their status display before rolling out the update broadly.</p>
+    </section>
+
+    <section aria-labelledby="practical-impact">
+      <h2 id="practical-impact">Practical Adoption Checklist</h2>
+      <ol>
+        <li><strong>Start in a disposable branch.</strong> Code Mode is experimental and may change or disappear in a later release.</li>
+        <li><strong>Inspect the generated program.</strong> Use the transcript viewer when a task contains loops, dynamic paths or bulk edits.</li>
+        <li><strong>Keep hooks and hard policy controls.</strong> A classifier reviewing a program is not a substitute for sandboxing, deny rules and protected paths.</li>
+        <li><strong>Test the exact surface.</strong> Code Mode is terminal-only and cannot be assumed to work in SDK, IDE, Desktop or cloud workflows.</li>
+        <li><strong>Pin plugin compatibility.</strong> Add a deliberate Claude Code engine range and run plugin validation in strict mode before release.</li>
+        <li><strong>Measure startup and observability.</strong> If automation launches short-lived processes or relies on <code>subagentStatusLine</code>, compare 2.1.322 and 2.1.323 in your own environment.</li>
+      </ol>
+    </section>
+
+    <section class="plain-english" id="explained-simply" data-explained-simply aria-labelledby="simple-title">
+      <h2 id="simple-title">Explained Simply</h2>
+      <h3 id="simple-batching">From one instruction at a time to a small script</h3>
+      <p>Normally, Claude asks to use one tool, reads the answer and then asks for the next tool. Code Mode lets it write a short JavaScript program that can search several places, choose a file, edit it and run tests as one coordinated operation.</p>
+      <h3 id="simple-control">The speed-up changes what must be reviewed</h3>
+      <p>Think of the difference as approving individual errands versus approving an itinerary. The itinerary can be faster and avoid unnecessary back-and-forth, but it may include a loop or a decision that covers more files than expected. Auto Mode reviews that program as a unit, while hooks and the sandbox still need to control the actual operations.</p>
+      <h3 id="simple-limit">It is not the default or a universal Claude feature</h3>
+      <p>Code Mode is off by default, experimental and available only in a limited terminal setup with specific accounts and models. It does not currently work through the SDK, non-interactive <code>-p</code>, VS Code, Desktop or cloud sessions. Test it on a reversible task before trusting it with a large repository.</p>
+    </section>
+
+    <section aria-labelledby="conclusion">
+      <h2 id="conclusion">Conclusion</h2>
+      <p>Claude Code 2.1.323 is more than a convenience release. Code Mode can reduce orchestration overhead by letting the agent batch related tool calls, while plugin engine ranges and strict hook validation make extensions easier to govern. The same release hardens multiple permission, sandbox and identity edges that matter even when Code Mode is disabled.</p>
+      <p>The feature remains a narrow experiment. Its program-level Auto Mode review, limited surfaces and account restrictions require deliberate testing. The two early regression reports add useful warning signals for short-lived automation and subagent observability, but they remain open community reports rather than independent evidence of universal failure.</p>
+    </section>
+
+    <section aria-labelledby="sources">
+      <h2 id="sources">Evidence &amp; Sources</h2>
+      <p class="source-detail">Source type describes provenance, not guaranteed truth. Availability checks do not verify a claim.</p>
+      <ol class="source-list">
+        <li id="source-1" data-source-type="official">
+          <span class="evidence-label">Official</span>
+          <a href="https://github.com/anthropics/claude-code/releases/tag/v2.1.323">Anthropic — Claude Code v2.1.323 release</a>
+          <span class="source-detail">Released 2026-11-12. Supports: Code Mode shipment, plugin engine ranges, validation additions, operational changes and permission/sandbox fixes.</span>
+          <time datetime="2026-11-16">Accessed 2026-11-16</time>
+        </li>
+        <li id="source-2" data-source-type="official">
+          <span class="evidence-label">Official</span>
+          <a href="https://code.claude.com/docs/en/code-mode">Anthropic — Run tool calls from code with Code Mode</a>
+          <span class="source-detail">Accessed 2026-11-16. Supports: execution model, visibility, requirements, activation, Auto Mode boundary and feature limitations.</span>
+          <time datetime="2026-11-16">Accessed 2026-11-16</time>
+        </li>
+        <li id="source-3" data-source-type="community">
+          <span class="evidence-label">Community</span>
+          <a href="https://github.com/anthropics/claude-code/issues/109534">Claude Code issue #109534 — first-request latency report on 2.1.323</a>
+          <span class="source-detail">Opened 2026-11-13. Supports: one reporter’s Windows measurements and stated environment; does not establish general prevalence or cause.</span>
+          <time datetime="2026-11-16">Accessed 2026-11-16</time>
+        </li>
+        <li id="source-4" data-source-type="community">
+          <span class="evidence-label">Community</span>
+          <a href="https://github.com/anthropics/claude-code/issues/109446">Claude Code issue #109446 — subagentStatusLine removal report</a>
+          <span class="source-detail">Opened 2026-11-13. Supports: reported 2.1.322/2.1.323 behavior and requested replacement; operational impact is the reporter’s assessment.</span>
+          <time datetime="2026-11-16">Accessed 2026-11-16</time>
+        </li>
+      </ol>
+    </section>
+
+    <section class="article-engagement" aria-label="Article reactions">
+      <div class="engagement-copy"><span class="engagement-heading">Enjoyed this research?</span><span class="engagement-note">Leave a like — no account needed.</span></div>
+      <div class="engagement-actions">
+        <button type="button" class="article-like-button" data-like-button aria-label="Like this article" aria-pressed="false" disabled>
+          <svg class="article-like-heart" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z"/></svg>
+          <span data-like-count aria-live="polite">—</span><span>likes</span>
+        </button>
+        <span class="article-like-status" data-like-status role="status">Loading likes…</span>
+      </div>
+    </section>
+  </article>
+</main>
+</div>
+<footer class="footer"><div class="footer-inner"><span>© 2026 Dekrov</span><span class="footer-links"><a href="https://t.me/Dekrov_channel_en">Telegram / @Dekrov_channel_en ↗</a><a href="https://x.com/Dekrov_Dev">X / @Dekrov_Dev ↗</a><a href="https://github.com/DekrovDev">GitHub / DekrovDev ↗</a></span></div></footer>
+<script src="/article-likes.js?v=3" defer></script>
+<script src="/article.js" defer></script>
+<script src="/site.js"></script>
+</body>
+</html>
