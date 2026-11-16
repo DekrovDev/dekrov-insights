@@ -5,6 +5,13 @@
     "meta": "Overview"
   },
   {
+    "slug": "visual-studio-copilot-sdk-20261116",
+    "path": "/vs-copilot-sdk/",
+    "title": "Same Model, Better Agent: Visual Studio’s Copilot Upgrade",
+    "meta": "AI Coding Tools · Nov 16, 2026",
+    "summary": "Visual Studio 18.12 replaces the Copilot Chat harness. Microsoft reports 124 of 157 C# tasks resolved versus 103 before; here is what changed and what the result cannot prove."
+  },
+  {
     "slug": "mistral-streaming",
     "path": "/mistral-streaming/",
     "title": "LangChain’s Mistral Update Changes Streaming and Gateway Routing",

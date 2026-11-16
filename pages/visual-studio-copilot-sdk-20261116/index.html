@@ -1,0 +1,146 @@
+---
+layout: null
+permalink: /vs-copilot-sdk/
+redirect_from:
+  - /pages/visual-studio-copilot-sdk-20261116/
+  - /pages/visual-studio-copilot-sdk-20261116/index.html
+---
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#ffffff">
+<meta name="description" content="Visual Studio 18.12 replaces the Copilot Chat harness. Microsoft reports 124 of 157 C# tasks resolved versus 103 before; here is what changed and what the result cannot prove.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Same Model, Better Agent: Visual Studio’s Copilot Upgrade">
+<meta property="og:description" content="Visual Studio 18.12 replaces the Copilot Chat harness. Microsoft reports 124 of 157 C# tasks resolved versus 103 before; here is what changed and what the result cannot prove.">
+<meta property="og:url" content="https://insights.dekrov.com/vs-copilot-sdk/">
+<link rel="canonical" href="https://insights.dekrov.com/vs-copilot-sdk/">
+<meta name="twitter:card" content="summary">
+<title>Same Model, Better Agent: Visual Studio’s Copilot Upgrade — Dekrov Insights</title>
+<script src="/theme.js"></script>
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body data-page="visual-studio-copilot-sdk-20261116" data-root="/">
+<header class="top">
+  <div class="header-inner">
+    <div class="brand-signature">
+      <a class="brand" href="/"><span class="brand-mark" aria-hidden="true">DK</span>Dekrov Insights</a>
+      <span class="brand-role">Research / AI &amp; Technology</span>
+    </div>
+    <div class="header-actions">
+      <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme"><span data-theme-label>Light</span></button>
+      <a class="nav" href="https://github.com/DekrovDev/dekrov-insights">GitHub ↗</a>
+    </div>
+  </div>
+</header>
+<div class="layout">
+<aside class="sidebar" aria-label="Page navigation">
+  <p class="side-heading">Index</p>
+  <nav class="side-nav" aria-label="Pages" data-site-nav></nav>
+</aside>
+<main class="main-content" id="main">
+  <article class="article-body research-article" data-article-version="2">
+    <!-- ARTICLE CONTENT START -->
+    <span class="tag">AI Coding Tools</span>
+    <h1>Same Model, Better Agent: Visual Studio’s Copilot Upgrade</h1>
+    <div class="article-meta">
+      <span>By Dekrov</span>
+      <span>Published <time datetime="2026-11-16">Nov 16, 2026</time></span>
+      <span>Updated <time datetime="2026-11-16">Nov 16, 2026</time></span>
+    </div>
+    <p class="intro">A coding agent is more than its language model. Microsoft’s November 10 announcement reports more successful C# tasks with the same GPT-5.6 Sol model after a change to Copilot’s execution layer. The new experience is default in Visual Studio 2026 version 18.12. The evidence is promising, but vendor-reported.</p>
+    <!-- This link must remain accessible even when scripts are unavailable. -->
+    <p><a href="#explained-simply">Start with the plain-English explanation ↓</a></p>
+
+    <section aria-labelledby="overview">
+      <h2 id="overview">Overview</h2>
+      <p>Visual Studio 18.12 moved Copilot Chat to the Microsoft Copilot SDK developed by GitHub. The shared technology also underpins GitHub’s CLI and desktop app and VS Code. The change affects how the assistant carries out work, rather than requiring developers to select a new model.
+        <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p>
+    </section>
+
+    <section aria-labelledby="technical-deep-dive">
+      <h2 id="technical-deep-dive">Technical Deep Dive</h2>
+      <!-- Add/rename/remove h3 subsections to reflect the actual investigation. -->
+      <h3 id="mechanism">How it works</h3>
+      <p>An agent harness connects a language model to its working context, tools and feedback. In agent mode, Copilot can edit files, execute commands, inspect test output and attempt corrections. In 18.11 the refreshed chat was optional; 18.12 enables it by default. <a class="citation" href="#source-2" aria-label="Source 2">[2]</a> <a class="citation" href="#source-3" aria-label="Source 3">[3]</a> <a class="citation" href="#source-4" aria-label="Source 4">[4]</a></p>
+      <aside class="evidence-note" data-evidence="official" aria-label="Evidence qualification">
+        <span class="evidence-label">Official statement</span>
+        <p>Microsoft’s comparison holds the named model constant. It does not establish statistical significance across repeated runs or isolate a particular prompt, tool or scheduling change.
+          <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p>
+      </aside>
+<h3 id="benchmark">What the benchmark measures</h3>
+<p>Microsoft’s .NET team selected real C# issues spanning legacy and modern .NET, cloud workloads and desktop applications. Success required the previously failing tests to pass while existing passing tests stayed green. Both reported runs used GPT-5.6 Sol. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p>
+<div class="table-scroll" role="region" aria-label="Microsoft C# task results" tabindex="0"><table class="research-table"><caption>Microsoft evaluation, announced Nov 10; rates calculated from reported counts. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></caption><thead><tr><th scope="col">Chat experience</th><th scope="col">Resolved</th><th scope="col">Success rate</th><th scope="col">Unresolved</th></tr></thead><tbody><tr><th scope="row">Previous</th><td>103 / 157</td><td>65.6%</td><td>54</td></tr><tr><th scope="row">SDK-powered</th><td>124 / 157</td><td>79.0%</td><td>33</td></tr></tbody></table></div>
+<p>That is 21 additional successful tasks, a 13.4 percentage-point improvement, or approximately 20.4% more resolved tasks relative to the previous result. The headline counts refer to this C# set, not a cross-language aggregate. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p>
+<h3 id="execution">What developers can now control</h3>
+<p>New capabilities include steering an active request, inspecting operation output, following delegated agents and setting a working folder outside the open solution. Built-in review agents offer additional perspectives; their suggestions still need human review. The release notes describe shared infrastructure for Ask and Agent modes. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a> <a class="citation" href="#source-2" aria-label="Source 2">[2]</a> <a class="citation" href="#source-3" aria-label="Source 3">[3]</a></p>
+<h3 id="portability">Shared foundation is not feature parity</h3>
+<p>Microsoft says skills can be reused between its four Copilot surfaces. This does not imply identical tool permissions, IDE features or approval policies. Visual Studio retains its own debugging and build integrations. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a> <a class="citation" href="#source-2" aria-label="Source 2">[2]</a></p>
+<h3 id="migration">Migration caveats and rollback</h3>
+<p>Plan mode and conversation exports were still being migrated at announcement time. Developers relying on them can switch off the refreshed chat under Tools → Options → GitHub → Copilot → Copilot Chat, then restart Visual Studio. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a> <a class="citation" href="#source-3" aria-label="Source 3">[3]</a></p>
+      <!-- Optional: timeline, evidence table, code, or inline figure from the guide.
+      Cite fixes by version/commit/PR. Separate shipped fixes from proposed workarounds.
+      For numbers: name the evaluator, date, method, environment and limitations.
+      -->
+    </section>
+
+    <!-- Optional h2 sections: Evidence & Sources (analysis), Community Reactions,
+    Visual Evidence. Figures may appear directly beside relevant paragraphs.
+    Do not create empty sections or invent community reactions or experiments.
+    Put the complete numbered bibliography at the END, below Conclusion.
+    -->
+
+    <section aria-labelledby="community-reactions"><h2 id="community-reactions">Community Reactions</h2><p>Individual commenters describe custom prompt files no longer appearing and previously approved benign commands needing manual confirmation. These are migration reports, not verified universal regressions. If you rely on either workflow, compare the old and new chat before switching your team. <a class="citation" href="#source-5" aria-label="Source 5">[5]</a></p><p>External reporting emphasizes the potential reduction in manual cleanup, but repeats Microsoft’s own evaluation rather than presenting a replication. No independent reproduction of the headline benchmark was identified for this article. <a class="citation" href="#source-6" aria-label="Source 6">[6]</a></p></section>
+    <section class="plain-english" id="explained-simply" data-explained-simply aria-labelledby="simple-title">
+      <h2 id="simple-title">Explained Simply</h2>
+      <!-- Use short descriptive h3s when the simple explanation spans several topics. -->
+      <p>Imagine two mechanics with the same knowledge but different workshops. One can access better tools, see test results and ask another mechanic to check a plan. They might fix more problems without becoming more intelligent. A coding model is the mechanic; the agent harness is the workshop. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p>
+      <p>In Microsoft’s test the old workshop completed 103 jobs and the new one 124, from the same collection of 157. For a developer this could mean fewer incomplete fixes, not necessarily faster or cheaper work. The test does not show what will happen on your own repository. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p>
+      <p>If you use Visual Studio 18.12, try the new chat on a small real bug and run your tests yourself. You can redirect the assistant while it works and inspect its actions. Some familiar features are not yet migrated; the old experience remains an option. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a> <a class="citation" href="#source-2" aria-label="Source 2">[2]</a></p>
+    </section>
+
+    <section aria-labelledby="conclusion">
+      <h2 id="conclusion">Conclusion</h2>
+      <p>The agent environment is an engineering variable worth measuring alongside the model. Start with a representative backlog, hold model and task constant, record test success, time, requests and cost, and inspect regressions. Treat Microsoft’s reported gain as a reason to evaluate the upgrade, not a promise that every workload will improve. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a> <a class="citation" href="#source-3" aria-label="Source 3">[3]</a></p>
+    </section>
+
+    <section aria-labelledby="sources">
+      <h2 id="sources">Evidence &amp; Sources</h2>
+      <p class="source-detail">Source type describes provenance, not guaranteed truth. Availability checks do not verify a claim.</p>
+      <ol class="source-list">
+        <li id="source-1" data-source-type="official">
+          <span class="evidence-label">Official</span>
+          <a href="https://devblogs.microsoft.com/visualstudio/copilot-in-visual-studio-just-got-a-major-upgrade/">Microsoft Visual Studio Blog — Copilot engine announcement</a>
+          <span class="source-detail">Nov 10, 2026. Vendor evaluation, features and migration gaps.</span>
+          <time datetime="2026-11-16">Accessed 2026-11-16</time>
+        </li>
+        <li id="source-2" data-source-type="official"><span class="evidence-label">Official</span><a href="https://learn.microsoft.com/en-us/visualstudio/ide/visual-studio-github-copilot-chat?view=visualstudio">Microsoft Learn — Visual Studio Copilot Chat</a><span class="source-detail">Harness, modes and installation.</span><time datetime="2026-11-16">Accessed 2026-11-16</time></li>
+        <li id="source-3" data-source-type="official"><span class="evidence-label">Official</span><a href="https://learn.microsoft.com/en-us/visualstudio/releases/">Microsoft Learn — Visual Studio release notes</a><span class="source-detail">Release 18.12 and earlier opt-in context.</span><time datetime="2026-11-16">Accessed 2026-11-16</time></li>
+        <li id="source-4" data-source-type="official"><span class="evidence-label">Official</span><a href="https://learn.microsoft.com/en-us/visualstudio/ide/copilot-agent-mode">Microsoft Learn — Agent mode</a><span class="source-detail">Agent execution and tool interaction.</span><time datetime="2026-11-16">Accessed 2026-11-16</time></li>
+        <li id="source-5" data-source-type="community"><span class="evidence-label">Community</span><a href="https://devblogs.microsoft.com/visualstudio/copilot-in-visual-studio-just-got-a-major-upgrade/#comments">Visual Studio Blog — developer comments</a><span class="source-detail">Individual migration reports; not independently reproduced.</span><time datetime="2026-11-16">Accessed 2026-11-16</time></li>
+        <li id="source-6" data-source-type="independent"><span class="evidence-label">Independent</span><a href="https://www.windowscentral.com/artificial-intelligence/microsoft-copilot/microsoft-upgrades-copilot-for-visual-studio-to-reduce-ai-coding-mistakes-and-save-developer-time">Windows Central — reporting on the upgrade</a><span class="source-detail">External coverage of Microsoft’s results; not an independent benchmark.</span><time datetime="2026-11-16">Accessed 2026-11-16</time></li>
+      </ol>
+    </section>
+    <!-- ARTICLE CONTENT END: keep the shared reactions block below. -->
+
+    <section class="article-engagement" aria-label="Article reactions">
+      <div class="engagement-copy"><span class="engagement-heading">Enjoyed this research?</span><span class="engagement-note">Leave a like — no account needed.</span></div>
+      <div class="engagement-actions">
+        <button type="button" class="article-like-button" data-like-button aria-label="Like this article" aria-pressed="false" disabled>
+          <svg class="article-like-heart" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z"/></svg>
+          <span data-like-count aria-live="polite">—</span><span>likes</span>
+        </button>
+        <span class="article-like-status" data-like-status role="status">Loading likes…</span>
+      </div>
+    </section>
+  </article>
+</main>
+</div>
+<footer class="footer"><div class="footer-inner"><span>© 2026 Dekrov</span><span class="footer-links"><a href="https://t.me/Dekrov_channel_en">Telegram / @Dekrov_channel_en ↗</a><a href="https://x.com/Dekrov_Dev">X / @Dekrov_Dev ↗</a><a href="https://github.com/DekrovDev">GitHub / DekrovDev ↗</a></span></div></footer>
+<script src="/article-likes.js?v=3" defer></script>
+<script src="/article.js" defer></script>
+<script src="/site.js"></script>
+</body>
+</html>
