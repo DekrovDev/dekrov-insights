@@ -5,6 +5,13 @@
     "meta": "Overview"
   },
   {
+    "slug": "gemini-cli-068-extension-safety-20261116",
+    "path": "/gemini-cli-068/",
+    "title": "Gemini CLI 0.68 Hardens Extensions—but Validation Is Not Trust",
+    "meta": "AI Coding Security · Nov 16, 2026",
+    "summary": "A source-checked analysis of extension validation, install locking, model-state reliability, Podman sandbox changes and conflicting official access documentation."
+  },
+  {
     "slug": "cloudflare-kitesurf-open-source-20261116",
     "path": "/kitesurf/",
     "title": "Cloudflare Open-Sources Kitesurf: A Browser Engine Built for AI Agents",

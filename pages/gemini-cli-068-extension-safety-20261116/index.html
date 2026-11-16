@@ -1,0 +1,89 @@
+---
+layout: null
+permalink: /gemini-cli-068/
+redirect_from:
+  - /pages/gemini-cli-068-extension-safety-20261116/
+  - /pages/gemini-cli-068-extension-safety-20261116/index.html
+---
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#ffffff">
+<meta name="description" content="A source-checked analysis of Gemini CLI 0.68.0: extension validation, install locking, model-state reliability, Podman sandbox changes and conflicting official access documentation.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Gemini CLI 0.68 Hardens Extensions—but Validation Is Not Trust">
+<meta property="og:description" content="What Gemini CLI 0.68.0 actually checks, which race and sandbox problems it addresses, and why Google's access documentation currently conflicts.">
+<meta property="og:url" content="https://insights.dekrov.com/gemini-cli-068/">
+<link rel="canonical" href="https://insights.dekrov.com/gemini-cli-068/">
+<meta name="twitter:card" content="summary">
+<title>Gemini CLI 0.68 Hardens Extensions—but Validation Is Not Trust — Dekrov Insights</title>
+<script src="/theme.js"></script><link rel="stylesheet" href="/styles.css">
+</head>
+<body data-page="gemini-cli-068-extension-safety-20261116" data-root="/">
+<header class="top"><div class="header-inner"><div class="brand-signature"><a class="brand" href="/"><span class="brand-mark" aria-hidden="true">DK</span>Dekrov Insights</a><span class="brand-role">Research / AI &amp; Technology</span></div><div class="header-actions"><button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme"><span data-theme-label>Light</span></button><a class="nav" href="https://github.com/DekrovDev/dekrov-insights">GitHub ↗</a></div></div></header>
+<div class="layout"><aside class="sidebar" aria-label="Page navigation"><p class="side-heading">Index</p><nav class="side-nav" aria-label="Pages" data-site-nav></nav></aside><main class="main-content" id="main"><article class="article-body research-article" data-article-version="2">
+<span class="tag">AI Coding Security</span>
+<h1>Gemini CLI 0.68 Hardens Extensions—but Validation Is Not Trust</h1>
+<div class="article-meta"><span>By Dekrov</span><span>Published <time datetime="2026-11-16">November 16, 2026</time></span><span>Updated <time datetime="2026-11-16">November 16, 2026</time></span></div>
+<p class="intro">Google's November 10 Gemini CLI 0.68.0 stable release adds a structural extension validator, per-extension install locking, visible rate-limit countdowns, persistent model selection, new hook mappings and a rootless Podman namespace fix. The release improves reliability and makes extension mistakes easier to catch, but it does not certify third-party extension code as safe.</p>
+<p><a href="#explained-simply">Start with the plain-English explanation ↓</a></p>
+
+<section aria-labelledby="overview"><h2 id="overview">Overview</h2>
+<p>Gemini CLI 0.68.0 is an Apache-2.0 open-source coding-agent release. Its main changes sit at three boundaries: extension installation, session continuity under failures and container identity mapping. The stable changelog names the exact pull requests behind each change and recommends 0.68.0 for general use. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p>
+<p>The most important distinction is between <dfn>validation</dfn>—checking that an extension has a supported structure and configuration—and <dfn>trust</dfn>—deciding whether its code, MCP servers, hooks and prompts are safe to execute. Version 0.68.0 strengthens the first. Google's own extension guidance still tells users to trust the publisher and preserves explicit security controls for Git sources, folder trust and policy precedence. <a class="citation" href="#source-2" aria-label="Source 2">[2]</a> <a class="citation" href="#source-3" aria-label="Source 3">[3]</a></p></section>
+
+<section aria-labelledby="technical-deep-dive"><h2 id="technical-deep-dive">Technical Deep Dive</h2>
+<h3 id="extension-validation">Extension validation catches shape, not intent</h3>
+<p>The new <code>gemini extensions validate &lt;path&gt;</code> command checks an extension before distribution or installation workflows. Extensions can contain prompts, MCP servers, custom commands, themes, hooks, sub-agents and agent skills, so malformed metadata can break far more than presentation. The command and its evaluation tests give authors a repeatable configuration gate. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a> <a class="citation" href="#source-2" aria-label="Source 2">[2]</a></p>
+<p>Validation does not establish that an extension's remote server, hook or bundled code is benign. Gemini CLI exposes separate controls: administrators can block Git extensions, restrict allowed extension sources with regex patterns and keep extension policy rules below user or administrator policy. Extension policies cannot silently contribute an <code>allow</code> decision or enable YOLO mode. Those are authorization boundaries; the validator is a correctness tool. <a class="citation" href="#source-3" aria-label="Source 3">[3]</a> <a class="citation" href="#source-4" aria-label="Source 4">[4]</a></p>
+
+<h3 id="install-locking">Per-extension locks close an install race</h3>
+<p>Version 0.68.0 serializes concurrent operations for the same extension. Without a lock, two installs or an install/update overlap can write the same destination concurrently, leaving partially replaced files or inconsistent metadata. The release note describes a per-extension lock, not a global package-manager lock: unrelated extensions can still proceed independently. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p>
+
+<h3 id="session-reliability">Rate limits and model state become observable</h3>
+<p>The CLI now surfaces HTTP 429 cooldown state and a countdown in its loading indicator. Separately, it preserves the user's selected model across transient fallback, cancellation and rewind, while correcting dynamic resolution for dotted Gemini 3 model names and Gemini 2.5 Flash. This reduces a dangerous ambiguity in long agent sessions: a temporary service failure should not silently become a durable model-choice change. It still does not remove quotas or guarantee that a fallback model behaves identically. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p>
+
+<h3 id="hooks-sandbox">Hooks and rootless Podman</h3>
+<p>The release maps the <code>SubagentStop</code> hook event and merges hook definitions across configuration sources. It also supplies <code>--userns=keep-id</code> for rootless Podman sandboxes so container-visible identity better matches the invoking user. An older community issue documented permission failures in mounted Gemini directories and proposed the same namespace mapping as a possible remedy; that issue is useful history, not proof that every Podman or SELinux configuration is now fixed. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a> <a class="citation" href="#source-5" aria-label="Source 5">[5]</a></p>
+<aside class="evidence-note" data-evidence="official" aria-label="Evidence qualification"><span class="evidence-label">Official release evidence</span><p>The shipped features and PR references are verified through Google's changelog and documentation. No independent security audit or performance benchmark for 0.68.0 was located, so this article does not claim a measured reduction in compromise rate or installation failures. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p></aside>
+</section>
+
+<section aria-labelledby="comparison"><h2 id="comparison">What Changed—and What Did Not</h2>
+<div class="table-scroll" role="region" aria-label="Gemini CLI 0.68 changes and limits" tabindex="0"><table class="research-table"><caption>Operational effect of the main 0.68.0 changes</caption><thead><tr><th scope="col">Change</th><th scope="col">What it improves</th><th scope="col">What remains</th></tr></thead><tbody>
+<tr><th scope="row">Extension validate command</th><td>Finds structural and configuration errors</td><td>Does not review publisher intent or runtime behavior</td></tr>
+<tr><th scope="row">Per-extension locking</th><td>Prevents same-extension write races</td><td>Does not authenticate the extension source</td></tr>
+<tr><th scope="row">429 countdown</th><td>Makes retry timing visible</td><td>Does not increase quota</td></tr>
+<tr><th scope="row">Model-state preservation</th><td>Keeps explicit selection through transient events</td><td>Fallback output can still differ</td></tr>
+<tr><th scope="row">Podman keep-id</th><td>Improves rootless bind-mount identity mapping</td><td>Custom images, SELinux and flags still matter</td></tr>
+</tbody></table></div>
+</section>
+
+<section aria-labelledby="access"><h2 id="access">The Access Documentation Currently Conflicts</h2>
+<p>Google's current repository README says individual free access and Google AI Pro/Ultra moved to Antigravity CLI in June 2026 and describes Gemini CLI as aimed at Code Assist Standard/Enterprise plus API or Vertex credentials. Meanwhile, current quota and authentication pages still describe individual Google-account access and free-tier request limits. A June transition announcement says Gemini CLI stopped serving individual accounts. These official pages cannot all describe the same present access state. <a class="citation" href="#source-6" aria-label="Source 6">[6]</a> <a class="citation" href="#source-7" aria-label="Source 7">[7]</a> <a class="citation" href="#source-8" aria-label="Source 8">[8]</a></p>
+<p>Because the README and dated transition notice are more explicit and newer in product scope, developers should not assume the quota table guarantees individual access. The safest practical check is authentication with the intended account and current organization entitlement before choosing Gemini CLI over Antigravity CLI. This is an inference from conflicting official sources, not a confirmed pricing change in 0.68.0.</p>
+</section>
+
+<section class="plain-english" id="explained-simply" data-explained-simply aria-labelledby="simple-title"><h2 id="simple-title">Explained Simply</h2>
+<p>An extension is a box that can add commands, agents and outside tools to Gemini CLI. Version 0.68.0 adds a checklist that can tell whether the box is packed in the expected format. It also adds a door lock so two installers do not try to replace the same box at once.</p>
+<p>That checklist does not inspect the personality of everything inside. A perfectly valid extension can still connect to an untrusted server or contain a harmful hook. You still need to know who published it, restrict which sources are allowed and keep approvals or sandboxing enabled.</p>
+<p>The other improvements make long sessions less confusing: the CLI shows when a rate limit will clear, keeps the chosen model through temporary failures and maps rootless Podman users more reliably. Upgrade for these operational fixes, but keep source review and sandbox controls. Also verify account access directly because Google's current public pages disagree about whether individual plans still apply to this CLI.</p></section>
+
+<section aria-labelledby="conclusion"><h2 id="conclusion">Conclusion</h2>
+<p>Gemini CLI 0.68.0 is a meaningful reliability and supply-chain hygiene release. It adds a real preflight validator and eliminates a same-extension installation race while improving rate-limit visibility, model continuity, hooks and Podman behavior. Its security value is bounded: validation is not provenance, and sandbox identity fixes are not a universal container hardening guarantee. The unresolved access-documentation conflict is also material for anyone choosing the tool today.</p></section>
+
+<section aria-labelledby="sources"><h2 id="sources">Evidence &amp; Sources</h2><p class="source-detail">Source type describes provenance, not guaranteed truth. Availability checks do not verify a claim.</p><ol class="source-list">
+<li id="source-1" data-source-type="official"><span class="evidence-label">Official</span> <a href="https://github.com/google-gemini/gemini-cli/blob/main/docs/changelogs/latest.md">Google Gemini CLI — v0.68.0 stable changelog</a><span class="source-detail">Released 2026-11-10. Supports feature scope, exact PR references and stable status.</span><time datetime="2026-11-16">Accessed 2026-11-16</time></li>
+<li id="source-2" data-source-type="official"><span class="evidence-label">Official</span> <a href="https://github.com/google-gemini/gemini-cli/blob/main/docs/extensions/index.md">Gemini CLI extensions overview</a><span class="source-detail">Defines extension capabilities and management workflow.</span><time datetime="2026-11-16">Accessed 2026-11-16</time></li>
+<li id="source-3" data-source-type="official"><span class="evidence-label">Official</span> <a href="https://github.com/google-gemini/gemini-cli/blob/main/docs/cli/settings.md">Gemini CLI settings — security controls</a><span class="source-detail">Documents Git-extension blocking, source allowlists, folder trust, approvals and sandbox settings.</span><time datetime="2026-11-16">Accessed 2026-11-16</time></li>
+<li id="source-4" data-source-type="official"><span class="evidence-label">Official</span> <a href="https://github.com/google-gemini/gemini-cli/blob/main/docs/extensions/reference.md">Gemini CLI extension reference</a><span class="source-detail">Documents policy precedence and rejection of extension-provided allow/YOLO decisions.</span><time datetime="2026-11-16">Accessed 2026-11-16</time></li>
+<li id="source-5" data-source-type="community"><span class="evidence-label">Community</span> <a href="https://github.com/google-gemini/gemini-cli/issues/15376">Gemini CLI issue #15376 — Podman sandbox permission failure</a><span class="source-detail">Older community report showing the bind-mount identity problem and proposed keep-id workaround; not evidence of current universal behavior.</span><time datetime="2026-11-16">Accessed 2026-11-16</time></li>
+<li id="source-6" data-source-type="official"><span class="evidence-label">Official</span> <a href="https://github.com/google-gemini/gemini-cli/blob/main/README.md">Gemini CLI repository README — current scope notice</a><span class="source-detail">States individual free and Google AI plan access moved to Antigravity CLI.</span><time datetime="2026-11-16">Accessed 2026-11-16</time></li>
+<li id="source-7" data-source-type="official"><span class="evidence-label">Official</span> <a href="https://geminicli.com/docs/resources/quota-and-pricing/">Gemini CLI quotas and pricing</a><span class="source-detail">Current page still lists individual and free authentication quotas, creating an unresolved documentation conflict.</span><time datetime="2026-11-16">Accessed 2026-11-16</time></li>
+<li id="source-8" data-source-type="official"><span class="evidence-label">Official</span> <a href="https://github.com/google-gemini/gemini-cli/discussions/28017">Google announcement — individual-account service transition</a><span class="source-detail">June 2026 announcement that individual-account requests stopped and users should move to Antigravity CLI.</span><time datetime="2026-11-16">Accessed 2026-11-16</time></li>
+</ol></section>
+
+<section class="article-engagement" aria-label="Article reactions"><div class="engagement-copy"><span class="engagement-heading">Enjoyed this research?</span><span class="engagement-note">Leave a like — no account needed.</span></div><div class="engagement-actions"><button type="button" class="article-like-button" data-like-button aria-label="Like this article" aria-pressed="false" disabled><svg class="article-like-heart" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z"/></svg><span data-like-count aria-live="polite">—</span><span>likes</span></button><span class="article-like-status" data-like-status role="status">Loading likes…</span></div></section>
+</article></main></div><footer class="footer"><div class="footer-inner"><span>© 2026 Dekrov</span><span class="footer-links"><a href="https://t.me/Dekrov_channel_en">Telegram / @Dekrov_channel_en ↗</a><a href="https://x.com/Dekrov_Dev">X / @Dekrov_Dev ↗</a><a href="https://github.com/DekrovDev">GitHub / DekrovDev ↗</a></span></div></footer>
+<script src="/article-likes.js?v=3" defer></script><script src="/article.js" defer></script><script src="/site.js"></script></body></html>
