@@ -1,0 +1,140 @@
+---
+layout: null
+permalink: /mistral-streaming/
+redirect_from:
+  - /pages/mistral-streaming/
+  - /pages/mistral-streaming/index.html
+---
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#ffffff">
+<meta name="description" content="The 1.2.0 integration fixes reasoning streams and adds a LangSmith gateway route. Here is what to verify before upgrading.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LangChain’s Mistral Update Changes Streaming and Gateway Routing">
+<meta property="og:description" content="The 1.2.0 integration fixes reasoning streams and adds a LangSmith gateway route. Here is what to verify before upgrading.">
+<meta property="og:url" content="https://insights.dekrov.com/mistral-streaming/">
+<link rel="canonical" href="https://insights.dekrov.com/mistral-streaming/">
+<meta name="twitter:card" content="summary">
+<title>LangChain’s Mistral Update Changes Streaming and Gateway Routing — Dekrov Insights</title>
+<script src="/theme.js"></script>
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body data-page="mistral-streaming" data-root="/">
+<header class="top">
+  <div class="header-inner">
+    <div class="brand-signature">
+      <a class="brand" href="/"><span class="brand-mark" aria-hidden="true">DK</span>Dekrov Insights</a>
+      <span class="brand-role">Research / AI &amp; Technology</span>
+    </div>
+    <div class="header-actions">
+      <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme"><span data-theme-label>Light</span></button>
+      <a class="nav" href="https://github.com/DekrovDev/dekrov-insights">GitHub ↗</a>
+    </div>
+  </div>
+</header>
+<div class="layout">
+<aside class="sidebar" aria-label="Page navigation">
+  <p class="side-heading">Index</p>
+  <nav class="side-nav" aria-label="Pages" data-site-nav></nav>
+</aside>
+<main class="main-content" id="main">
+  <article class="article-body research-article" data-article-version="2">
+    <!-- ARTICLE CONTENT START. Read ARTICLE_AUTHORING_GUIDE.md first.
+    Replace every TOKEN; HTML-escape inserted text and attributes.
+    Keep explicit heading IDs: they also work without JavaScript.
+    Add optional sections only when there is substantive sourced material.
+    Use one idea per paragraph and descriptive h3 subsections in long sections.
+    Insert complete sibling paragraphs; never wrap supplied HTML in another p.
+    Typography and spacing come from styles.css, not inline styles or br spacers.
+    The article.js script adds a compact TOC and a prominent plain-English jump.
+    -->
+    <span class="tag">AI Developer SDKs</span>
+    <h1>LangChain’s Mistral Update Changes Streaming and Gateway Routing</h1>
+    <div class="article-meta">
+      <span>By Dekrov</span>
+      <span>Published <time datetime="2026-11-16">November 16, 2026</time></span>
+      <span>Updated <time datetime="2026-11-16">November 16, 2026</time></span>
+    </div>
+    <p class="intro">The 1.2.0 integration fixes reasoning streams and adds a LangSmith gateway route. Here is what to verify before upgrading.</p>
+    <!-- This link must remain accessible even when scripts are unavailable. -->
+    <p><a href="#explained-simply">Start with the plain-English explanation ↓</a></p>
+
+    <section aria-labelledby="overview">
+      <h2 id="overview">Overview</h2>
+      <p>On November 15, LangChain published langchain-mistralai 1.2.0. Its release notes record a streaming fix for reasoning models, support for routing ChatMistralAI through LangSmith Gateway, and the removal of Python 3.10 from the package’s supported versions. Each change affects a different part of an existing integration.
+        <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p>
+    </section>
+
+    <section aria-labelledby="technical-deep-dive">
+      <h2 id="technical-deep-dive">Technical Deep Dive</h2>
+      <!-- Add/rename/remove h3 subsections to reflect the actual investigation. -->
+      <h3 id="mechanism">How it works</h3>
+      <p>Streaming integrations receive model output in chunks. Reasoning and visible answer text can arrive as different types of content. A consumer that combines chunks into one message needs to preserve the distinction even when the types alternate. The upstream fix specifically targets the reasoning-model streaming path. <a class="citation" href="#source-2" aria-label="Source 2">[2]</a></p>
+      <aside class="evidence-note" data-evidence="official" aria-label="Evidence qualification">
+        <span class="evidence-label">Official statement</span>
+        <p>This is an integration release. The notes establish a shipped change to stream handling. They provide no benchmark for model quality or end-to-end latency.
+          <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p>
+      </aside>
+<h3 id="upgrade">Three checks for an existing integration</h3><p>For streaming, compare the text-only view and assembled message for the same test output. Exercise a stream with alternating reasoning and text blocks, and confirm that your UI exposes only the intended fields. Also run the non-streaming path to avoid mistaking a frontend rendering difference for model behavior.</p><p>For gateway routing, use a separate test environment. Compare direct-provider and gateway configurations with the same approved input. Confirm that a successful call reaches the intended provider and inspect the destination before using production credentials or sensitive prompts. Support for a gateway route is a package capability, and billing and availability depend on the account.</p><p>For packaging, check the base image, CI interpreter and service runtime together. A workstation upgrade will not fix a deployment that still resolves dependencies under Python 3.10. The most useful regression test covers a real production code path using representative test data.</p>
+      <!-- Optional: timeline, evidence table, code, or inline figure from the guide.
+      Cite fixes by version/commit/PR. Separate shipped fixes from proposed workarounds.
+      For numbers: name the evaluator, date, method, environment and limitations.
+      -->
+    </section>
+
+    <!-- Optional h2 sections: Evidence & Sources (analysis), Community Reactions,
+    Visual Evidence. Figures may appear directly beside relevant paragraphs.
+    Do not create empty sections or invent community reactions or experiments.
+    Put the complete numbered bibliography at the END, below Conclusion.
+    -->
+
+    <section class="plain-english" id="explained-simply" data-explained-simply aria-labelledby="simple-title">
+      <h2 id="simple-title">Explained Simply</h2>
+      <!-- Use short descriptive h3s when the simple explanation spans several topics. -->
+      <p>Imagine a dashboard that starts showing an answer before the model finishes. It receives several pieces over time. Some belong in the answer you see, while other pieces carry reasoning information that the application can handle separately.</p>
+      <p>If the app treats every piece as the same kind of text, its live display and its saved answer can disagree. The integration fix is a reason to retest both views with a reasoning-enabled model.</p>
+      <p>Check that the deployment runtime is newer than Python 3.10. Run a streaming test with both kinds of content, and test any gateway migration separately so a routing issue cannot mask a streaming regression.</p>
+    </section>
+
+    <section aria-labelledby="conclusion">
+      <h2 id="conclusion">Conclusion</h2>
+      <p>The release affects stream assembly, deployment compatibility and provider routing. Start with the runtime check, then verify stream rendering and persistence against an approved test fixture. Evaluate gateway routing separately using your own provider, tracing and billing configuration.</p>
+    </section>
+
+    <section aria-labelledby="sources">
+      <h2 id="sources">Evidence &amp; Sources</h2>
+      <p class="source-detail">Source type describes provenance, not guaranteed truth. Availability checks do not verify a claim.</p>
+      <ol class="source-list">
+        <li id="source-1" data-source-type="official">
+          <span class="evidence-label">Official</span>
+          <a href="https://github.com/langchain-ai/langchain/releases/tag/langchain-mistralai==1.2.0">LangChain — Mistral integration 1.2.0 release</a>
+          <span class="source-detail">November 15 release and its integration changes.</span>
+          <time datetime="2026-11-16">Accessed 2026-11-16</time>
+        </li>
+<li id="source-2" data-source-type="official"><span class="evidence-label">Official</span><a href="https://github.com/langchain-ai/langchain/pull/41887">LangChain — reasoning stream fix</a><span class="source-detail">Merged change linked by the release.</span><time datetime="2026-11-16">Accessed 2026-11-16</time></li>
+      </ol>
+    </section>
+    <!-- ARTICLE CONTENT END: keep the shared reactions block below. -->
+
+    <section class="article-engagement" aria-label="Article reactions">
+      <div class="engagement-copy"><span class="engagement-heading">Enjoyed this research?</span><span class="engagement-note">Leave a like — no account needed.</span></div>
+      <div class="engagement-actions">
+        <button type="button" class="article-like-button" data-like-button aria-label="Like this article" aria-pressed="false" disabled>
+          <svg class="article-like-heart" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z"/></svg>
+          <span data-like-count aria-live="polite">—</span><span>likes</span>
+        </button>
+        <span class="article-like-status" data-like-status role="status">Loading likes…</span>
+      </div>
+    </section>
+  </article>
+</main>
+</div>
+<footer class="footer"><div class="footer-inner"><span>© 2026 Dekrov</span><span class="footer-links"><a href="https://t.me/Dekrov_channel_en">Telegram / @Dekrov_channel_en ↗</a><a href="https://x.com/Dekrov_Dev">X / @Dekrov_Dev ↗</a><a href="https://github.com/DekrovDev">GitHub / DekrovDev ↗</a></span></div></footer>
+<script src="/article-likes.js?v=3" defer></script>
+<script src="/article.js" defer></script>
+<script src="/site.js"></script>
+</body>
+</html>
