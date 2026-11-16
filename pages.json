@@ -5,6 +5,13 @@
     "meta": "Overview"
   },
   {
+    "slug": "google-workspace-mcp-agentic-oauth-20261116",
+    "path": "/workspace-mcp-oauth/",
+    "title": "Google Workspace MCP Now Rejects Ordinary OAuth Clients",
+    "meta": "MCP Security · Nov 16, 2026",
+    "summary": "How Google’s new agentic OAuth marker changes Workspace MCP admission, migration paths and identity governance—and which security controls it does not replace."
+  },
+  {
     "slug": "claude-code-mode-21323-20261116",
     "path": "/claude-code-mode/",
     "title": "Claude Code 2.1.323 Batches Tool Calls—and Moves the Permission Boundary",
