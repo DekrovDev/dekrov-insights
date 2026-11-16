@@ -1,0 +1,154 @@
+---
+layout: null
+permalink: /qwen4-max/
+redirect_from:
+  - /pages/qwen4-max/
+  - /pages/qwen4-max/index.html
+---
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#ffffff">
+<meta name="description" content="Alibaba’s flagship brings native vision, a 2.4-trillion-parameter backbone and a paid API to coding agents.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Qwen4-Max Ships With a Million-Token Window">
+<meta property="og:description" content="Alibaba’s flagship brings native vision, a 2.4-trillion-parameter backbone and a paid API to coding agents.">
+<meta property="og:url" content="https://insights.dekrov.com/qwen4-max/">
+<link rel="canonical" href="https://insights.dekrov.com/qwen4-max/">
+<meta name="twitter:card" content="summary">
+<title>Qwen4-Max Ships With a Million-Token Window — Dekrov Insights</title>
+<script src="/theme.js"></script>
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body data-page="qwen4-max" data-root="/">
+<header class="top">
+  <div class="header-inner">
+    <div class="brand-signature">
+      <a class="brand" href="/"><span class="brand-mark" aria-hidden="true">DK</span>Dekrov Insights</a>
+      <span class="brand-role">Research / AI &amp; Technology</span>
+    </div>
+    <div class="header-actions">
+      <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme"><span data-theme-label>Light</span></button>
+      <a class="nav" href="https://github.com/DekrovDev/dekrov-insights">GitHub ↗</a>
+    </div>
+  </div>
+</header>
+<div class="layout">
+<aside class="sidebar" aria-label="Page navigation">
+  <p class="side-heading">Index</p>
+  <nav class="side-nav" aria-label="Pages" data-site-nav></nav>
+</aside>
+<main class="main-content" id="main">
+  <article class="article-body research-article" data-article-version="2">
+    <!-- ARTICLE CONTENT START. Read ARTICLE_AUTHORING_GUIDE.md first.
+    Replace every TOKEN; HTML-escape inserted text and attributes.
+    Keep explicit heading IDs: they also work without JavaScript.
+    Add optional sections only when there is substantive sourced material.
+    Use one idea per paragraph and descriptive h3 subsections in long sections.
+    Insert complete sibling paragraphs; never wrap supplied HTML in another p.
+    Typography and spacing come from styles.css, not inline styles or br spacers.
+    The article.js script adds a compact TOC and a prominent plain-English jump.
+    -->
+    <span class="tag">AI Coding Models</span>
+    <h1>Qwen4-Max Ships With a Million-Token Window</h1>
+    <div class="article-meta">
+      <span>By Dekrov</span>
+      <span>Published <time datetime="2026-11-16">November 16, 2026</time></span>
+      <span>Updated <time datetime="2026-11-16">November 16, 2026</time></span>
+    </div>
+    <p class="intro">Alibaba’s flagship brings native vision, a 2.4-trillion-parameter backbone and a paid API to coding agents.</p>
+    <!-- This link must remain accessible even when scripts are unavailable. -->
+    <p><a href="#explained-simply">Start with the plain-English explanation ↓</a></p>
+
+    <section aria-labelledby="overview">
+      <h2 id="overview">Overview</h2>
+      <p>Alibaba opened a Token Plan preview on November 11. The production <code>qwen4-max</code> model reached public API availability on November 16. It accepts text, images and video, and returns text or structured data. For coding agents, that makes it possible to put a screenshot, UI source and test output into the same investigation. <a class="citation" href="#source-2" aria-label="Source 2">[2]</a> <a class="citation" href="#source-3" aria-label="Source 3">[3]</a> <a class="citation" href="#source-4" aria-label="Source 4">[4]</a>
+        <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p>
+    </section>
+
+    <section aria-labelledby="technical-deep-dive">
+      <h2 id="technical-deep-dive">Technical Deep Dive</h2>
+      <!-- Add/rename/remove h3 subsections to reflect the actual investigation. -->
+      <h3 id="mechanism">How it works</h3>
+      <p>Alibaba reports a sparse mixture-of-experts backbone with 2.4 trillion parameters, 71 billion active per token and an extra 328 billion for N-gram embeddings. Each token uses a subset of the experts. The active count describes computation and does not specify the memory needed to host the checkpoint. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p>
+      <aside class="evidence-note" data-evidence="official" aria-label="Evidence qualification">
+        <span class="evidence-label">Official statement</span>
+        <p>Alibaba describes the architecture and publishes its own tests. Results depend on the agent harness, reasoning effort and task configuration.
+          <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p>
+      </aside>
+<h3 id="architecture">How Qwen4 handles longer sequences</h3>
+<p>The Qwen team describes three Gated DeltaNet layers for each Qwen Sparse Attention layer. DeltaNet layers compress history into fixed-size state. Sparse attention uses an index to select blocks of earlier context. The model also uses four gated residual branches and learned lookups for short sequences of tokens. The context size describes what fits into a request. Finding a relevant detail deep inside that request remains an evaluation question. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p>
+<h3 id="limits">Production limits and cost</h3>
+<p>Model Studio documents a million-token context window, a thinking-mode input limit of 983,616 tokens, and up to 262,144 combined thinking and answer tokens. The non-thinking output ceiling is 131,072. Input and output ceilings are separate bounds within the shared context. Model Studio documents OpenAI Chat Completions, Responses and Anthropic Messages compatibility. <a class="citation" href="#source-2" aria-label="Source 2">[2]</a></p>
+<p>OpenRouter lists <code>qwen/qwen4-max</code> at $1.50 per million uncached input tokens and $4.50 per million output tokens, with cache reads at $0.075 per million. A request with 250,000 uncached input tokens and 30,000 billed output tokens would cost $0.51 at those rates before cache writes or separate tool charges. A long coding session may resend overlapping context, so cache behavior matters. OpenRouter’s launch snapshot showed around 50 tokens per second at its provider median. Individual requests can vary with prompt size, reasoning effort and provider load. <a class="citation" href="#source-4" aria-label="Source 4">[4]</a></p>
+<h3 id="access">OpenCode, Qoder and weights</h3>
+<p>In OpenCode, connect OpenRouter through <code>/connect</code> and look for the model under <code>/models</code>. Catalog refresh timing can vary, and OpenCode also documents custom providers. Qwen lists Qoder, QwenWork and QwenStudio as product surfaces. Model Studio uses a separate <code>qwen4-max-preview</code> ID for its time-limited Token Plan preview. The checked launch materials supply no downloadable Max weights or open-weight license. The verified OpenRouter route is paid. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a> <a class="citation" href="#source-2" aria-label="Source 2">[2]</a> <a class="citation" href="#source-3" aria-label="Source 3">[3]</a> <a class="citation" href="#source-4" aria-label="Source 4">[4]</a> <a class="citation" href="#source-5" aria-label="Source 5">[5]</a></p>
+<h3 id="evaluation">Reading the launch evaluations</h3>
+<div class="table-scroll" role="region" aria-label="Launch comparisons" tabindex="0"><table class="research-table"><caption>Alibaba’s launch measurements against Qwen3.8-Max <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></caption><thead><tr><th scope="col">Measurement</th><th scope="col">Reported result</th><th scope="col">Scope</th></tr></thead><tbody><tr><th scope="row">Work360 score</th><td>47.74 → 52.69</td><td>Alibaba’s professional task suite</td></tr><tr><th scope="row">Average Work360 API cost</th><td>$4.43 → $1.67 per task</td><td>Token use and API rates in Alibaba’s setup</td></tr><tr><th scope="row">Terminal-Bench 4.0 token use</th><td>About 48% lower at Xhigh and 49% lower at High</td><td>Terminal task token consumption. Patch quality and elapsed time need separate measures.</td></tr></tbody></table></div>
+<p>Alibaba shows live websites produced with Qoder. Those examples reflect the combination of model and agent. An early third-party write-up describes a single browser game comparison with Claude Fable 5.2 and Gemini 4 Carbon. The narrow task gives readers a concrete example of frontend behavior, with limited value for predicting results on actual repo work. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a> <a class="citation" href="#source-6" aria-label="Source 6">[6]</a></p>
+<p>For a comparison on your repo, keep the checkout, prompt, tools and budget fixed. Use a visual ticket, a regression with hidden tests and a multi-file refactor. Track test passes, unnecessary diff churn, manual interventions, elapsed time and total API spend.</p>
+      <!-- Optional: timeline, evidence table, code, or inline figure from the guide.
+      Cite fixes by version/commit/PR. Separate shipped fixes from proposed workarounds.
+      For numbers: name the evaluator, date, method, environment and limitations.
+      -->
+    </section>
+
+    <!-- Optional h2 sections: Evidence & Sources (analysis), Community Reactions,
+    Visual Evidence. Figures may appear directly beside relevant paragraphs.
+    Do not create empty sections or invent community reactions or experiments.
+    Put the complete numbered bibliography at the END, below Conclusion.
+    -->
+
+    <section class="plain-english" id="explained-simply" data-explained-simply aria-labelledby="simple-title">
+      <h2 id="simple-title">Explained Simply</h2>
+      <!-- Use short descriptive h3s when the simple explanation spans several topics. -->
+      <p>A coding agent is an app that connects a model to tools such as a file reader and test runner. Qwen4-Max supplies the model. OpenCode or Qoder decides which tools to expose and how much information to send.</p>
+      <p>Suppose a dashboard clips a button on mobile. An agent can use a screenshot to see the problem, read the relevant component and suggest a fix. Browser and test access depend on the app running the model. The large context window lets that app include more supporting files and logs.</p>
+      <p>Try one visual bug and one multi-file regression with the same agent and budget you already use. Compare passing tests, patch size, time and the final bill. The paid model and the separate preview have different limits and terms.</p>
+    </section>
+
+    <section aria-labelledby="conclusion">
+      <h2 id="conclusion">Conclusion</h2>
+      <p>The production release gives developers a model worth testing for visual debugging and long repo sessions. Alibaba reports lower token use than Qwen3.8-Max in its terminal evaluation. For a decision about replacing a current model, measure resolved tasks per dollar in the same agent on the same repository. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a> <a class="citation" href="#source-2" aria-label="Source 2">[2]</a></p>
+    </section>
+
+    <section aria-labelledby="sources">
+      <h2 id="sources">Evidence &amp; Sources</h2>
+      <p class="source-detail">Source type describes provenance, not guaranteed truth. Availability checks do not verify a claim.</p>
+      <ol class="source-list">
+        <li id="source-1" data-source-type="official">
+          <span class="evidence-label">Official</span>
+          <a href="https://qwen.ai/blog?id=qwen4-max">Qwen Team — Qwen4-Max launch</a>
+          <span class="source-detail">Architecture, launch evaluations and Qoder examples.</span>
+          <time datetime="2026-11-16">Accessed 2026-11-16</time>
+        </li>
+<li id="source-2" data-source-type="official"><span class="evidence-label">Official</span><a href="https://www.alibabacloud.com/help/en/model-studio/qwen4-max">Alibaba Cloud — production model</a><span class="source-detail">Model IDs, API compatibility and context limits.</span><time datetime="2026-11-16">Accessed 2026-11-16</time></li>
+<li id="source-3" data-source-type="official"><span class="evidence-label">Official</span><a href="https://www.alibabacloud.com/help/en/model-studio/qwen4-max-preview">Alibaba Cloud — preview</a><span class="source-detail">Preview dates and separate Token Plan terms.</span><time datetime="2026-11-16">Accessed 2026-11-16</time></li>
+<li id="source-4" data-source-type="official"><span class="evidence-label">Official</span><a href="https://openrouter.ai/qwen/qwen4-max">OpenRouter — model listing</a><span class="source-detail">Launch availability, route-specific pricing and provider telemetry.</span><time datetime="2026-11-16">Accessed 2026-11-16</time></li>
+<li id="source-5" data-source-type="official"><span class="evidence-label">Official</span><a href="https://opencode.ai/docs/providers">OpenCode — provider setup</a><span class="source-detail">Provider connections and model selection.</span><time datetime="2026-11-16">Accessed 2026-11-16</time></li>
+<li id="source-6" data-source-type="independent"><span class="evidence-label">Independent</span><a href="https://aifirstlook.com/qwen-4/">AI First Look — early comparison</a><span class="source-detail">Secondary reporting on an early frontend example.</span><time datetime="2026-11-16">Accessed 2026-11-16</time></li>
+      </ol>
+    </section>
+    <!-- ARTICLE CONTENT END: keep the shared reactions block below. -->
+
+    <section class="article-engagement" aria-label="Article reactions">
+      <div class="engagement-copy"><span class="engagement-heading">Enjoyed this research?</span><span class="engagement-note">Leave a like — no account needed.</span></div>
+      <div class="engagement-actions">
+        <button type="button" class="article-like-button" data-like-button aria-label="Like this article" aria-pressed="false" disabled>
+          <svg class="article-like-heart" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z"/></svg>
+          <span data-like-count aria-live="polite">—</span><span>likes</span>
+        </button>
+        <span class="article-like-status" data-like-status role="status">Loading likes…</span>
+      </div>
+    </section>
+  </article>
+</main>
+</div>
+<footer class="footer"><div class="footer-inner"><span>© 2026 Dekrov</span><span class="footer-links"><a href="https://t.me/Dekrov_channel_en">Telegram / @Dekrov_channel_en ↗</a><a href="https://x.com/Dekrov_Dev">X / @Dekrov_Dev ↗</a><a href="https://github.com/DekrovDev">GitHub / DekrovDev ↗</a></span></div></footer>
+<script src="/article-likes.js?v=3" defer></script>
+<script src="/article.js" defer></script>
+<script src="/site.js"></script>
+</body>
+</html>
