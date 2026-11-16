@@ -5,6 +5,13 @@
     "meta": "Overview"
   },
   {
+    "slug": "geo-sleuth",
+    "path": "/geo-sleuth/",
+    "title": "Geo Sleuth Turns Photo Location Guesses Into Evidence",
+    "meta": "AI Agent Skills · Nov 16, 2026",
+    "summary": "A look at Oldcircle’s MIT-licensed agent skill, the evidence it returns and the limits of its published demos."
+  },
+  {
     "slug": "antigravity-workflows",
     "path": "/antigravity-workflows/",
     "title": "Antigravity Dynamic Workflows Give Coding Agents Scripted Control Flow",
