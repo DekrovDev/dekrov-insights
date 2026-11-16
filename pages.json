@@ -5,6 +5,13 @@
     "meta": "Overview"
   },
   {
+    "slug": "claude-code-mode-21323-20261116",
+    "path": "/claude-code-mode/",
+    "title": "Claude Code 2.1.323 Batches Tool Calls—and Moves the Permission Boundary",
+    "meta": "AI Coding Agents · Nov 16, 2026",
+    "summary": "How experimental JavaScript tool orchestration changes approvals, plugin compatibility and sandbox boundaries—and what early regression reports do not yet prove."
+  },
+  {
     "slug": "qwen-code-managed-agent-0274-20261116",
     "path": "/qwen-managed-agent/",
     "title": "Qwen Code 0.27.4 Gives Managed Agents Local Files—and Tightens Auto Mode",
