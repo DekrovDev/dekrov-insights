@@ -1,0 +1,140 @@
+---
+layout: null
+permalink: /browser-use-default/
+redirect_from:
+  - /pages/browser-use-default/
+  - /pages/browser-use-default/index.html
+---
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#ffffff">
+<meta name="description" content="An omitted model setting now selects BU 4.0 on the Browser Use gateway. Here is what changes for existing automation budgets.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Browser Use 1.0.6 Changes the Default Model and Its Cost">
+<meta property="og:description" content="An omitted model setting now selects BU 4.0 on the Browser Use gateway. Here is what changes for existing automation budgets.">
+<meta property="og:url" content="https://insights.dekrov.com/browser-use-default/">
+<link rel="canonical" href="https://insights.dekrov.com/browser-use-default/">
+<meta name="twitter:card" content="summary">
+<title>Browser Use 1.0.6 Changes the Default Model and Its Cost — Dekrov Insights</title>
+<script src="/theme.js"></script>
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body data-page="browser-use-default" data-root="/">
+<header class="top">
+  <div class="header-inner">
+    <div class="brand-signature">
+      <a class="brand" href="/"><span class="brand-mark" aria-hidden="true">DK</span>Dekrov Insights</a>
+      <span class="brand-role">Research / AI &amp; Technology</span>
+    </div>
+    <div class="header-actions">
+      <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme"><span data-theme-label>Light</span></button>
+      <a class="nav" href="https://github.com/DekrovDev/dekrov-insights">GitHub ↗</a>
+    </div>
+  </div>
+</header>
+<div class="layout">
+<aside class="sidebar" aria-label="Page navigation">
+  <p class="side-heading">Index</p>
+  <nav class="side-nav" aria-label="Pages" data-site-nav></nav>
+</aside>
+<main class="main-content" id="main">
+  <article class="article-body research-article" data-article-version="2">
+    <!-- ARTICLE CONTENT START. Read ARTICLE_AUTHORING_GUIDE.md first.
+    Replace every TOKEN; HTML-escape inserted text and attributes.
+    Keep explicit heading IDs: they also work without JavaScript.
+    Add optional sections only when there is substantive sourced material.
+    Use one idea per paragraph and descriptive h3 subsections in long sections.
+    Insert complete sibling paragraphs; never wrap supplied HTML in another p.
+    Typography and spacing come from styles.css, not inline styles or br spacers.
+    The article.js script adds a compact TOC and a prominent plain-English jump.
+    -->
+    <span class="tag">AI Agent Infrastructure</span>
+    <h1>Browser Use 1.0.6 Changes the Default Model and Its Cost</h1>
+    <div class="article-meta">
+      <span>By Dekrov</span>
+      <span>Published <time datetime="2026-11-16">November 16, 2026</time></span>
+      <span>Updated <time datetime="2026-11-16">November 16, 2026</time></span>
+    </div>
+    <p class="intro">An omitted model setting now selects BU 4.0 on the Browser Use gateway. Here is what changes for existing automation budgets.</p>
+    <!-- This link must remain accessible even when scripts are unavailable. -->
+    <p><a href="#explained-simply">Start with the plain-English explanation ↓</a></p>
+
+    <section aria-labelledby="overview">
+      <h2 id="overview">Overview</h2>
+      <p>Browser Use 1.0.6, released November 16, changes the hosted model selected when an application leaves its model unspecified. Both the default Agent constructor and the default gateway wrapper now select BU 4.0. An unchanged application can therefore see a different bill after upgrading.
+        <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p>
+    </section>
+
+    <section aria-labelledby="technical-deep-dive">
+      <h2 id="technical-deep-dive">Technical Deep Dive</h2>
+      <!-- Add/rename/remove h3 subsections to reflect the actual investigation. -->
+      <h3 id="mechanism">How it works</h3>
+      <p>The release notes list BU 4.0 at $1.80 input and $9 output per million tokens, up from $0.12 and $0.60 for BU Fast. Both rates are 15 times higher. The default reasoning setting also moves from medium to high. Actual task cost depends on token consumption, retries and the number of steps. <a class="citation" href="#source-2" aria-label="Source 2">[2]</a></p>
+      <aside class="evidence-note" data-evidence="official" aria-label="Evidence qualification">
+        <span class="evidence-label">Official statement</span>
+        <p>The maintainers report a short test that cost $0.022 with the new default and $0.0014 with the previous one. This single example does not establish a typical bill or a success-rate improvement. The older setup documentation still identifies BU Fast as the default and its evaluated configuration.
+          <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p>
+      </aside>
+<h3 id="upgrade">Compare the options before upgrading</h3><p>Keep the existing gateway model explicit if predictable pricing matters. The maintainers also list BU 4.0 Mini and Pro as options for simpler and harder tasks respectively. The general model guide describes external providers as another route, which changes credentials, billing and potentially the way reasoning is configured. This article does not infer the Mini or Pro prices from the default model’s rate. <a class="citation" href="#source-2" aria-label="Source 2">[2]</a></p><p>For a useful comparison, run repeatable checks against an owned staging application. Hold the browser, task inputs, version and retry policy fixed. Record medians for cost and time alongside success counts, with failures included. Older benchmarks tied to BU Fast do not measure the new default.</p>
+      <!-- Optional: timeline, evidence table, code, or inline figure from the guide.
+      Cite fixes by version/commit/PR. Separate shipped fixes from proposed workarounds.
+      For numbers: name the evaluator, date, method, environment and limitations.
+      -->
+    </section>
+
+    <!-- Optional h2 sections: Evidence & Sources (analysis), Community Reactions,
+    Visual Evidence. Figures may appear directly beside relevant paragraphs.
+    Do not create empty sections or invent community reactions or experiments.
+    Put the complete numbered bibliography at the END, below Conclusion.
+    -->
+
+    <section class="plain-english" id="explained-simply" data-explained-simply aria-labelledby="simple-title">
+      <h2 id="simple-title">Explained Simply</h2>
+      <!-- Use short descriptive h3s when the simple explanation spans several topics. -->
+      <p>The browser library controls the browser. A model decides what action to take next. When the application leaves the model choice blank, the library picks one. This update changes that choice on the Browser Use gateway.</p>
+      <p>Imagine a team runs the same staging-site check every morning. After updating the dependency, the job can use a pricier model even if nobody changed the check itself. The bill depends on what the model actually had to read and write.</p>
+      <p>The release notes say explicitly selecting BU Fast preserves the prior model choice. Compare the models on the same staging site, with the same task set and stop conditions. Count completed checks, overall cost and run time before switching a recurring job.</p>
+    </section>
+
+    <section aria-labelledby="conclusion">
+      <h2 id="conclusion">Conclusion</h2>
+      <p>Review both the library version and the configured model. A same-provider trial is the easiest way to isolate this change. Compare cost per successful run rather than token prices alone, and track the jobs that fail or hit a deadline.</p>
+    </section>
+
+    <section aria-labelledby="sources">
+      <h2 id="sources">Evidence &amp; Sources</h2>
+      <p class="source-detail">Source type describes provenance, not guaranteed truth. Availability checks do not verify a claim.</p>
+      <ol class="source-list">
+        <li id="source-1" data-source-type="official">
+          <span class="evidence-label">Official</span>
+          <a href="https://github.com/browser-use/browser-use/releases/tag/1.0.6">Browser Use — 1.0.6 release notes</a>
+          <span class="source-detail">November 16 release, default switch, listed rates and single example.</span>
+          <time datetime="2026-11-16">Accessed 2026-11-16</time>
+        </li>
+<li id="source-2" data-source-type="official"><span class="evidence-label">Official</span><a href="https://docs.browser-use.com/open-source/models">Browser Use — model configuration guide</a><span class="source-detail">Gateway options, older defaults and external provider configuration.</span><time datetime="2026-11-16">Accessed 2026-11-16</time></li>
+      </ol>
+    </section>
+    <!-- ARTICLE CONTENT END: keep the shared reactions block below. -->
+
+    <section class="article-engagement" aria-label="Article reactions">
+      <div class="engagement-copy"><span class="engagement-heading">Enjoyed this research?</span><span class="engagement-note">Leave a like — no account needed.</span></div>
+      <div class="engagement-actions">
+        <button type="button" class="article-like-button" data-like-button aria-label="Like this article" aria-pressed="false" disabled>
+          <svg class="article-like-heart" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z"/></svg>
+          <span data-like-count aria-live="polite">—</span><span>likes</span>
+        </button>
+        <span class="article-like-status" data-like-status role="status">Loading likes…</span>
+      </div>
+    </section>
+  </article>
+</main>
+</div>
+<footer class="footer"><div class="footer-inner"><span>© 2026 Dekrov</span><span class="footer-links"><a href="https://t.me/Dekrov_channel_en">Telegram / @Dekrov_channel_en ↗</a><a href="https://x.com/Dekrov_Dev">X / @Dekrov_Dev ↗</a><a href="https://github.com/DekrovDev">GitHub / DekrovDev ↗</a></span></div></footer>
+<script src="/article-likes.js?v=3" defer></script>
+<script src="/article.js" defer></script>
+<script src="/site.js"></script>
+</body>
+</html>
