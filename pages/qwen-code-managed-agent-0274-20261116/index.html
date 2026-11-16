@@ -88,8 +88,8 @@ redirect_from:
       <p>The permission change is conceptually smaller but security-relevant. The old classifier could treat an action as authorized when it fit the user’s request. The new prompt asks whether the user explicitly authorized the pending action. Its rules state that relevance is not authorization, broad requests do not automatically permit destructive or bulk forms, questions are not instructions, consent must cover the blast radius, and one approval does not establish a reusable pattern. <a class="citation" href="#source-3" aria-label="Source 3">[3]</a></p>
       <p>The change targets cases such as an agent deleting an unmerged branch after being asked to “clean up” or force-pushing after the user merely asked whether force-push was safe. Routine recoverable work—reading, building, testing and editing inside the working directory—remains outside that explicit-consent requirement unless another policy blocks it. <a class="citation" href="#source-3" aria-label="Source 3">[3]</a></p>
 
-      <div class="table-wrap" role="region" aria-label="Qwen Code 0.27.4 control boundaries" tabindex="0">
-        <table>
+      <div class="table-scroll" role="region" aria-label="Qwen Code 0.27.4 control boundaries" tabindex="0">
+        <table class="research-table">
           <caption>What expands, what gates it, and what remains durable</caption>
           <thead><tr><th>Surface</th><th>New capability</th><th>Primary gate</th><th>Durability boundary</th></tr></thead>
           <tbody>
