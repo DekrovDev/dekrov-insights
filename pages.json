@@ -5,6 +5,13 @@
     "meta": "Overview"
   },
   {
+    "slug": "copilot-project-automation-20261117",
+    "path": "/copilot-automation/",
+    "title": "Copilot Project Automations: Precise Schedules, Real Boundaries",
+    "meta": "AI Agent Workflows · Nov 17, 2026",
+    "summary": "GitHub’s November 16 update adds minute-level and cron scheduling for Project automations. Understand local versus cloud execution, credit limits, permissions and safe recurring workflows."
+  },
+  {
     "slug": "visual-studio-copilot-sdk-20261116",
     "path": "/vs-copilot-sdk/",
     "title": "Same Model, Better Agent: Visual Studio’s Copilot Upgrade",
