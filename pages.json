@@ -5,6 +5,13 @@
     "meta": "Overview"
   },
   {
+    "slug": "cloudflare-kitesurf-open-source-20261116",
+    "path": "/kitesurf/",
+    "title": "Cloudflare Open-Sources Kitesurf: A Browser Engine Built for AI Agents",
+    "meta": "Agent Infrastructure · Nov 16, 2026",
+    "summary": "A source-checked analysis of Kitesurf's Workers architecture, CDP and WebMCP support, measured efficiency, deployment requirements and compatibility limits."
+  },
+  {
     "slug": "google-workspace-mcp-agentic-oauth-20261116",
     "path": "/workspace-mcp-oauth/",
     "title": "Google Workspace MCP Now Rejects Ordinary OAuth Clients",
