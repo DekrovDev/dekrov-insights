@@ -1,0 +1,143 @@
+---
+layout: null
+permalink: /geo-sleuth/
+redirect_from:
+  - /pages/geo-sleuth/
+  - /pages/geo-sleuth/index.html
+---
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#ffffff">
+<meta name="description" content="A look at Oldcircle’s MIT-licensed agent skill, the evidence it returns and the limits of its published demos.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Geo Sleuth Turns Photo Location Guesses Into Evidence">
+<meta property="og:description" content="A look at Oldcircle’s MIT-licensed agent skill, the evidence it returns and the limits of its published demos.">
+<meta property="og:url" content="https://insights.dekrov.com/geo-sleuth/">
+<link rel="canonical" href="https://insights.dekrov.com/geo-sleuth/">
+<meta name="twitter:card" content="summary">
+<title>Geo Sleuth Turns Photo Location Guesses Into Evidence — Dekrov Insights</title>
+<script src="/theme.js"></script>
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body data-page="geo-sleuth" data-root="/">
+<header class="top">
+  <div class="header-inner">
+    <div class="brand-signature">
+      <a class="brand" href="/"><span class="brand-mark" aria-hidden="true">DK</span>Dekrov Insights</a>
+      <span class="brand-role">Research / AI &amp; Technology</span>
+    </div>
+    <div class="header-actions">
+      <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme"><span data-theme-label>Light</span></button>
+      <a class="nav" href="https://github.com/DekrovDev/dekrov-insights">GitHub ↗</a>
+    </div>
+  </div>
+</header>
+<div class="layout">
+<aside class="sidebar" aria-label="Page navigation">
+  <p class="side-heading">Index</p>
+  <nav class="side-nav" aria-label="Pages" data-site-nav></nav>
+</aside>
+<main class="main-content" id="main">
+  <article class="article-body research-article" data-article-version="2">
+    <!-- ARTICLE CONTENT START. Read ARTICLE_AUTHORING_GUIDE.md first.
+    Replace every TOKEN; HTML-escape inserted text and attributes.
+    Keep explicit heading IDs: they also work without JavaScript.
+    Add optional sections only when there is substantive sourced material.
+    Use one idea per paragraph and descriptive h3 subsections in long sections.
+    Insert complete sibling paragraphs; never wrap supplied HTML in another p.
+    Typography and spacing come from styles.css, not inline styles or br spacers.
+    The article.js script adds a compact TOC and a prominent plain-English jump.
+    -->
+    <span class="tag">AI Agent Skills</span>
+    <h1>Geo Sleuth Turns Photo Location Guesses Into Evidence</h1>
+    <div class="article-meta">
+      <span>By Dekrov</span>
+      <span>Published <time datetime="2026-11-16">November 16, 2026</time></span>
+      <span>Updated <time datetime="2026-11-16">November 16, 2026</time></span>
+    </div>
+    <p class="intro">A look at Oldcircle’s MIT-licensed agent skill, the evidence it returns and the limits of its published demos.</p>
+    <!-- This link must remain accessible even when scripts are unavailable. -->
+    <p><a href="#explained-simply">Start with the plain-English explanation ↓</a></p>
+
+    <section aria-labelledby="overview">
+      <h2 id="overview">Overview</h2>
+      <p>Geo Sleuth is Oldcircle’s open-source photo geolocation skill. Its design gives a general-purpose agent a way to compare competing explanations against external evidence and return supporting artifacts. That makes it an interesting case study for anyone building an agent that must justify its conclusions.
+        <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p>
+    </section>
+
+    <section aria-labelledby="technical-deep-dive">
+      <h2 id="technical-deep-dive">Technical Deep Dive</h2>
+      <!-- Add/rename/remove h3 subsections to reflect the actual investigation. -->
+      <h3 id="mechanism">How it works</h3>
+      <p>The skill separates clue extraction, candidate ranking and final judgment. Python tools calculate and rank candidates. The model interprets the results and decides which checks are worth doing next. The documented output includes a location estimate, a camera bearing, an uncertainty radius and supporting imagery. The radius is a reported estimate whose calibration has not been established by the published examples. <a class="citation" href="#source-2" aria-label="Source 2">[2]</a></p>
+      <aside class="evidence-note" data-evidence="official" aria-label="Evidence qualification">
+        <span class="evidence-label">Official statement</span>
+        <p>Oldcircle reports three worked examples with errors of about 2 metres, within 100 metres and about 3 metres. The first result took roughly 72 minutes. These are individual author-reported cases. The first was the run that informed the skill’s design, so it cannot serve as a blind evaluation of the finished skill.
+          <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p>
+      </aside>
+<h3 id="runtime">What runs in the agent</h3><p>The repository ships a standard skill file and Python scripts rather than a standalone model. The author lists Codex, Claude Code, Cursor, Gemini CLI, OpenCode and Copilot. Those are compatibility claims, and the available tools and approvals still depend on the host. The code carries an MIT license. Model usage and external service access depend on the agent and provider. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a> <a class="citation" href="#source-3" aria-label="Source 3">[3]</a></p>
+<h3 id="tradeoffs">What the extra tools buy you</h3><p>A basic vision prompt can offer a quick hypothesis. Geo Sleuth adds explicit candidate ranking and output artifacts the reader can inspect. The trade-off is setup and dependency on external imagery and mapping coverage. Its diagnostic script describes a local setup check and optional endpoint reachability checks, with no photo upload in the diagnostic itself. The full skill can use external reverse-image services, so review your host’s permissions before passing in any sensitive photo. <a class="citation" href="#source-2" aria-label="Source 2">[2]</a> <a class="citation" href="#source-4" aria-label="Source 4">[4]</a></p>
+      <!-- Optional: timeline, evidence table, code, or inline figure from the guide.
+      Cite fixes by version/commit/PR. Separate shipped fixes from proposed workarounds.
+      For numbers: name the evaluator, date, method, environment and limitations.
+      -->
+    </section>
+
+    <!-- Optional h2 sections: Evidence & Sources (analysis), Community Reactions,
+    Visual Evidence. Figures may appear directly beside relevant paragraphs.
+    Do not create empty sections or invent community reactions or experiments.
+    Put the complete numbered bibliography at the END, below Conclusion.
+    -->
+
+    <section class="plain-english" id="explained-simply" data-explained-simply aria-labelledby="simple-title">
+      <h2 id="simple-title">Explained Simply</h2>
+      <!-- Use short descriptive h3s when the simple explanation spans several topics. -->
+      <p>Imagine you are trying to recognize a public trail from a holiday photo. Several mountains look alike at first. A candidate is a place that could explain the scene. Evidence is something you can inspect to see why one candidate fits the visible landscape better.</p>
+      <p>The skill helps the agent show the work behind its estimate. An evidence image can let a reader spot an obvious mismatch, even when the agent sounds confident. If the map is incomplete or the photo lacks distinctive features, the responsible result may be a broad estimate or no conclusion.</p>
+      <p>Use photos you own or have permission to analyze, such as public landmark or trail images. Before using a personal photo, check which services the host agent and skill are allowed to contact. A local setup check cannot guarantee that the complete workflow keeps every image on your device.</p>
+    </section>
+
+    <section aria-labelledby="conclusion">
+      <h2 id="conclusion">Conclusion</h2>
+      <p>Geo Sleuth’s contribution is a reviewable chain from observations to a ranked answer. Its code and selected cases are public. A useful benchmark would run unseen public-location photos with known ground truth, record failures and compare errors, time and tool calls against a vision-only agent.</p>
+    </section>
+
+    <section aria-labelledby="sources">
+      <h2 id="sources">Evidence &amp; Sources</h2>
+      <p class="source-detail">Source type describes provenance, not guaranteed truth. Availability checks do not verify a claim.</p>
+      <ol class="source-list">
+        <li id="source-1" data-source-type="official">
+          <span class="evidence-label">Official</span>
+          <a href="https://github.com/Oldcircle/geo-sleuth">Oldcircle — Geo Sleuth repository and case studies</a>
+          <span class="source-detail">Project overview, compatibility claims and first-party demonstrations.</span>
+          <time datetime="2026-11-16">Accessed 2026-11-16</time>
+        </li>
+<li id="source-2" data-source-type="official"><span class="evidence-label">Official</span><a href="https://github.com/Oldcircle/geo-sleuth/blob/main/skills/geo-sleuth/SKILL.md">Skill specification</a><span class="source-detail">Candidate ranking and evidence artifacts.</span><time datetime="2026-11-16">Accessed 2026-11-16</time></li>
+<li id="source-3" data-source-type="official"><span class="evidence-label">Official</span><a href="https://github.com/Oldcircle/geo-sleuth/blob/main/LICENSE">MIT license</a><span class="source-detail">License terms.</span><time datetime="2026-11-16">Accessed 2026-11-16</time></li>
+<li id="source-4" data-source-type="official"><span class="evidence-label">Official</span><a href="https://github.com/Oldcircle/geo-sleuth/blob/main/skills/geo-sleuth/scripts/doctor.py">Diagnostic script</a><span class="source-detail">Local checks and the limits of network probes.</span><time datetime="2026-11-16">Accessed 2026-11-16</time></li>
+      </ol>
+    </section>
+    <!-- ARTICLE CONTENT END: keep the shared reactions block below. -->
+
+    <section class="article-engagement" aria-label="Article reactions">
+      <div class="engagement-copy"><span class="engagement-heading">Enjoyed this research?</span><span class="engagement-note">Leave a like — no account needed.</span></div>
+      <div class="engagement-actions">
+        <button type="button" class="article-like-button" data-like-button aria-label="Like this article" aria-pressed="false" disabled>
+          <svg class="article-like-heart" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z"/></svg>
+          <span data-like-count aria-live="polite">—</span><span>likes</span>
+        </button>
+        <span class="article-like-status" data-like-status role="status">Loading likes…</span>
+      </div>
+    </section>
+  </article>
+</main>
+</div>
+<footer class="footer"><div class="footer-inner"><span>© 2026 Dekrov</span><span class="footer-links"><a href="https://t.me/Dekrov_channel_en">Telegram / @Dekrov_channel_en ↗</a><a href="https://x.com/Dekrov_Dev">X / @Dekrov_Dev ↗</a><a href="https://github.com/DekrovDev">GitHub / DekrovDev ↗</a></span></div></footer>
+<script src="/article-likes.js?v=3" defer></script>
+<script src="/article.js" defer></script>
+<script src="/site.js"></script>
+</body>
+</html>
