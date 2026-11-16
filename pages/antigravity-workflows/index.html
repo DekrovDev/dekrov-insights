@@ -1,0 +1,146 @@
+---
+layout: null
+permalink: /antigravity-workflows/
+redirect_from:
+  - /pages/antigravity-workflows/
+  - /pages/antigravity-workflows/index.html
+---
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#ffffff">
+<meta name="description" content="Google’s Dynamic Workflows coordinate parallel and staged coding tasks in a local Python script with structured results.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Antigravity Dynamic Workflows Give Coding Agents Scripted Control Flow">
+<meta property="og:description" content="Google’s Dynamic Workflows coordinate parallel and staged coding tasks in a local Python script with structured results.">
+<meta property="og:url" content="https://insights.dekrov.com/antigravity-workflows/">
+<link rel="canonical" href="https://insights.dekrov.com/antigravity-workflows/">
+<meta name="twitter:card" content="summary">
+<title>Antigravity Dynamic Workflows Give Coding Agents Scripted Control Flow — Dekrov Insights</title>
+<script src="/theme.js"></script>
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body data-page="antigravity-workflows" data-root="/">
+<header class="top">
+  <div class="header-inner">
+    <div class="brand-signature">
+      <a class="brand" href="/"><span class="brand-mark" aria-hidden="true">DK</span>Dekrov Insights</a>
+      <span class="brand-role">Research / AI &amp; Technology</span>
+    </div>
+    <div class="header-actions">
+      <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme"><span data-theme-label>Light</span></button>
+      <a class="nav" href="https://github.com/DekrovDev/dekrov-insights">GitHub ↗</a>
+    </div>
+  </div>
+</header>
+<div class="layout">
+<aside class="sidebar" aria-label="Page navigation">
+  <p class="side-heading">Index</p>
+  <nav class="side-nav" aria-label="Pages" data-site-nav></nav>
+</aside>
+<main class="main-content" id="main">
+  <article class="article-body research-article" data-article-version="2">
+    <!-- ARTICLE CONTENT START. Read ARTICLE_AUTHORING_GUIDE.md first.
+    Replace every TOKEN; HTML-escape inserted text and attributes.
+    Keep explicit heading IDs: they also work without JavaScript.
+    Add optional sections only when there is substantive sourced material.
+    Use one idea per paragraph and descriptive h3 subsections in long sections.
+    Insert complete sibling paragraphs; never wrap supplied HTML in another p.
+    Typography and spacing come from styles.css, not inline styles or br spacers.
+    The article.js script adds a compact TOC and a prominent plain-English jump.
+    -->
+    <span class="tag">AI Coding Workflows</span>
+    <h1>Antigravity Dynamic Workflows Give Coding Agents Scripted Control Flow</h1>
+    <div class="article-meta">
+      <span>By Dekrov</span>
+      <span>Published <time datetime="2026-11-16">November 16, 2026</time></span>
+      <span>Updated <time datetime="2026-11-16">November 16, 2026</time></span>
+    </div>
+    <p class="intro">Google’s Dynamic Workflows coordinate parallel and staged coding tasks in a local Python script with structured results.</p>
+    <!-- This link must remain accessible even when scripts are unavailable. -->
+    <p><a href="#explained-simply">Start with the plain-English explanation ↓</a></p>
+
+    <section aria-labelledby="overview">
+      <h2 id="overview">Overview</h2>
+      <p>Google’s current App and CLI documentation describes Dynamic Workflows for Google AI Pro and Ultra. A generated Python script sets the order of work, starts agents in their own conversations and receives structured results. The workflow can run in the background after approval, and Antigravity bundles a Python interpreter.
+        <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p>
+    </section>
+
+    <section aria-labelledby="technical-deep-dive">
+      <h2 id="technical-deep-dive">Technical Deep Dive</h2>
+      <!-- Add/rename/remove h3 subsections to reflect the actual investigation. -->
+      <h3 id="mechanism">How it works</h3>
+      <p><code>parallel()</code> handles independent items. <code>pipeline()</code> sequences stages that depend on one another. An agent can work once or retain its conversation across stages. When the script specifies a JSON Schema, the agent’s result is checked against it before the script receives the value. The schema checks the result’s shape. A correctly shaped report can still contain an incorrect diagnosis. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p>
+      <aside class="evidence-note" data-evidence="official" aria-label="Evidence qualification">
+        <span class="evidence-label">Official statement</span>
+        <p>Google documents the execution model and supported plans. We found no comparable independent timing or quota measurements for this workflow feature.
+          <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p>
+      </aside>
+<h3 id="workspace-scope">Review the script and workspace scope</h3>
+<p>Antigravity normally presents the generated script for approval; the configured permission preset can change that step. The workflow has named phases and individual agent conversations. Google documents a worktree option for isolation. That choice matters if multiple workers would otherwise edit the same files. A clean worktree per worker still leaves integration and test ownership to the workflow designer. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a> <a class="citation" href="#source-2" aria-label="Source 2">[2]</a></p>
+<p>The bundled Python runs in a separate process. The first workflow may spend time unpacking it. Google documents fallback to an installed Python when the bundled runtime cannot start, as well as an interpreter override. App and CLI support is documented on Pro and Ultra. The published guide does not establish a free entitlement or provide a per-workflow cost figure. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p>
+<h3 id="comparison">When scripted control helps</h3>
+<div class="table-scroll" role="region" aria-label="Workflow choices" tabindex="0"><table class="research-table"><caption>Choosing how to split a coding task</caption><thead><tr><th scope="col">Approach</th><th scope="col">Good fit</th><th scope="col">Trade-off</th></tr></thead><tbody><tr><th scope="row">One session</th><td>A small change with one tight feedback loop</td><td>Fewer moving parts, with every step handled serially by one agent.</td></tr><tr><th scope="row">Background subagents</th><td>Independent investigations alongside a parent task <a class="citation" href="#source-3" aria-label="Source 3">[3]</a></td><td>The parent interprets reports as they come back.</td></tr><tr><th scope="row">Dynamic Workflow</th><td>Repeatable parallel checks followed by a shared verification stage <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></td><td>The script defines the order and report shape. It adds coordination overhead and needs review.</td></tr></tbody></table></div>
+<p>For a practical trial, give each worker a different package to check for regressions, then run the same integration suite once after collecting the reports. Record which tests actually ran and require file references for each finding. Compare the result with a single-agent run at the same scope. Neither the availability of more workers nor a schema-compliant report establishes a speedup or a passing build.</p>
+      <!-- Optional: timeline, evidence table, code, or inline figure from the guide.
+      Cite fixes by version/commit/PR. Separate shipped fixes from proposed workarounds.
+      For numbers: name the evaluator, date, method, environment and limitations.
+      -->
+    </section>
+
+    <!-- Optional h2 sections: Evidence & Sources (analysis), Community Reactions,
+    Visual Evidence. Figures may appear directly beside relevant paragraphs.
+    Do not create empty sections or invent community reactions or experiments.
+    Put the complete numbered bibliography at the END, below Conclusion.
+    -->
+
+    <section class="plain-english" id="explained-simply" data-explained-simply aria-labelledby="simple-title">
+      <h2 id="simple-title">Explained Simply</h2>
+      <!-- Use short descriptive h3s when the simple explanation spans several topics. -->
+      <p>Say an update changes four packages. The main agent can generate a script that starts four separate reviewers together. Each reviewer checks its package and returns the same fields, such as file, finding and test outcome.</p>
+      <p>The script can wait for all four reports and then run a single test phase. This makes it easier to see who checked what and which checks still need to finish. The parent conversation can keep its summary without loading every worker’s raw logs.</p>
+      <p>Use separate workers when tasks can proceed independently. Use a sequence when the next change needs the previous result. Review the script and tool permissions, and require concrete test results before accepting its summary.</p>
+    </section>
+
+    <section aria-labelledby="conclusion">
+      <h2 id="conclusion">Conclusion</h2>
+      <p>The feature is best suited to repeatable reviews, independent package changes and staged verification. Compare the same task in a single session and a workflow using elapsed time, confirmed test outcomes and usage. If edits are needed, keep initially independent work in separate worktrees and define how to integrate it. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a> <a class="citation" href="#source-2" aria-label="Source 2">[2]</a></p>
+    </section>
+
+    <section aria-labelledby="sources">
+      <h2 id="sources">Evidence &amp; Sources</h2>
+      <p class="source-detail">Source type describes provenance, not guaranteed truth. Availability checks do not verify a claim.</p>
+      <ol class="source-list">
+        <li id="source-1" data-source-type="official">
+          <span class="evidence-label">Official</span>
+          <a href="https://antigravity.google/docs/dynamic-workflows/">Google Antigravity — Dynamic Workflows</a>
+          <span class="source-detail">Script lifecycle, supported plans, Python runtime, agent options and approvals.</span>
+          <time datetime="2026-11-16">Accessed 2026-11-16</time>
+        </li>
+<li id="source-2" data-source-type="official"><span class="evidence-label">Official</span><a href="https://antigravity.google/docs/slash-commands/">Google Antigravity — slash commands</a><span class="source-detail">Workflow command and phase behavior.</span><time datetime="2026-11-16">Accessed 2026-11-16</time></li>
+<li id="source-3" data-source-type="official"><span class="evidence-label">Official</span><a href="https://opencode.ai/changelog/v2.3.0">OpenCode — v2.3.0 changelog</a><span class="source-detail">November 13 release documenting background subagents.</span><time datetime="2026-11-16">Accessed 2026-11-16</time></li>
+      </ol>
+    </section>
+    <!-- ARTICLE CONTENT END: keep the shared reactions block below. -->
+
+    <section class="article-engagement" aria-label="Article reactions">
+      <div class="engagement-copy"><span class="engagement-heading">Enjoyed this research?</span><span class="engagement-note">Leave a like — no account needed.</span></div>
+      <div class="engagement-actions">
+        <button type="button" class="article-like-button" data-like-button aria-label="Like this article" aria-pressed="false" disabled>
+          <svg class="article-like-heart" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z"/></svg>
+          <span data-like-count aria-live="polite">—</span><span>likes</span>
+        </button>
+        <span class="article-like-status" data-like-status role="status">Loading likes…</span>
+      </div>
+    </section>
+  </article>
+</main>
+</div>
+<footer class="footer"><div class="footer-inner"><span>© 2026 Dekrov</span><span class="footer-links"><a href="https://t.me/Dekrov_channel_en">Telegram / @Dekrov_channel_en ↗</a><a href="https://x.com/Dekrov_Dev">X / @Dekrov_Dev ↗</a><a href="https://github.com/DekrovDev">GitHub / DekrovDev ↗</a></span></div></footer>
+<script src="/article-likes.js?v=3" defer></script>
+<script src="/article.js" defer></script>
+<script src="/site.js"></script>
+</body>
+</html>
