@@ -5,6 +5,13 @@
     "meta": "Overview"
   },
   {
+    "slug": "qwen4-max",
+    "path": "/qwen4-max/",
+    "title": "Qwen4-Max Ships With a Million-Token Window",
+    "meta": "AI Coding Models · Nov 16, 2026",
+    "summary": "Alibaba’s flagship brings native vision, a 2.4-trillion-parameter backbone and a paid API to coding agents."
+  },
+  {
     "slug": "gemini-cli-068-extension-safety-20261116",
     "path": "/gemini-cli-068/",
     "title": "Gemini CLI 0.68 Hardens Extensions—but Validation Is Not Trust",
