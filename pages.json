@@ -5,6 +5,13 @@
     "meta": "Overview"
   },
   {
+    "slug": "antigravity-workflows",
+    "path": "/antigravity-workflows/",
+    "title": "Antigravity Dynamic Workflows Give Coding Agents Scripted Control Flow",
+    "meta": "AI Coding Workflows · Nov 16, 2026",
+    "summary": "Google’s Dynamic Workflows coordinate parallel and staged coding tasks in a local Python script with structured results."
+  },
+  {
     "slug": "qwen4-max",
     "path": "/qwen4-max/",
     "title": "Qwen4-Max Ships With a Million-Token Window",
