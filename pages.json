@@ -5,6 +5,13 @@
     "meta": "Overview"
   },
   {
+    "slug": "mistral-streaming",
+    "path": "/mistral-streaming/",
+    "title": "LangChain’s Mistral Update Changes Streaming and Gateway Routing",
+    "meta": "AI Developer SDKs · Nov 16, 2026",
+    "summary": "The 1.2.0 integration fixes reasoning streams and adds a LangSmith gateway route. Here is what to verify before upgrading."
+  },
+  {
     "slug": "browser-use-default",
     "path": "/browser-use-default/",
     "title": "Browser Use 1.0.6 Changes the Default Model and Its Cost",
