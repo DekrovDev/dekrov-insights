@@ -1,0 +1,148 @@
+---
+layout: null
+permalink: /gh-aw-routing/
+redirect_from:
+  - /pages/gh-aw-routing-20261117/
+  - /pages/gh-aw-routing-20261117/index.html
+---
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#ffffff">
+<meta name="description" content="The v1.2.3 prerelease routes eligible workflows toward cost-aware inference and changes merge, connector and installer safety defaults. Here is what to check before recompiling.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GitHub Agentic Workflows Changes Its Model-Routing Default">
+<meta property="og:description" content="The v1.2.3 prerelease routes eligible workflows toward cost-aware inference and changes merge, connector and installer safety defaults. Here is what to check before recompiling.">
+<meta property="og:url" content="https://insights.dekrov.com/gh-aw-routing/">
+<link rel="canonical" href="https://insights.dekrov.com/gh-aw-routing/">
+<meta name="twitter:card" content="summary">
+<title>GitHub Agentic Workflows Changes Its Model-Routing Default — Dekrov Insights</title>
+<script src="/theme.js"></script>
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body data-page="gh-aw-routing-20261117" data-root="/">
+<header class="top">
+  <div class="header-inner">
+    <div class="brand-signature">
+      <a class="brand" href="/"><span class="brand-mark" aria-hidden="true">DK</span>Dekrov Insights</a>
+      <span class="brand-role">Research / AI &amp; Technology</span>
+    </div>
+    <div class="header-actions">
+      <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme"><span data-theme-label>Light</span></button>
+      <a class="nav" href="https://github.com/DekrovDev/dekrov-insights">GitHub ↗</a>
+    </div>
+  </div>
+</header>
+<div class="layout">
+<aside class="sidebar" aria-label="Page navigation">
+  <p class="side-heading">Index</p>
+  <nav class="side-nav" aria-label="Pages" data-site-nav></nav>
+</aside>
+<main class="main-content" id="main">
+  <article class="article-body research-article" data-article-version="2">
+    <!-- ARTICLE CONTENT START -->
+    <span class="tag">AI Coding Workflows</span>
+    <h1>GitHub Agentic Workflows Changes Its Model-Routing Default</h1>
+    <div class="article-meta">
+      <span>By Dekrov</span>
+      <span>Published <time datetime="2026-11-17">Nov 17, 2026</time></span>
+      <span>Updated <time datetime="2026-11-17">Nov 17, 2026</time></span>
+    </div>
+    <p class="intro">The November 13 gh-aw v1.2.3 prerelease changes an important implicit decision: eligible GitHub Copilot-powered workflows without an explicit model or routing setting now use cost-oriented automatic routing. The November 16 project update also highlights new boundaries around merges, external services and software downloads. This is a workflow-compiler upgrade, not a new model, and the prerelease label matters.</p>
+    <!-- This link must remain accessible even when scripts are unavailable. -->
+    <p><a href="#explained-simply">Start with the plain-English explanation ↓</a></p>
+
+    <section aria-labelledby="overview">
+      <h2 id="overview">Overview</h2>
+      <p>GitHub Agentic Workflows compiles agent instructions into GitHub Actions workflows. The same instruction can behave differently after recompilation when an engine default changes. Version 1.2.3 changes model selection and multiple safety defaults; teams should review generated changes rather than treating the upgrade as a routine patch. <a class="citation" href="#source-2" aria-label="Source 2">[2]</a>
+        <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p>
+    </section>
+
+    <section aria-labelledby="technical-deep-dive">
+      <h2 id="technical-deep-dive">Technical Deep Dive</h2>
+      <!-- Add/rename/remove h3 subsections to reflect the actual investigation. -->
+      <h3 id="mechanism">How it works</h3>
+      <p>For eligible workflows using GitHub Copilot inference, an unset model and unset routing configuration now select an automated cost objective. The router can select a model and reasoning effort appropriate to the task. A fixed model remains a deliberate choice; disabling routing is the documented way to retain the previous non-routed behavior. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a> <a class="citation" href="#source-3" aria-label="Source 3">[3]</a> <a class="citation" href="#source-4" aria-label="Source 4">[4]</a></p>
+      <aside class="evidence-note" data-evidence="official" aria-label="Evidence qualification">
+        <span class="evidence-label">Official statement</span>
+        <p>The release notes establish the changed configuration default, not a measured saving for an arbitrary repository. No independent benchmark or deployment of v1.2.3 was performed for this article. Actual selection, task success, retries and total cost require measurement.
+          <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p>
+      </aside>
+<h3 id="model-default">Model routing: policy, not a model name</h3>
+<p>The documented router profiles represent different quality targets. The automatic profile delegates the choice of profile to the task classifier. The cost objective prioritizes economical candidates that meet the target; a cost-and-speed objective is also available via explicit configuration. A selected model is not guaranteed to finish the work successfully. <a class="citation" href="#source-3" aria-label="Source 3">[3]</a> <a class="citation" href="#source-5" aria-label="Source 5">[5]</a></p>
+<div class="table-scroll" role="region" aria-label="Routing configuration choices" tabindex="0"><table class="research-table"><caption>Supported routing choices and their intended meaning. <a class="citation" href="#source-3" aria-label="Source 3">[3]</a> <a class="citation" href="#source-5" aria-label="Source 5">[5]</a></caption><thead><tr><th scope="col">Configuration</th><th scope="col">Intended behavior</th></tr></thead><tbody><tr><th scope="row"><code>router</code></th><td>Automatic cost-oriented profile selection</td></tr><tr><th scope="row"><code>router/economy</code></th><td>Economy quality target</td></tr><tr><th scope="row"><code>router/balanced</code></th><td>Intermediate quality target</td></tr><tr><th scope="row"><code>router/robust</code></th><td>Higher quality target</td></tr><tr><th scope="row"><code>engine.model-routing: false</code></th><td>Disable routing explicitly</td></tr></tbody></table></div>
+<p>The following is a configuration excerpt, not a complete runnable workflow. It illustrates the opt-out for a Copilot engine workflow; keep any existing explicit model settings that are required by your project. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a> <a class="citation" href="#source-4" aria-label="Source 4">[4]</a></p>
+<pre tabindex="0" aria-label="Routing opt-out YAML"><code>engine:
+  id: copilot
+  model-routing: false</code></pre>
+<h3 id="migration">Five migration boundaries</h3>
+<div class="table-scroll" role="region" aria-label="Upgrade migration checklist" tabindex="0"><table class="research-table"><caption>Version 1.2.3 release-note changes and recommended upgrade checks. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a> <a class="citation" href="#source-2" aria-label="Source 2">[2]</a></caption><thead><tr><th scope="col">Area</th><th scope="col">Changed behavior</th><th scope="col">Review</th></tr></thead><tbody><tr><th scope="row">Model selection</th><td>Eligible unset configurations route automatically</td><td>Compare model, cost and task results</td></tr><tr><th scope="row">Service connectors</th><td>Native Jira, Linear and Azure DevOps integrations replaced by declarative imports</td><td>Review read profiles, write effects and credentials</td></tr><tr><th scope="row">PR merge</th><td>Protected-file changes blocked by the merge safe output</td><td>Use a human review for sensitive changes</td></tr><tr><th scope="row">Fork triggers</th><td>Same-repository PRs admitted by default for pull_request_target</td><td>Audit any explicitly admitted fork</td></tr><tr><th scope="row">Downloads</th><td>AWF and Copilot CLI require pinned checksums</td><td>Confirm version and digest pins</td></tr></tbody></table></div>
+<p>These are gh-aw-specific changes. They should not be confused with separate platform-wide GitHub Actions policy changes. The release also disables MCP workflow-writing tools by default, making tool exposure another setting to inspect during migration. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p>
+<h3 id="audit">Measure completed work rather than token price</h3>
+<p>Use the documented audit and logs commands to inspect the selected model, effort, classification and recorded costs. A controlled trial should keep task inputs and acceptance checks constant and compare completed outcomes, including failed runs and retries. Route profiles are preferences, not a promise of a particular quality score. <a class="citation" href="#source-3" aria-label="Source 3">[3]</a></p>
+<p>For a team using native external services, the connector migration is a separate reason to review generated permissions. A declarative connector specifies which external reads and writes the workflow needs; credentials and service-side permissions still determine the actual authority. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a> <a class="citation" href="#source-6" aria-label="Source 6">[6]</a></p>
+      <!-- Optional: timeline, evidence table, code, or inline figure from the guide.
+      Cite fixes by version/commit/PR. Separate shipped fixes from proposed workarounds.
+      For numbers: name the evaluator, date, method, environment and limitations.
+      -->
+    </section>
+
+    <!-- Optional h2 sections: Evidence & Sources (analysis), Community Reactions,
+    Visual Evidence. Figures may appear directly beside relevant paragraphs.
+    Do not create empty sections or invent community reactions or experiments.
+    Put the complete numbered bibliography at the END, below Conclusion.
+    -->
+
+    <section class="plain-english" id="explained-simply" data-explained-simply aria-labelledby="simple-title">
+      <h2 id="simple-title">Explained Simply</h2>
+      <!-- Use short descriptive h3s when the simple explanation spans several topics. -->
+      <p>Imagine a workshop that assigns a different technician to each job. Routine jobs might go to a less expensive technician while complex jobs get more resources. A model router makes a similar choice for an AI workflow. The new version can enable that choice automatically when a workflow has not specified a model. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a> <a class="citation" href="#source-3" aria-label="Source 3">[3]</a></p>
+      <p>This matters when a maintainer runs hundreds of automated issue reviews. A new default might change the model, its answers and the bill even when the written instructions are unchanged. A cheaper individual request does not guarantee a cheaper finished job if the agent needs more retries. <a class="citation" href="#source-3" aria-label="Source 3">[3]</a></p>
+      <p>Before upgrading, check whether the workflow uses an implicit model, whether it writes to protected files, and whether it depends on external issue trackers or fork-based triggers. Keep a human review step where needed, recompile, inspect the generated workflow, and test with a limited workload. This is a prerelease rather than a general production rollout. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a> <a class="citation" href="#source-2" aria-label="Source 2">[2]</a></p>
+    </section>
+
+    <section aria-labelledby="conclusion">
+      <h2 id="conclusion">Conclusion</h2>
+      <p>The significant change is that model choice becomes a runtime policy by default for eligible workflows, while several actions become more restrictive. Review the migration as a combined cost and permission change: compare successful outcomes, total cost and generated configuration before wider adoption. No universal quality or savings improvement is established. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a> <a class="citation" href="#source-3" aria-label="Source 3">[3]</a></p>
+    </section>
+
+    <section aria-labelledby="sources">
+      <h2 id="sources">Evidence &amp; Sources</h2>
+      <p class="source-detail">Source type describes provenance, not guaranteed truth. Availability checks do not verify a claim.</p>
+      <ol class="source-list">
+        <li id="source-1" data-source-type="official">
+          <span class="evidence-label">Official</span>
+          <a href="https://github.com/github/gh-aw/releases/tag/v1.2.3">GitHub — gh-aw v1.2.3 release</a>
+          <span class="source-detail">Nov 13, 2026. Prerelease, breaking changes and immutable release tag.</span>
+          <time datetime="2026-11-17">Accessed 2026-11-17</time>
+        </li>
+        <li id="source-2" data-source-type="official"><span class="evidence-label">Official</span><a href="https://github.github.com/gh-aw/blog/2026-11-16-weekly-update/">GitHub Agentic Workflows — Weekly Update</a><span class="source-detail">Nov 16, 2026. Release summary and migration advice.</span><time datetime="2026-11-17">Accessed 2026-11-17</time></li>
+        <li id="source-3" data-source-type="official"><span class="evidence-label">Official</span><a href="https://github.github.com/gh-aw/reference/model-routing/">GitHub Agentic Workflows — Model Routing</a><span class="source-detail">Current reference for routing modes, audit output and opt-out.</span><time datetime="2026-11-17">Accessed 2026-11-17</time></li>
+        <li id="source-4" data-source-type="official"><span class="evidence-label">Official</span><a href="https://github.github.com/gh-aw/reference/engines/copilot/">GitHub Agentic Workflows — Copilot engine</a><span class="source-detail">Current engine-specific default routing and version pinning.</span><time datetime="2026-11-17">Accessed 2026-11-17</time></li>
+        <li id="source-5" data-source-type="official"><span class="evidence-label">Official</span><a href="https://github.github.com/gh-aw/reference/frontmatter/">GitHub Agentic Workflows — Frontmatter</a><span class="source-detail">Model router syntax and workflow configuration.</span><time datetime="2026-11-17">Accessed 2026-11-17</time></li>
+        <li id="source-6" data-source-type="official"><span class="evidence-label">Official</span><a href="https://github.github.com/gh-aw/reference/connectors/">GitHub Agentic Workflows — Connectors</a><span class="source-detail">Declarative service integrations and connector configuration.</span><time datetime="2026-11-17">Accessed 2026-11-17</time></li>
+      </ol>
+    </section>
+    <!-- ARTICLE CONTENT END: keep the shared reactions block below. -->
+
+    <section class="article-engagement" aria-label="Article reactions">
+      <div class="engagement-copy"><span class="engagement-heading">Enjoyed this research?</span><span class="engagement-note">Leave a like — no account needed.</span></div>
+      <div class="engagement-actions">
+        <button type="button" class="article-like-button" data-like-button aria-label="Like this article" aria-pressed="false" disabled>
+          <svg class="article-like-heart" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z"/></svg>
+          <span data-like-count aria-live="polite">—</span><span>likes</span>
+        </button>
+        <span class="article-like-status" data-like-status role="status">Loading likes…</span>
+      </div>
+    </section>
+  </article>
+</main>
+</div>
+<footer class="footer"><div class="footer-inner"><span>© 2026 Dekrov</span><span class="footer-links"><a href="https://t.me/Dekrov_channel_en">Telegram / @Dekrov_channel_en ↗</a><a href="https://x.com/Dekrov_Dev">X / @Dekrov_Dev ↗</a><a href="https://github.com/DekrovDev">GitHub / DekrovDev ↗</a></span></div></footer>
+<script src="/article-likes.js?v=3" defer></script>
+<script src="/article.js" defer></script>
+<script src="/site.js"></script>
+</body>
+</html>
