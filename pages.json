@@ -5,6 +5,13 @@
     "meta": "Overview"
   },
   {
+    "slug": "gh-aw-routing-20261117",
+    "path": "/gh-aw-routing/",
+    "title": "GitHub Agentic Workflows Changes Its Model-Routing Default",
+    "meta": "AI Coding Workflows · Nov 17, 2026",
+    "summary": "The v1.2.3 prerelease routes eligible workflows toward cost-aware inference and changes merge, connector and installer safety defaults. Here is what to check before recompiling."
+  },
+  {
     "slug": "copilot-project-automation-20261117",
     "path": "/copilot-automation/",
     "title": "Copilot Project Automations: Precise Schedules, Real Boundaries",
