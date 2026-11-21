@@ -5,6 +5,13 @@
     "meta": "Overview"
   },
   {
+    "slug": "mai-code-2-20261121",
+    "path": "/mai-code-cost/",
+    "title": "MAI Code 2 and Flash: Microsoft’s Coding Models, Benchmarks and Pricing",
+    "meta": "AI Coding Models · Nov 21, 2026",
+    "summary": "Compare Code 2 for repo-level engineering with Flash for routine edits. We examine Microsoft’s benchmark claims, Copilot availability, promotional pricing and access limits."
+  },
+  {
     "slug": "inkling-2-mini-20261121",
     "path": "/inkling-loop/",
     "title": "Inkling 2 Mini: How Looping Adds More Reasoning to a Small Open Model",
