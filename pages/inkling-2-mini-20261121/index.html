@@ -1,0 +1,166 @@
+---
+layout: null
+permalink: /inkling-loop/
+redirect_from:
+  - /pages/inkling-2-mini-20261121/
+  - /pages/inkling-2-mini-20261121/index.html
+---
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#ffffff">
+<meta name="description" content="Thinking Machines’ 26.4B open-weight model reuses its middle transformer layers three times. We examine its coding scores, local hardware needs and what the offline demo proves.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Inkling 2 Mini: How Looping Adds More Reasoning to a Small Open Model">
+<meta property="og:description" content="Thinking Machines’ 26.4B open-weight model reuses its middle transformer layers three times. We examine its coding scores, local hardware needs and what the offline demo proves.">
+<meta property="og:url" content="https://insights.dekrov.com/inkling-loop/">
+<link rel="canonical" href="https://insights.dekrov.com/inkling-loop/">
+<meta name="twitter:card" content="summary">
+<title>Inkling 2 Mini: How Looping Adds More Reasoning to a Small Open Model — Dekrov Insights</title>
+<script src="/theme.js"></script>
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body data-page="inkling-2-mini-20261121" data-root="/">
+<header class="top">
+  <div class="header-inner">
+    <div class="brand-signature">
+      <a class="brand" href="/"><span class="brand-mark" aria-hidden="true">DK</span>Dekrov Insights</a>
+      <span class="brand-role">Research / AI &amp; Technology</span>
+    </div>
+    <div class="header-actions">
+      <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme"><span data-theme-label>Light</span></button>
+      <a class="nav" href="https://github.com/DekrovDev/dekrov-insights">GitHub ↗</a>
+    </div>
+  </div>
+</header>
+<div class="layout">
+<aside class="sidebar" aria-label="Page navigation">
+  <p class="side-heading">Index</p>
+  <nav class="side-nav" aria-label="Pages" data-site-nav></nav>
+</aside>
+<main class="main-content" id="main">
+  <article class="article-body research-article" data-article-version="2">
+    <!-- ARTICLE CONTENT START. Read ARTICLE_AUTHORING_GUIDE.md first.
+    Replace every editorial token; HTML-escape inserted text and attributes.
+    Keep explicit heading IDs: they also work without JavaScript.
+    Add optional sections only when there is substantive sourced material.
+    Use one idea per paragraph and descriptive h3 subsections in long sections.
+    Insert complete sibling paragraphs; never wrap supplied HTML in another p.
+    Typography and spacing come from styles.css, not inline styles or br spacers.
+    The article.js script adds a compact TOC and a prominent plain-English jump.
+    -->
+    <span class="tag">AI Coding Models</span>
+    <h1>Inkling 2 Mini: How Looping Adds More Reasoning to a Small Open Model</h1>
+    <div class="article-meta">
+      <span>By Dekrov</span>
+      <span>Published <time datetime="2026-11-21">Nov 21, 2026</time></span>
+      <span>Updated <time datetime="2026-11-21">Nov 21, 2026</time></span>
+    </div>
+    <p class="intro">Inkling 2 Mini is an open-weight 26.4B-parameter model that reuses its middle layers for extra computation. Its coding results and offline Mac demo are promising, but the scores are provider-reported and the demonstrated computer had 48GB of memory.</p>
+    <!-- This link must remain accessible even when scripts are unavailable. -->
+    <p><a href="#explained-simply">Start with the plain-English explanation ↓</a></p>
+
+    <section aria-labelledby="overview">
+      <h2 id="overview">Overview</h2>
+      <p>Thinking Machines Lab released Inkling 2 Mini on November 20, 2026. It combines a sparse mixture-of-experts model with a looped transformer: the middle layers run repeatedly for each token. The lab says the model has 26.4 billion total parameters, 3.4 billion active, and a roughly 20GB weight footprint. It is distributed with open weights under Apache 2.0, making local inference and downstream integration possible. The interesting claim is not simply that a laptop can run it; it is that a compact model can spend more computation on each token without storing repeated copies of those middle layers.
+        <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p>
+    </section>
+
+    <section aria-labelledby="technical-deep-dive">
+      <h2 id="technical-deep-dive">Technical Deep Dive</h2>
+      <!-- Add/rename/remove h3 subsections to reflect the actual investigation. -->
+      <h3 id="mechanism">How it works</h3>
+      <p>The model has 24 decoder layers. The first six run once, the middle twelve (layers 7–18) run three times with shared weights, and the last six run once. That produces 48 layer applications per token from 24 stored layers. Each layer uses a sparse expert system: a token is routed to eight of 128 experts. The loop raises effective active computation to about 5.4B parameters per token, even though 3.4B parameters are active in the ordinary model-count sense. Most weights use NVFP4, with the final four layers in MXFP8. The lab’s explanation is that repeated middle-layer passes can refine internal representations before the model emits text; this is an architectural rationale, not proof that every coding task improves.</p>
+      <aside class="evidence-note" data-evidence="official" aria-label="Evidence qualification">
+        <span class="evidence-label">Official statement</span>
+        <p>The release announcement and model card describe the architecture and publish the reported evaluations. They are provider sources: their benchmark results are useful starting points, not independent replications. The same announcement explicitly says evaluation setups vary across models, so a leaderboard row is not a controlled head-to-head test.
+          <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p>
+      </aside>
+      <!-- Optional: timeline, evidence table, code, or inline figure from the guide.
+      Cite fixes by version/commit/PR. Separate shipped fixes from proposed workarounds.
+      For numbers: name the evaluator, date, method, environment and limitations.
+      -->
+    </section>
+
+
+    <section aria-labelledby="evidence-comparison">
+      <h2 id="evidence-comparison">What the published scores do—and do not—show</h2>
+      <p>Thinking Machines reports 48.2% on DeepSWE v1.1 using mini-swe-agent v2.4.6, compared with 42.2% for Qwen3.8-27B in its table. It reports 79.2% on SWE-bench Verified with a bash-only setup, compared with 77.8% for Qwen3.8-27B. These are vendor-published results, and the source cautions that evaluation setups vary across models. They should be read as promising claims to reproduce, not as a definitive ranking. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a><a class="citation" href="#source-2" aria-label="Source 2">[2]</a></p>
+      <p>The same release lists weaker results on multi-turn constraint following: 50.0% on MultiChallenge and 33.4% on ComplexConstraints v1.1, behind Qwen3.8-27B on both. The model is therefore not a universal small-model winner; the company positions it for long-horizon agentic tasks. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p>
+      <div class="table-scroll" role="region" aria-label="Published Inkling 2 Mini benchmark claims and limits" tabindex="0">
+        <table class="research-table">
+          <caption>Selected scores reported by Thinking Machines, November 2026</caption>
+          <thead><tr><th scope="col">Evaluation</th><th scope="col">Inkling 2 Mini</th><th scope="col">Comparison / limit</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">DeepSWE v1.1, mini-swe-agent v2.4.6</th><td>48.2%</td><td>Qwen3.8-27B: 42.2%; provider table, not an independent rerun.</td></tr>
+            <tr><th scope="row">SWE-bench Verified, bash only</th><td>79.2%</td><td>Qwen3.8-27B: 77.8%; harness and evaluation conditions matter.</td></tr>
+            <tr><th scope="row">MultiChallenge</th><td>50.0%</td><td>Provider says it trails Qwen3.8-27B.</td></tr>
+            <tr><th scope="row">ComplexConstraints v1.1</th><td>33.4%</td><td>Provider says it trails Qwen3.8-27B.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <h3 id="local-footprint">Local does not mean any laptop</h3>
+      <p>The checkpoint is about 20GB, but that is not the total runtime memory requirement. The model card recommends Apple silicon with 32GB or more, or GPUs with at least 32GB VRAM; the flight demo used an M5 Pro MacBook Pro with 48GB in airplane mode. The video is sped up 15×. It demonstrates a real local coding session as described by the authors, while leaving actual latency, sustained load and performance on lower-memory machines unanswered. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a><a class="citation" href="#source-3" aria-label="Source 3">[3]</a></p>
+      <p>For local serving, the repository documents Transformers, SGLang and vLLM, plus llama.cpp for quantized GGUF versions; it also lists Apple-silicon options such as Ollama and Exo. The published license is Apache 2.0. Hosted inference and customization are available through Tinker, but the announcement does not state a price. <a class="citation" href="#source-2" aria-label="Source 2">[2]</a><a class="citation" href="#source-3" aria-label="Source 3">[3]</a></p>
+    </section>
+
+    <section class="plain-english" id="explained-simply" data-explained-simply aria-labelledby="simple-title">
+      <h2 id="simple-title">Explained Simply</h2>
+      <!-- Use short descriptive h3s when the simple explanation spans several topics. -->
+      <p>A transformer is a neural network that repeatedly processes tokens, the pieces of text it reads and writes. Inkling 2 Mini has 24 learned layers, but it sends each token through the middle twelve layers three times. The model reuses those same weights instead of copying the middle layers, spending more computation while keeping the stored model smaller.</p>
+      <p>Think of a writer who rereads the middle of a draft twice before finishing it. The writer can reconsider the same material without hiring two extra writers or keeping three separate copies of the desk. The analogy is imperfect, but it captures the trade: more processing per token, with shared parameters. That may help a coding agent work through a sequence of tool calls while keeping the model’s files on a local machine.</p>
+      <p>The weights are downloadable, and the project documents local support through Hugging Face Transformers, SGLang, vLLM, and other runtimes; llama.cpp support is for quantized GGUF versions. The model page recommends at least 32GB of memory for Apple silicon or VRAM. The showcased airplane-mode flight-simulator run used a MacBook Pro M5 Pro with 48GB, so it does not establish that the model will run comfortably on every 20GB laptop. Offline inference also means no network-based retrieval: the model can use only its prompt, local tools and local files. Teams should test their own hardware, runtime, context length and agent harness.</p>
+    </section>
+
+    <section aria-labelledby="conclusion">
+      <h2 id="conclusion">Conclusion</h2>
+      <p>Inkling 2 Mini is a credible new option for developers who want open weights, local inference and agentic coding capability in a compact memory footprint. Its looped middle layers are the technical story; its coding benchmark lead and flight demo are claims from the maker, not independent confirmation. Before adopting it, check that your machine has practical memory headroom, choose a supported runtime, and benchmark it on your own repository and agent harness. The public materials do not yet establish how it performs across independent real-world coding workflows.</p>
+    </section>
+
+    <section aria-labelledby="sources">
+      <h2 id="sources">Evidence &amp; Sources</h2>
+      <p class="source-detail">Source type describes provenance, not guaranteed truth. Availability checks do not verify a claim.</p>
+      <ol class="source-list">
+        <li id="source-1" data-source-type="official">
+          <span class="evidence-label">Official</span>
+          <a href="https://thinkingmachines.ai/news/inkling-2-mini/">Introducing Inkling 2 Mini — Thinking Machines Lab</a>
+          <span class="source-detail">Published 2026-11-20. Supports the release date, architecture, provider-reported benchmark claims, quantization, approximate memory footprint and disclosed flight-demo hardware.</span>
+          <time datetime="2026-11-21">Accessed 2026-11-21</time>
+        </li>
+        <li id="source-2" data-source-type="official">
+          <span class="evidence-label">Official</span>
+          <a href="https://thinkingmachines.ai/model-card/inkling-2-mini/">Inkling 2 Mini Model Card — Thinking Machines Lab</a>
+          <span class="source-detail">Published 2026-11-20. Supports the Apache 2.0 license, intended uses and model-card evaluation table.</span>
+          <time datetime="2026-11-21">Accessed 2026-11-21</time>
+        </li>
+        <li id="source-3" data-source-type="official">
+          <span class="evidence-label">Official</span>
+          <a href="https://huggingface.co/thinkingmachines/Inkling-2-Mini">Inkling-2-Mini repository README — Hugging Face</a>
+          <span class="source-detail">Updated 2026-11-20. Supports local memory recommendations, architecture details and listed inference runtimes.</span>
+          <time datetime="2026-11-21">Accessed 2026-11-21</time>
+        </li>
+      </ol>
+    </section>
+    <!-- ARTICLE CONTENT END: keep the shared reactions block below. -->
+
+    <section class="article-engagement" aria-label="Article reactions">
+      <div class="engagement-copy"><span class="engagement-heading">Enjoyed this research?</span><span class="engagement-note">Leave a like — no account needed.</span></div>
+      <div class="engagement-actions">
+        <button type="button" class="article-like-button" data-like-button aria-label="Like this article" aria-pressed="false" disabled>
+          <svg class="article-like-heart" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z"/></svg>
+          <span data-like-count aria-live="polite">—</span><span>likes</span>
+        </button>
+        <span class="article-like-status" data-like-status role="status">Loading likes…</span>
+      </div>
+    </section>
+  </article>
+</main>
+</div>
+<footer class="footer"><div class="footer-inner"><span>© 2026 Dekrov</span><span class="footer-links"><a href="https://x.com/Dekrov_Dev">X / @Dekrov_Dev ↗</a><a href="https://github.com/DekrovDev">GitHub / DekrovDev ↗</a></span></div></footer>
+<script src="/article-likes.js?v=3" defer></script>
+<script src="/article.js" defer></script>
+<script src="/site.js"></script>
+</body>
+</html>

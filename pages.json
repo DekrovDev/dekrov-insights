@@ -5,6 +5,13 @@
     "meta": "Overview"
   },
   {
+    "slug": "inkling-2-mini-20261121",
+    "path": "/inkling-loop/",
+    "title": "Inkling 2 Mini: How Looping Adds More Reasoning to a Small Open Model",
+    "meta": "AI Coding Models · Nov 21, 2026",
+    "summary": "Inkling 2 Mini adds looped reasoning to a 26.4B open-weight model. We examine vendor-reported coding scores, local hardware requirements and what its offline Mac demo proves."
+  },
+  {
     "slug": "gh-aw-routing-20261117",
     "path": "/gh-aw-routing/",
     "title": "GitHub Agentic Workflows Changes Its Model-Routing Default",
