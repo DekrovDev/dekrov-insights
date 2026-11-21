@@ -1,0 +1,153 @@
+---
+layout: null
+permalink: /mai-code-cost/
+redirect_from:
+  - /pages/mai-code-2-20261121/
+  - /pages/mai-code-2-20261121/index.html
+---
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#ffffff">
+<meta name="description" content="Microsoft’s two coding models trade long-horizon engineering depth for cheaper routine edits. We examine claimed benchmarks, Copilot access, promo token prices and the limits of the evidence.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MAI Code 2 and Flash: Microsoft’s Coding Models, Benchmarks and Pricing">
+<meta property="og:description" content="Microsoft’s two coding models trade long-horizon engineering depth for cheaper routine edits. We examine claimed benchmarks, Copilot access, promo token prices and the limits of the evidence.">
+<meta property="og:url" content="https://insights.dekrov.com/mai-code-cost/">
+<link rel="canonical" href="https://insights.dekrov.com/mai-code-cost/">
+<meta name="twitter:card" content="summary">
+<title>MAI Code 2 and Flash: Microsoft’s Coding Models, Benchmarks and Pricing — Dekrov Insights</title>
+<script src="/theme.js"></script>
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body data-page="mai-code-2-20261121" data-root="/">
+<header class="top">
+  <div class="header-inner">
+    <div class="brand-signature">
+      <a class="brand" href="/"><span class="brand-mark" aria-hidden="true">DK</span>Dekrov Insights</a>
+      <span class="brand-role">Research / AI &amp; Technology</span>
+    </div>
+    <div class="header-actions">
+      <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme"><span data-theme-label>Light</span></button>
+      <a class="nav" href="https://github.com/DekrovDev/dekrov-insights">GitHub ↗</a>
+    </div>
+  </div>
+</header>
+<div class="layout">
+<aside class="sidebar" aria-label="Page navigation">
+  <p class="side-heading">Index</p>
+  <nav class="side-nav" aria-label="Pages" data-site-nav></nav>
+</aside>
+<main class="main-content" id="main">
+  <article class="article-body research-article" data-article-version="2">
+    <!-- ARTICLE CONTENT START. Read ARTICLE_AUTHORING_GUIDE.md first.
+    Replace every editorial token; HTML-escape inserted text and attributes.
+    Keep explicit heading IDs: they also work without JavaScript.
+    Add optional sections only when there is substantive sourced material.
+    Use one idea per paragraph and descriptive h3 subsections in long sections.
+    Insert complete sibling paragraphs; never wrap supplied HTML in another p.
+    Typography and spacing come from styles.css, not inline styles or br spacers.
+    The article.js script adds a compact TOC and a prominent plain-English jump.
+    -->
+    <span class="tag">AI Coding Models</span>
+    <h1>MAI Code 2 and Flash: Microsoft’s Coding Models, Benchmarks and Pricing</h1>
+    <div class="article-meta">
+      <span>By Dekrov</span>
+      <span>Published <time datetime="2026-11-21">Nov 21, 2026</time></span>
+      <span>Updated <time datetime="2026-11-21">Nov 21, 2026</time></span>
+    </div>
+    <p class="intro">MAI Code 2 targets complex repo-level work; Flash targets routine, high-volume coding. Microsoft’s evaluations suggest aggressive price-performance, but the company says its models are not yet tuned for harder research or very long-horizon agent tasks.</p>
+    <!-- This link must remain accessible even when scripts are unavailable. -->
+    <p><a href="#explained-simply">Start with the plain-English explanation ↓</a></p>
+
+    <section aria-labelledby="overview">
+      <h2 id="overview">Overview</h2>
+      <p>Microsoft introduced MAI Code 2 and MAI Code 2 Flash on November 17, 2026. The larger model is positioned for deep debugging, multi-file implementation and repository-wide reasoning; Flash is for explanations, targeted edits, routine fixes and rapid iteration. Both are available in GitHub Copilot under usage-based billing. The notable tradeoff is not just model size: Microsoft frames Code 2 as an affordable general coding agent and Flash as a low-cost workhorse, while explicitly saying neither is yet tuned for harder scientific problems or very long-horizon agent work. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a><a class="citation" href="#source-3" aria-label="Source 3">[3]</a>
+        <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p>
+    </section>
+
+    <section aria-labelledby="technical-deep-dive">
+      <h2 id="technical-deep-dive">Technical Deep Dive</h2>
+      <!-- Add/rename/remove h3 subsections to reflect the actual investigation. -->
+      <h3 id="mechanism">How it works</h3>
+      <p>Microsoft’s model cards describe a decoder-only transformer with sparse Mixture-of-Experts layers and an integrated vision encoder. The cards give broad size ranges rather than exact parameter counts: 50–100B total with 80B active for Code 2, and 5–15B total with 12B active for Flash. Both accept text and images and list a context window of about 1.05 million tokens. These are closed models delivered through products; their listed terms depend on deployment, rather than a downloadable open-weight license. The model card describes the model family and intended use, but does not expose enough implementation detail to independently reproduce training or inference behavior. <a class="citation" href="#source-2" aria-label="Source 2">[2]</a></p>
+      <aside class="evidence-note" data-evidence="official" aria-label="Evidence qualification">
+        <span class="evidence-label">Official statement</span>
+        <p>Microsoft’s release post and model cards provide the product’s claims and model specifications. Their benchmark comparisons combine Microsoft-run evaluations with selected external scores and pricing assumptions; they do not establish that every team will see the same quality or cost. The comparison set is limited to named tasks and configurations, and no independent rerun of the full comparison was found in this source check.
+          <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p>
+      </aside>
+      <!-- Optional: timeline, evidence table, code, or inline figure from the guide.
+      Cite fixes by version/commit/PR. Separate shipped fixes from proposed workarounds.
+      For numbers: name the evaluator, date, method, environment and limitations.
+      -->
+    </section>
+
+
+    <section aria-labelledby="benchmark-evidence">
+      <h2 id="benchmark-evidence">What Microsoft’s benchmark comparison actually says</h2>
+      <p>Microsoft reports that Code 2 reaches 98% of GPT-6.1 Sol’s average performance at 40% of its cost, and 96% of Claude Opus 5.5’s performance at 5% of the cost. The four-task average includes DeepSWE 1.1, Terminal Bench 2.1, SWE-Atlas and FrontierCode 1.1. Microsoft says the first three were run on its internal MSBench platform with GitHub Copilot CLI and no subagents; FrontierCode results and costs came from Artificial Analysis. The Code 2 cost comparison uses a 50% promotional price. Treat the result as a vendor-reported evaluation, not an independent controlled comparison. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p>
+      <p>For Flash, Microsoft reports performance comparable to GPT-6 Luna and Claude Haiku 5.5 at 65% and 20% of their costs across three routine-coding benchmarks. Again, the page notes max reasoning effort and the same internal harness for DeepSWE, Terminal Bench and SWE-Atlas, with promotional pricing in the cost calculation. These claims are workload-specific; Microsoft itself says the models are not yet tuned for very hard research and very long-horizon agent work. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p>
+      <div class="table-scroll" role="region" aria-label="MAI model positioning, access and pricing" tabindex="0">
+        <table class="research-table"><caption>Current product positioning and GitHub Copilot promotional rates, checked Nov 21, 2026</caption>
+        <thead><tr><th scope="col">Model</th><th scope="col">Best-fit task per Microsoft</th><th scope="col">Copilot access</th><th scope="col">Promo rate per 1M tokens</th></tr></thead>
+        <tbody>
+        <tr><th scope="row">MAI Code 2</th><td>Deep debugging, multi-file work, repo reasoning</td><td>Pro, Pro+, Max, Business, Enterprise</td><td>$0.50 input / $0.025 cached / $2.50 output</td></tr>
+        <tr><th scope="row">MAI Code 2 Flash</th><td>Explanations, small edits, routine fixes</td><td>Free, Student, Pro, Pro+, Max, Business, Enterprise</td><td>$0.05 input / $0.005 cached / $0.25 output</td></tr>
+        </tbody></table>
+      </div>
+      <p>GitHub lists these rates as promotional through May 17, 2027; standard pricing then doubles. Actual bills depend on input/output mix and cached tokens. Usage-based billing is separate from the Copilot subscription, so confirm eligibility and current terms in GitHub’s pricing documentation before scaling. <a class="citation" href="#source-3" aria-label="Source 3">[3]</a></p>
+      <h3 id="closed-access">OpenCode was announced as “coming soon”</h3>
+      <p>Microsoft said it planned distribution through OpenRouter, Vercel, Hermes, OpenCode and Kilo, but described those routes as forthcoming. At release, Code 2 was available through Copilot, while Flash had limited-access preview in Microsoft Foundry. The model card lists product and service terms, not an open-source license. Do not treat a future provider integration as open weights or free local inference. <a class="citation" href="#source-1" aria-label="Source 1">[1]</a><a class="citation" href="#source-2" aria-label="Source 2">[2]</a></p>
+    </section>
+
+    <section class="plain-english" id="explained-simply" data-explained-simply aria-labelledby="simple-title">
+      <h2 id="simple-title">Explained Simply</h2>
+      <!-- Use short descriptive h3s when the simple explanation spans several topics. -->
+      <p>Microsoft released two AI models that can write and change code. Code 2 is intended for bigger jobs across multiple files; Code 2 Flash is intended for smaller, frequent changes. They are offered inside GitHub Copilot, not as open files that anyone can download and run on a personal computer.</p>
+      <p>Think of them as two contractors: one for complicated renovation work, the other for quick repairs. The second costs much less per job, but you would not send it to rebuild an entire house. A developer can pick a model based on task size, but the final bill still depends on tokens used, cached input and whether promotional pricing applies.</p>
+      <p>At the time of this check, Code 2 is available on Copilot Pro, Pro+, Max, Business and Enterprise; Flash also appears on Copilot Free and Student. The GitHub documentation lists promotional prices through May 17, 2027, followed by higher standard rates. Microsoft says access through Foundry is limited preview for Flash and describes OpenCode and other hosts as coming soon; it does not say the weights are open. Teams should check the current model policy and billing page, then test the model on representative tasks before routing production work to it.</p>
+    </section>
+
+    <section aria-labelledby="conclusion">
+      <h2 id="conclusion">Conclusion</h2>
+      <p>The useful promise is task routing: Code 2 for multi-file and repository-level engineering, Flash for repetitive edits where token cost matters. Microsoft reports competitive scores and large cost gaps, but those are vendor comparisons, with mixed evaluation provenance and promotional prices. The model cards also show these are product-governed closed models, not locally downloadable open weights. Try them on the same issue set and harness as your current model, measure review acceptance and full task cost, and revisit the comparison when the promotion or rollout changes.</p>
+    </section>
+
+    <section aria-labelledby="sources">
+      <h2 id="sources">Evidence &amp; Sources</h2>
+      <p class="source-detail">Source type describes provenance, not guaranteed truth. Availability checks do not verify a claim.</p>
+      <ol class="source-list">
+        <li id="source-1" data-source-type="official">
+          <span class="evidence-label">Official</span>
+          <a href="https://microsoft.ai/news/introducing-mai-code-2-and-mai-code-2-flash/">MAI Code 2 and Code 2 Flash: Everyday coding at scalable prices — Microsoft AI</a>
+          <span class="source-detail">Published 2026-11-17. Supports positioning, evaluation claims, stated limits, deployment availability and methodology notes.</span>
+          <time datetime="2026-11-21">Accessed 2026-11-21</time>
+        </li>
+        <li id="source-2" data-source-type="official"><span class="evidence-label">Official</span><a href="https://microsoft.ai/pdf/MAI-Code-2-And-MAI-Code-2-Flash-Model-Card.pdf">MAI Code 2 and MAI Code 2 Flash Model Card — Microsoft AI</a><span class="source-detail">Published Nov 17, 2026. Supports architecture family, parameter ranges, context length and deployment terms.</span><time datetime="2026-11-21">Accessed 2026-11-21</time></li>
+        <li id="source-3" data-source-type="official"><span class="evidence-label">Official</span><a href="https://github.blog/changelog/2026-11-17-mai-code-2-and-mai-code-2-flash-in-github-copilot/">MAI Code 2 and MAI Code 2 Flash in GitHub Copilot — GitHub Changelog</a><span class="source-detail">Published Nov 17, 2026. Supports model-picker availability, eligible plans and usage-based billing.</span><time datetime="2026-11-21">Accessed 2026-11-21</time></li>
+        <li id="source-4" data-source-type="official"><span class="evidence-label">Official</span><a href="https://docs.github.com/en/copilot/reference/copilot-billing/models-and-pricing">Models and pricing for GitHub Copilot — GitHub Docs</a><span class="source-detail">Checked Nov 21, 2026. Supports promotional per-token prices and planned rate changes.</span><time datetime="2026-11-21">Accessed 2026-11-21</time></li>
+      </ol>
+    </section>
+    <!-- ARTICLE CONTENT END: keep the shared reactions block below. -->
+
+    <section class="article-engagement" aria-label="Article reactions">
+      <div class="engagement-copy"><span class="engagement-heading">Enjoyed this research?</span><span class="engagement-note">Leave a like — no account needed.</span></div>
+      <div class="engagement-actions">
+        <button type="button" class="article-like-button" data-like-button aria-label="Like this article" aria-pressed="false" disabled>
+          <svg class="article-like-heart" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z"/></svg>
+          <span data-like-count aria-live="polite">—</span><span>likes</span>
+        </button>
+        <span class="article-like-status" data-like-status role="status">Loading likes…</span>
+      </div>
+    </section>
+  </article>
+</main>
+</div>
+<footer class="footer"><div class="footer-inner"><span>© 2026 Dekrov</span><span class="footer-links"><a href="https://x.com/Dekrov_Dev">X / @Dekrov_Dev ↗</a><a href="https://github.com/DekrovDev">GitHub / DekrovDev ↗</a></span></div></footer>
+<script src="/article-likes.js?v=3" defer></script>
+<script src="/article.js" defer></script>
+<script src="/site.js"></script>
+</body>
+</html>
