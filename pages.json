@@ -5,6 +5,13 @@
     "meta": "Overview"
   },
   {
+    "slug": "argon-never-give-up-20261121",
+    "path": "/never-give-up/",
+    "title": "When AI Agents Are Told “Never Give Up”: The Gemini 4 Argon Test",
+    "meta": "AI Agent Safety · Nov 21, 2026",
+    "summary": "A source-checked timeline of Trajectory Labs’ Gemini 4 Argon stress test, Epoch AI’s incident report, what agents attempted, what they actually accessed, and what the experiment cannot prove."
+  },
+  {
     "slug": "mai-code-2-20261121",
     "path": "/mai-code-cost/",
     "title": "MAI Code 2 and Flash: Microsoft’s Coding Models, Benchmarks and Pricing",
