@@ -1,0 +1,178 @@
+---
+layout: null
+permalink: /astra-vs-sol/
+redirect_from:
+  - /pages/gpt-6-2-astra-vs-sol-20261122/
+  - /pages/gpt-6-2-astra-vs-sol-20261122/index.html
+---
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#ffffff">
+<meta name="description" content="A source-checked comparison of GPT-6.2 Astra and Sol: official coding and science claims, independent evaluation, API costs, context, safety thresholds and which tasks fit each model.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GPT-6.2 Astra vs Sol: Coding, Cost, Benchmarks and Trade-offs">
+<meta property="og:description" content="A source-checked comparison of GPT-6.2 Astra and Sol: official coding and science claims, independent evaluation, API costs, context, safety thresholds and which tasks fit each model.">
+<meta property="og:url" content="https://insights.dekrov.com/astra-vs-sol/">
+<link rel="canonical" href="https://insights.dekrov.com/astra-vs-sol/">
+<meta name="twitter:card" content="summary">
+<title>GPT-6.2 Astra vs Sol: Coding, Cost, Benchmarks and Trade-offs — Dekrov Insights</title>
+<script src="/theme.js"></script>
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body data-page="gpt-6-2-astra-vs-sol-20261122" data-root="/">
+<header class="top">
+  <div class="header-inner">
+    <div class="brand-signature">
+      <a class="brand" href="/"><span class="brand-mark" aria-hidden="true">DK</span>Dekrov Insights</a>
+      <span class="brand-role">Research / AI &amp; Technology</span>
+    </div>
+    <div class="header-actions">
+      <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme"><span data-theme-label>Light</span></button>
+      <a class="nav" href="https://github.com/DekrovDev/dekrov-insights">GitHub ↗</a>
+    </div>
+  </div>
+</header>
+<div class="layout">
+<aside class="sidebar" aria-label="Page navigation">
+  <p class="side-heading">Index</p>
+  <nav class="side-nav" aria-label="Pages" data-site-nav></nav>
+</aside>
+<main class="main-content" id="main">
+  <article class="article-body research-article" data-article-version="2">
+    <!-- ARTICLE CONTENT START. Read ARTICLE_AUTHORING_GUIDE.md first.
+    Replace every GPT-6.2 Astra vs GPT-6.2 Sol; HTML-escape inserted text and attributes.
+    Keep explicit heading IDs: they also work without JavaScript.
+    Add optional sections only when there is substantive sourced material.
+    Use one idea per paragraph and descriptive h3 subsections in long sections.
+    Insert complete sibling paragraphs; never wrap supplied HTML in another p.
+    Typography and spacing come from styles.css, not inline styles or br spacers.
+    The article.js script adds a compact TOC and a prominent plain-English jump.
+    -->
+    <span class="tag">AI Model Comparison · Nov 22, 2026</span>
+    <h1>GPT-6.2 Astra vs Sol: Coding, Cost, Benchmarks and Trade-offs</h1>
+    <div class="article-meta">
+      <span>By Dekrov</span>
+      <span>Published <time datetime="2026-11-22">Nov 22, 2026</time></span>
+      <span>Updated <time datetime="2026-11-22">Nov 22, 2026</time></span>
+    </div>
+    <p class="intro">Astra is the premium choice for the hardest reasoning, science and complex professional workflows; Sol is the practical default for routine coding and agent work. The interesting question is not which model wins every benchmark, but whether Astra’s gains justify a 4× API price on your workload.</p>
+    <!-- This link must remain accessible even when scripts are unavailable. -->
+    <p><a href="#explained-simply">Start with the plain-English explanation ↓</a></p>
+
+    <section aria-labelledby="overview">
+      <h2 id="overview">Overview</h2>
+      <p>OpenAI released GPT-6.2 Astra and GPT-6.2 Sol on November 17, 2026. Both support text and image input, but they target different cost and capability points. The API price gap is large: Astra costs $8 per million input tokens and $40 per million output tokens; Sol costs $2 and $10. Both list a 1.05-million-token context window and 128,000-token maximum output. That makes this a useful real-world choice for developers deciding whether to pay for the frontier tier or route most work to the cheaper model.
+        <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p>
+    </section>
+
+    <section aria-labelledby="technical-deep-dive">
+      <h2 id="technical-deep-dive">Technical Deep Dive</h2>
+      <!-- Add/rename/remove h3 subsections to reflect the actual investigation. -->
+      <h3 id="mechanism">How it works</h3>
+      <p>OpenAI describes Astra as its frontier model for demanding reasoning, coding, science and complex professional work, and Sol as its efficient model for everyday work and agent workflows. The public model pages document capabilities and prices, not architecture details; no claim about parameter count or training design is made here. Both support Responses and Chat Completions APIs, though OpenAI says tool calling requires Responses. The launch material also recommends keeping prompt prefixes stable to improve cache reuse. [1] [2]</p>
+      <aside class="evidence-note" data-evidence="official" aria-label="Evidence qualification">
+        <span class="evidence-label">Official statement</span>
+        <p>OpenAI’s launch post reports its own evaluation results and selected partner feedback. These are useful vendor-reported signals, not a blind, universal ranking. The system card adds external evaluations from Epoch AI and Vals AI, while still containing OpenAI-run tests and safety analyses. Benchmark outcomes are task- and harness-dependent.
+          <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p>
+      </aside>
+      <!-- Optional: timeline, evidence table, code, or inline figure from the guide.
+      Cite fixes by version/commit/PR. Separate shipped fixes from proposed workarounds.
+      For numbers: name the evaluator, date, method, environment and limitations.
+      -->
+    </section>
+
+    <!-- Optional h2 sections: Evidence & Sources (analysis), Community Reactions,
+    Visual Evidence. Figures may appear directly beside relevant paragraphs.
+    Do not create empty sections or invent community reactions or experiments.
+    Put the complete numbered bibliography at the END, below Conclusion.
+    -->
+
+<section aria-labelledby="price-and-fit">
+      <h2 id="price-and-fit">Price, context and best fit</h2>
+      <div class="table-scroll" role="region" aria-label="Astra and Sol comparison" tabindex="0">
+        <table class="research-table">
+          <caption>Published GPT-6.2 API specifications</caption>
+          <thead><tr><th scope="col">Specification</th><th scope="col">Astra</th><th scope="col">Sol</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Input / 1M tokens</th><td>$8.00</td><td>$2.00</td></tr>
+            <tr><th scope="row">Cached input / 1M</th><td>$0.40</td><td>$0.10</td></tr>
+            <tr><th scope="row">Output / 1M tokens</th><td>$40.00</td><td>$10.00</td></tr>
+            <tr><th scope="row">Context / max output</th><td>1.05M / 128K</td><td>1.05M / 128K</td></tr>
+            <tr><th scope="row">Best starting point</th><td>Hard reasoning, research, complex professional workflows</td><td>Everyday coding, repeated agent calls, cost-aware production</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>At equal token volumes, Astra costs four times as much. Actual task cost also depends on prompt length, cached tokens, output length, reasoning effort, retries and the agent harness. [2]</p>
+    </section>
+
+    <section aria-labelledby="benchmark-evidence">
+      <h2 id="benchmark-evidence">What the benchmarks actually say</h2>
+      <h3>OpenAI’s launch comparisons</h3>
+      <p>OpenAI says Astra improved on Agents’ Last Exam and Terminal-Bench-Science, and that Sol came within 0.5 points of Astra on Cognition’s FrontierCode 2.0 at max reasoning for about one fifth the cost per task. These are comparisons reported by OpenAI; the release page does not provide enough detail to treat them as a universal, independently reproduced coding ranking. [1]</p>
+      <h3>External evaluations in the system card</h3>
+      <p>Epoch AI reports Astra scoring 174 on its Epoch Capabilities Index versus 169 for GPT-6 Astra. On FrontierMath Erdős, Astra solved 7 of 68 problems under a $300 per-question budget; the previous record cited was 3 of 68 for GPT-6.1 Sol. Epoch also says it saw no meaningful Astra improvement over GPT-6 Astra on its limited subset of open-ended Automation Reports, and found weaknesses in research-experiment design. [3]</p>
+      <p>Vals AI’s modified RSI Index score for Astra was 29.01%, versus 27.07% for GPT-6 Astra. Vals concluded Astra could boost researcher productivity but was unlikely to fully automate AI research; one ambitious post-training submission remained below the baseline. This is a narrow external evaluation, not proof that Astra replaces researchers. [3]</p>
+      <h3>Safety is part of model selection</h3>
+      <p>OpenAI’s system card says Astra meets its High threshold for AI self-improvement capability and Critical threshold in cybersecurity; Sol also meets the stated Critical cyber threshold but not the High self-improvement threshold. Those are OpenAI’s preparedness categories and evaluations, not a general-purpose danger score. They matter when deciding which model to expose to tools, credentials and autonomous actions. [3]</p>
+      <h3>Independent coding evidence is workload-specific</h3>
+      <p>CodeRabbit published a code-review evaluation, while Artificial Analysis’ Coding Agent Index evaluates models inside an agent harness. These approaches ask different questions from FrontierCode’s merge-quality tasks. The available independent reporting does not justify a clean claim that Astra dominates Sol across coding; check the exact model version, effort, harness, task set and cost definition before comparing scores. [4]</p>
+    </section>
+
+    <section aria-labelledby="practical-routing">
+      <h2 id="practical-routing">A practical routing rule</h2>
+      <ul>
+        <li><strong>Start with Sol</strong> for routine edits, test generation, explanations, code review triage and high-volume agent work.</li>
+        <li><strong>Escalate to Astra</strong> when a task has many interacting constraints, requires long-horizon planning or domain-heavy reasoning, or when Sol has already failed.</li>
+        <li><strong>Measure task cost</strong> as total tokens and retries, not just the first API call. Compare successful completion, review time and regressions on a fixed task set.</li>
+        <li><strong>Keep tool permissions narrow.</strong> A stronger model does not make broad shell, network or write access safe by itself.</li>
+      </ul>
+    </section>
+
+        <section class="plain-english" id="explained-simply" data-explained-simply aria-labelledby="simple-title">
+      <h2 id="simple-title">Explained Simply</h2>
+      <!-- Use short descriptive h3s when the simple explanation spans several topics. -->
+      <p>A model is the engine; an agent harness is the tool loop around it. The same model can look different when one agent searches files, runs tests, edits code and retries, while another only answers in chat. A benchmark score therefore describes a model under a particular task set and setup, not every coding session.</p>
+      <p>Think of Astra as the specialist you call for the messy case: many constraints, long reasoning, scientific analysis or a difficult codebase change. Sol is the reliable everyday teammate for normal edits, explanations, tests and repeated agent calls. Paying four times more per token only makes sense when the extra capability changes the outcome enough to offset that bill.</p>
+      <p>For a first pass, use Sol for routine coding and agent tasks; try Astra for high-stakes or unusually complex work, then compare completion quality and total cost on your own tasks. Do not infer speed from the model names: the official public specifications list no directly comparable latency figures here. The shared context window does not mean either model will reliably use every token, and a high benchmark result is not a guarantee of correct output.</p>
+    </section>
+
+    <section aria-labelledby="conclusion">
+      <h2 id="conclusion">Conclusion</h2>
+      <p>The clearest decision is cost versus headroom. Sol is one quarter Astra’s token price and reportedly comes within 0.5 points on Cognition’s FrontierCode 2.0 at max reasoning, at about one fifth of Astra’s cost per task. Astra has stronger vendor-reported results on complex professional and science evaluations, and Epoch AI reports gains on several external tests. Independent coding-agent evidence is mixed, so teams should A/B the exact repository tasks, agent, reasoning setting and retry policy they use. Use Sol as the default; promote only tasks where Astra demonstrably earns its premium.</p>
+    </section>
+
+    <section aria-labelledby="sources">
+      <h2 id="sources">Evidence &amp; Sources</h2>
+      <p class="source-detail">Official release claims and independent evaluations are labeled separately; benchmark scores apply only to their stated task and harness.</p>
+      <ol class="source-list">
+        <li id="source-1" data-source-type="official"><span class="evidence-label">Official</span><a href="https://openai.com/index/introducing-gpt-6-2-astra-sol/">Introducing GPT-6.2 Astra and Sol — OpenAI</a><span class="source-detail">Published 2026-11-17. Supports model positioning, API pricing, release availability and OpenAI-reported benchmark comparisons.</span><time datetime="2026-11-22">Accessed 2026-11-22</time></li>
+        <li id="source-2" data-source-type="official"><span class="evidence-label">Official</span><a href="https://developers.openai.com/api/docs/models/compare">Compare models — OpenAI API docs</a><span class="source-detail">Current model specifications: context, output limit, endpoints and pricing.</span><time datetime="2026-11-22">Accessed 2026-11-22</time></li>
+        <li id="source-3" data-source-type="independent"><span class="evidence-label">Independent</span><a href="https://deploymentsafety.openai.com/gpt-6-2-astra-sol/gpt-6-2-astra-sol.pdf">GPT-6.2 Astra and Sol System Card — OpenAI Deployment Safety Hub</a><span class="source-detail">Published 2026-11-17; includes external Epoch AI and Vals AI evaluations and safety findings. OpenAI-authored disclosure, with named external evaluators.</span><time datetime="2026-11-22">Accessed 2026-11-22</time></li>
+        <li id="source-4" data-source-type="independent"><span class="evidence-label">Independent</span><a href="https://www.coderabbit.ai/blog/gpt-6-2-sol-and-astra-review">GPT-6.2 Sol and Astra review — CodeRabbit</a><span class="source-detail">Published Nov 19, 2026. Independent code-review workload evaluation; methodology and setup differ from OpenAI’s release benchmarks.</span><time datetime="2026-11-22">Accessed 2026-11-22</time></li>
+        <li id="source-5" data-source-type="community"><span class="evidence-label">Community</span><a href="https://www.reddit.com/r/codex/comments/1xyuzly/gpt62_astra_sol_benchmarks_openal_nailed_the/">GPT-6.2 Astra &amp; Sol benchmarks discussion — r/OpenAI</a><span class="source-detail">Developer discussion and links to benchmark dumps; anecdotal responses are not controlled evidence.</span><time datetime="2026-11-22">Accessed 2026-11-22</time></li>
+      </ol>
+    </section>
+    <!-- ARTICLE CONTENT END: keep the shared reactions block below. -->
+
+    <section class="article-engagement" aria-label="Article reactions">
+      <div class="engagement-copy"><span class="engagement-heading">Enjoyed this research?</span><span class="engagement-note">Leave a like — no account needed.</span></div>
+      <div class="engagement-actions">
+        <button type="button" class="article-like-button" data-like-button aria-label="Like this article" aria-pressed="false" disabled>
+          <svg class="article-like-heart" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z"/></svg>
+          <span data-like-count aria-live="polite">—</span><span>likes</span>
+        </button>
+        <span class="article-like-status" data-like-status role="status">Loading likes…</span>
+      </div>
+    </section>
+  </article>
+</main>
+</div>
+<footer class="footer"><div class="footer-inner"><span>© 2026 Dekrov</span><span class="footer-links"><a href="https://x.com/Dekrov_Dev">X / @Dekrov_Dev ↗</a><a href="https://github.com/DekrovDev">GitHub / DekrovDev ↗</a></span></div></footer>
+<script src="/article-likes.js?v=3" defer></script>
+<script src="/article.js" defer></script>
+<script src="/site.js"></script>
+</body>
+</html>
