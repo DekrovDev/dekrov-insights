@@ -1,8 +1,17 @@
 [
   {
-    "slug": "",
-    "title": "Home",
-    "meta": "Overview"
+    "slug": "clawdos-dos-coding-agent-20261122",
+    "path": "/clawdos/",
+    "title": "ClawDOS: A Claude Coding Agent on a 1980s IBM PC XT",
+    "meta": "AI Coding Agents · Nov 22, 2026",
+    "summary": "A source-checked look at ClawDOS: a 176 KB DOS agent using the Claude Messages API, a TLS bridge, 18 tools, local memory and explicit action approvals—and what its demos do and do not prove."
+  },
+  {
+    "slug": "clawdos-dos-coding-agent-20261122",
+    "path": "/clawdos/",
+    "title": "ClawDOS: A Claude Coding Agent on a 1980s IBM PC XT",
+    "meta": "AI Coding Agents · Nov 22, 2026",
+    "summary": "A source-checked look at ClawDOS: a 176 KB DOS agent using the Claude Messages API, a TLS bridge, 18 tools, local memory and explicit action approvals—and what its demos do and do not prove."
   },
   {
     "slug": "gpt-6-2-astra-vs-sol-20261122",
