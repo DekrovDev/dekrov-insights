@@ -1,0 +1,165 @@
+---
+layout: null
+permalink: /clawdos/
+redirect_from:
+  - /pages/clawdos-dos-coding-agent-20261122/
+  - /pages/clawdos-dos-coding-agent-20261122/index.html
+---
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#ffffff">
+<meta name="description" content="A source-checked look at ClawDOS: a 176 KB DOS agent using the Claude Messages API, a TLS bridge, 18 tools, local memory and explicit action approvals—and what its demos do and do not prove.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ClawDOS: A Claude Coding Agent on a 1980s IBM PC XT">
+<meta property="og:description" content="A source-checked look at ClawDOS: a 176 KB DOS agent using the Claude Messages API, a TLS bridge, 18 tools, local memory and explicit action approvals—and what its demos do and do not prove.">
+<meta property="og:url" content="https://insights.dekrov.com/clawdos/">
+<link rel="canonical" href="https://insights.dekrov.com/clawdos/">
+<meta name="twitter:card" content="summary">
+<title>ClawDOS: A Claude Coding Agent on a 1980s IBM PC XT — Dekrov Insights</title>
+<script src="/theme.js"></script>
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body data-page="clawdos-dos-coding-agent-20261122" data-root="/">
+<header class="top">
+  <div class="header-inner">
+    <div class="brand-signature">
+      <a class="brand" href="/"><span class="brand-mark" aria-hidden="true">DK</span>Dekrov Insights</a>
+      <span class="brand-role">Research / AI &amp; Technology</span>
+    </div>
+    <div class="header-actions">
+      <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme"><span data-theme-label>Light</span></button>
+      <a class="nav" href="https://github.com/DekrovDev/dekrov-insights">GitHub ↗</a>
+    </div>
+  </div>
+</header>
+<div class="layout">
+<aside class="sidebar" aria-label="Page navigation">
+  <p class="side-heading">Index</p>
+  <nav class="side-nav" aria-label="Pages" data-site-nav></nav>
+</aside>
+<main class="main-content" id="main">
+  <article class="article-body research-article" data-article-version="2">
+    <!-- ARTICLE CONTENT START. Read ARTICLE_AUTHORING_GUIDE.md first.
+    Replace every ClawDOS; HTML-escape inserted text and attributes.
+    Keep explicit heading IDs: they also work without JavaScript.
+    Add optional sections only when there is substantive sourced material.
+    Use one idea per paragraph and descriptive h3 subsections in long sections.
+    Insert complete sibling paragraphs; never wrap supplied HTML in another p.
+    Typography and spacing come from styles.css, not inline styles or br spacers.
+    The article.js script adds a compact TOC and a prominent plain-English jump.
+    -->
+    <span class="tag">AI Coding Agents · Nov 22, 2026</span>
+    <h1>ClawDOS: A Claude Coding Agent on a 1980s IBM PC XT</h1>
+    <div class="article-meta">
+      <span>By Dekrov</span>
+      <span>Published <time datetime="2026-11-22">Nov 22, 2026</time></span>
+      <span>Updated <time datetime="2026-11-22">Nov 22, 2026</time></span>
+    </div>
+    <p class="intro">ClawDOS squeezes a modern coding-agent loop into DOS: the 176 KB harness runs on an 8088-based IBM PC XT, while a separate machine handles TLS to Anthropic’s API. The project is a striking constraint demo, not evidence that a 1980s PC can run an AI model locally.</p>
+    <!-- This link must remain accessible even when scripts are unavailable. -->
+    <p><a href="#explained-simply">Start with the plain-English explanation ↓</a></p>
+
+    <section aria-labelledby="overview">
+      <h2 id="overview">Overview</h2>
+      <p>Published by Ricapar in November 2026, ClawDOS is a DOS chat and coding harness that calls Claude through Anthropic’s Messages API. The author documents a 176 KB DOS executable, 18 tools for files, programs, screenshots, memory and hardware ports, and a bridge computer for HTTPS. It is notable because it moves the agent runtime onto hardware with an 8088 at 4.77 MHz and 640 KB RAM, while leaving model inference in the cloud.
+        <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p>
+    </section>
+
+    <section aria-labelledby="technical-deep-dive">
+      <h2 id="technical-deep-dive">Technical Deep Dive</h2>
+      <!-- Add/rename/remove h3 subsections to reflect the actual investigation. -->
+      <h3 id="mechanism">How it works</h3>
+      <p>The DOS program stores prompts, tools, and chat history on disk; streams Messages API replies; parses tool calls; and runs the requested DOS tools. A separate tunnel machine handles TLS and can hold the API key, so the XT uses ordinary TCP/IP through an mTCP packet driver. The repository documents 31 boot tests against a mock API in DOSBox-X, unit tests on DOS, and runs in 86Box; its README also shows a demo filmed on original hardware. Those are project-reported test and demonstration details, not an independent audit. [1] [2]</p>
+      <aside class="evidence-note" data-evidence="official" aria-label="Evidence qualification">
+        <span class="evidence-label">Official statement</span>
+        <p>The public source and API guide establish the architecture the author implemented and the request shapes the harness sends. They do not establish production reliability, security against malicious prompts, or general compatibility with every Messages-API provider. “Runs on an IBM PC XT” refers to the client harness; inference and TLS are offloaded.
+          <a class="citation" href="#source-1" aria-label="Source 1">[1]</a></p>
+      </aside>
+      <!-- Optional: timeline, evidence table, code, or inline figure from the guide.
+      Cite fixes by version/commit/PR. Separate shipped fixes from proposed workarounds.
+      For numbers: name the evaluator, date, method, environment and limitations.
+      -->
+    </section>
+
+    <!-- Optional h2 sections: Evidence & Sources (analysis), Community Reactions,
+    Visual Evidence. Figures may appear directly beside relevant paragraphs.
+    Do not create empty sections or invent community reactions or experiments.
+    Put the complete numbered bibliography at the END, below Conclusion.
+    -->
+
+<section aria-labelledby="architecture">
+      <h2 id="architecture">Architecture: DOS agent, remote model</h2>
+      <div class="table-scroll" role="region" aria-label="ClawDOS component boundaries" tabindex="0">
+       <table class="research-table"><caption>Where each responsibility runs</caption>
+        <thead><tr><th scope="col">Component</th><th scope="col">Runs where</th><th scope="col">Role</th></tr></thead>
+        <tbody>
+         <tr><th scope="row">CLAWDOS / HARNESS.EXE</th><td>IBM PC XT / DOS</td><td>Chat UI, API request assembly, streamed response parsing, tool execution and conversation files</td></tr>
+         <tr><th scope="row">mTCP + packet driver</th><td>XT</td><td>Plain HTTP over the local network to a configured tunnel</td></tr>
+         <tr><th scope="row">TLS tunnel</th><td>Separate PC</td><td>HTTPS to api.anthropic.com; can keep the API key off the XT</td></tr>
+         <tr><th scope="row">Claude model</th><td>Hosted API</td><td>Inference and tool decisions; not executed on the XT</td></tr>
+        </tbody>
+       </table>
+      </div>
+      <p>The README reports 13,000 lines of C/C++, an 8086-targeted build, a 176 KB harness, 31 DOSBox-X boot tests against a mock API, DOS unit tests and 86Box runs. Its demo includes a live-API coding task and a separate video from original hardware. These numbers and demonstrations come from the author’s repository; this review did not reproduce them. [1] [2]</p>
+    </section>
+    <section aria-labelledby="tools-and-safety">
+      <h2 id="tools-and-safety">Tools, persistence and the approval boundary</h2>
+      <p>The published tool list includes file reads and writes, search, directory operations, command execution, screenshots, memory and I/O port access, plus speaker output. The agent can compile and run programs with DOS toolchains. The project says safe mode is on by default and asks before file, memory or port changes; F3 turns it off. That design makes consequential actions visible, but it is not a formal security sandbox. [1]</p>
+      <p>Conversation history and memories are stored as files on the XT. The API guide explains how a conversation can continue with a thread identifier and only newly added messages, while replaying the full history when continuation is uncertain. The repository also describes prompt caching to reduce repeated uploads on a slow link. [2]</p>
+    </section>
+    <section aria-labelledby="limits">
+      <h2 id="limits">What this does not prove</h2>
+      <ul>
+       <li>It does not run Claude locally; model inference uses Anthropic’s hosted API.</li>
+       <li>The original-hardware demo is distinct from the emulator-based screenshots and test runs; not every displayed result is from physical hardware.</li>
+       <li>The README’s tests are project-maintainer tests. No independent reproduction of performance, security or reliability was found.</li>
+       <li>The TLS bridge adds a separate machine and networking setup; it is not a self-contained offline agent.</li>
+       <li>The repository is GPL-3.0-or-later, but its README cautions against redistributing a built disk image that includes Turbo C; follow the exact license notes for bundled components. [1]</li>
+      </ul>
+    </section>
+        <section class="plain-english" id="explained-simply" data-explained-simply aria-labelledby="simple-title">
+      <h2 id="simple-title">Explained Simply</h2>
+      <!-- Use short descriptive h3s when the simple explanation spans several topics. -->
+      <p>A coding agent is a loop: send instructions to a model, receive a tool request, run that tool, return its result, then continue. ClawDOS implements that loop as a DOS program. The language model itself is not inside the old PC; the XT sends requests to a modern hosted API through a network bridge.</p>
+      <p>Imagine an old terminal operator calling a powerful remote expert. The XT can read and write its own files, start its compiler, and send a screenshot, but the expert’s reasoning happens in a distant data center. That separation is the trick: a constrained machine can host the controls and tool loop without hosting the AI model.</p>
+      <p>The design shows that an agent runtime can be small and that local tools can be exposed through explicit interfaces. The trade-offs are substantial: a bridge machine remains necessary, API calls need connectivity and paid access, screenshots and round trips take time, and the agent can request file, program or port actions. Safe mode asks before changes by default, but that is a user approval boundary—not a proof that all actions are harmless. Treat it as an educational project and inspect permissions before adapting the design.</p>
+    </section>
+
+    <section aria-labelledby="conclusion">
+      <h2 id="conclusion">Conclusion</h2>
+      <p>ClawDOS is best read as a systems-engineering experiment: old hardware hosts a modern agent harness, while the network bridge supplies TLS and cloud inference. Its README gives useful implementation detail, tests, and demonstrations, but most performance and reliability claims are project-reported. For modern coding work, the useful lesson is architectural: keep the model remote, make tools narrow and visible, persist conversations explicitly, and preserve human approval for consequential actions.</p>
+    </section>
+
+    <section aria-labelledby="sources">
+      <h2 id="sources">Evidence &amp; Sources</h2>
+      <p class="source-detail">Repository documentation is project-authored evidence. Screenshots and test descriptions are not independent validation.</p>
+      <ol class="source-list">
+       <li id="source-1" data-source-type="official"><span class="evidence-label">Official</span><a href="https://github.com/Ricapar/ClawDOS">ClawDOS repository and README — Ricapar</a><span class="source-detail">Current source, architecture, published demo descriptions, test claims, setup, and GPL-3.0-or-later license. Project-authored.</span><time datetime="2026-11-22">Accessed 2026-11-22</time></li>
+       <li id="source-2" data-source-type="official"><span class="evidence-label">Official</span><a href="https://ricapar.net/ClawDOS/docs/API.html">What ClawDOS sends to the API and expects back — Ricapar</a><span class="source-detail">Detailed Messages API request structure, streaming, tool result rules, cache markers, thread continuation and mock API behavior.</span><time datetime="2026-11-22">Accessed 2026-11-22</time></li>
+       <li id="source-3" data-source-type="independent"><span class="evidence-label">Independent</span><a href="https://agentusecases.ai/use-case/run-an-ai-coding-agent-on-dos">Run an AI coding agent on DOS — Agent Use Cases</a><span class="source-detail">Independent roundup of the project; it adds no independent test results, so it is not treated as technical verification.</span><time datetime="2026-11-22">Accessed 2026-11-22</time></li>
+      </ol>
+    </section>
+    <!-- ARTICLE CONTENT END: keep the shared reactions block below. -->
+
+    <section class="article-engagement" aria-label="Article reactions">
+      <div class="engagement-copy"><span class="engagement-heading">Enjoyed this research?</span><span class="engagement-note">Leave a like — no account needed.</span></div>
+      <div class="engagement-actions">
+        <button type="button" class="article-like-button" data-like-button aria-label="Like this article" aria-pressed="false" disabled>
+          <svg class="article-like-heart" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z"/></svg>
+          <span data-like-count aria-live="polite">—</span><span>likes</span>
+        </button>
+        <span class="article-like-status" data-like-status role="status">Loading likes…</span>
+      </div>
+    </section>
+  </article>
+</main>
+</div>
+<footer class="footer"><div class="footer-inner"><span>© 2026 Dekrov</span><span class="footer-links"><a href="https://x.com/Dekrov_Dev">X / @Dekrov_Dev ↗</a><a href="https://github.com/DekrovDev">GitHub / DekrovDev ↗</a></span></div></footer>
+<script src="/article-likes.js?v=3" defer></script>
+<script src="/article.js" defer></script>
+<script src="/site.js"></script>
+</body>
+</html>
