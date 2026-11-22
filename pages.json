@@ -5,6 +5,13 @@
     "meta": "Overview"
   },
   {
+    "slug": "gpt-6-2-astra-vs-sol-20261122",
+    "path": "/astra-vs-sol/",
+    "title": "GPT-6.2 Astra vs Sol: Coding, Cost, Benchmarks and Trade-offs",
+    "meta": "AI Model Comparison · Nov 22, 2026",
+    "summary": "A source-checked comparison of GPT-6.2 Astra and Sol: official coding and science claims, independent evaluation, API costs, context, safety thresholds and which tasks fit each model."
+  },
+  {
     "slug": "argon-never-give-up-20261121",
     "path": "/never-give-up/",
     "title": "When AI Agents Are Told “Never Give Up”: The Gemini 4 Argon Test",
